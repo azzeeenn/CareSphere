@@ -1,0 +1,347 @@
+/* ==========================================================================
+   CareSphere — Admin Home
+   Hub page only. Depends on admin-base.css for tokens and shell.
+
+   Colour system: the three soft palette colours carry meaning.
+     Blue  = People       Peach = Content      Cream = Operations
+   Coral stays the only action colour. Navy stays structural.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Group accents
+   -------------------------------------------------------------------------- */
+
+[data-group="people"]  { --group-accent: var(--cs-blue);  --group-ink: var(--cs-navy); }
+[data-group="content"] { --group-accent: var(--cs-peach); --group-ink: var(--cs-coral-dark); }
+[data-group="ops"]     { --group-accent: var(--cs-cream); --group-ink: var(--cs-navy); }
+
+/* --------------------------------------------------------------------------
+   2. Greeting
+   -------------------------------------------------------------------------- */
+
+.greeting { margin-bottom: 30px; }
+
+.greeting-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+  padding: 4px 12px 4px 9px;
+  border-radius: 20px;
+  background: linear-gradient(100deg,
+              rgba(183, 224, 255, 0.55),
+              rgba(255, 245, 205, 0.5));
+  color: var(--cs-navy);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.greeting-eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cs-coral);
+}
+
+.greeting h1 {
+  margin: 0 0 6px;
+  color: var(--cs-navy);
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.greeting p { margin: 0; color: var(--cs-muted); font-size: 14px; }
+
+/* --------------------------------------------------------------------------
+   3. Attention strip
+   Peach-to-cream wash, coral edge. Only renders when something is waiting.
+   -------------------------------------------------------------------------- */
+
+.attention {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 30px;
+  padding: 17px 22px;
+  border: 1px solid var(--cs-line);
+  border-left: 3px solid var(--cs-coral);
+  border-radius: var(--cs-radius);
+  background: linear-gradient(100deg,
+              rgba(255, 207, 179, 0.5) 0%,
+              rgba(255, 245, 205, 0.42) 52%,
+              var(--cs-white) 100%);
+  box-shadow: var(--cs-shadow);
+}
+
+.attention-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--cs-white);
+  color: var(--cs-coral-dark);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.attention-icon svg { width: 19px; height: 19px; }
+
+.attention-body { flex: 1; min-width: 0; }
+
+.attention-body strong {
+  display: block;
+  color: var(--cs-navy);
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.attention-body span { color: var(--cs-muted); font-size: 12.5px; }
+
+/* --------------------------------------------------------------------------
+   4. Stat cards
+   -------------------------------------------------------------------------- */
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 42px;
+}
+
+.stat-card {
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  border: 1px solid var(--cs-line);
+  border-radius: var(--cs-radius);
+  background: var(--cs-white);
+  box-shadow: var(--cs-shadow);
+  text-decoration: none;
+  transition: border-color 0.18s var(--cs-ease),
+              transform 0.18s var(--cs-ease),
+              box-shadow 0.18s var(--cs-ease);
+}
+
+/* Accent bar across the top, tinted per card */
+.stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--stat-accent, var(--cs-blue));
+}
+
+.stat-card[data-accent="coral"] { --stat-accent: var(--cs-coral); }
+.stat-card[data-accent="peach"] { --stat-accent: var(--cs-peach); }
+.stat-card[data-accent="cream"] { --stat-accent: var(--cs-cream); }
+.stat-card[data-accent="blue"]  { --stat-accent: var(--cs-blue); }
+
+.stat-card:hover {
+  border-color: var(--cs-coral);
+  transform: translateY(-2px);
+  box-shadow: var(--cs-shadow-lift);
+}
+
+.stat-card:focus-visible { outline: 2px solid var(--cs-coral); outline-offset: 2px; }
+
+.stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px 0 14px;
+}
+
+.stat-top svg { width: 18px; height: 18px; color: var(--cs-muted); opacity: 0.7; }
+
+.stat-card:hover .stat-top svg { color: var(--cs-coral); opacity: 1; }
+
+.stat-label {
+  color: var(--cs-muted);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  display: block;
+  color: var(--cs-navy);
+  font-size: 33px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.stat-note { display: block; margin-top: 7px; color: var(--cs-muted); font-size: 12px; }
+
+/* --------------------------------------------------------------------------
+   5. Module sections
+   -------------------------------------------------------------------------- */
+
+.module-section + .module-section { margin-top: 38px; }
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.section-head h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  color: var(--cs-navy);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.section-head h2::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  background: var(--group-accent);
+}
+
+.section-head .rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--group-accent), transparent 78%);
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Module card ------------------------------------------------------------ */
+
+.module-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid var(--cs-line);
+  border-radius: var(--cs-radius);
+  background: var(--cs-white);
+  box-shadow: var(--cs-shadow);
+  transition: border-color 0.18s var(--cs-ease),
+              transform 0.18s var(--cs-ease),
+              box-shadow 0.18s var(--cs-ease);
+}
+
+.module-card:hover {
+  border-color: var(--cs-coral);
+  transform: translateY(-2px);
+  box-shadow: var(--cs-shadow-lift);
+}
+
+.module-head { display: flex; align-items: flex-start; gap: 13px; margin-bottom: 12px; }
+
+.module-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: var(--group-accent);
+  color: var(--group-ink);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: transform 0.18s var(--cs-ease);
+}
+
+.module-icon svg { width: 19px; height: 19px; }
+
+.module-card:hover .module-icon { transform: scale(1.06) rotate(-3deg); }
+
+.module-title { flex: 1; min-width: 0; }
+
+.module-title h3 {
+  margin: 0 0 3px;
+  color: var(--cs-navy);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.module-title p { margin: 0; color: var(--cs-muted); font-size: 12.5px; line-height: 1.5; }
+
+.module-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--cs-line);
+}
+
+.module-meta { color: var(--cs-muted); font-size: 12px; }
+.module-meta b { color: var(--cs-navy); font-weight: 600; }
+.module-meta.is-waiting b { color: var(--cs-coral-dark); }
+
+.module-foot .btn { padding: 7px 15px; font-size: 12.5px; }
+
+/* Restricted card — Super Admin only ------------------------------------- */
+
+.module-card.is-restricted { border-style: dashed; border-color: var(--cs-line-strong); }
+
+.lock-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--cs-cream);
+  color: var(--cs-navy);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+/* --------------------------------------------------------------------------
+   6. Footnote
+   -------------------------------------------------------------------------- */
+
+.hub-note {
+  margin-top: 44px;
+  padding: 15px 18px;
+  border: 1px dashed var(--cs-line-strong);
+  border-radius: var(--cs-radius-sm);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--cs-muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.hub-note b { color: var(--cs-navy); font-weight: 600; }
+
+/* --------------------------------------------------------------------------
+   7. Responsive
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1180px) {
+  .stat-row    { grid-template-columns: repeat(2, 1fr); }
+  .module-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .greeting h1 { font-size: 24px; }
+  .stat-row    { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat-value  { font-size: 27px; }
+  .module-grid { grid-template-columns: 1fr; }
+
+  .attention { flex-direction: column; align-items: flex-start; gap: 13px; }
+  .attention .btn { width: 100%; }
+}

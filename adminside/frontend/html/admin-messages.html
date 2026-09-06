@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages · CareSphere Admin</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+
+
+</head>
+<body class="admin" data-page="messages" data-group="ops">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="page-head">
+          <div class="page-head-text">
+            <a class="crumb" href="admin-home.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Admin Home
+            </a>
+            <h1>Messages</h1>
+            <p>Everything sent through the contact form. Assign a message so two people don't reply to the same one.</p>
+          </div>
+        </header>
+
+        <section class="summary-row" id="summaryRow"></section>
+
+        <section class="toolbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+            <input type="search" id="searchBox" placeholder="Search by sender, subject or wording" aria-label="Search messages">
+          </label>
+
+          <div class="filter-set" id="statusFilter" role="group" aria-label="Filter by status">
+            <button class="chip is-on" data-status="new">New</button>
+            <button class="chip" data-status="in_progress">In progress</button>
+            <button class="chip" data-status="resolved">Resolved</button>
+            <button class="chip" data-status="all">All</button>
+          </div>
+        </section>
+
+        <section class="table-wrap">
+          <div class="table-scroll">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>From</th>
+                  <th>Subject</th>
+                  <th>Received</th>
+                  <th>Assigned to</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="emptyState" hidden>
+            <span class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/></svg>
+            </span>
+            <h3 id="emptyTitle">Inbox clear</h3>
+            <p id="emptyBody">Nothing new from the contact form.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <div class="modal" id="messageModal" role="dialog" aria-modal="true" aria-labelledby="msgSubject">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="msgSubject">—</h2>
+          <p id="msgMeta">—</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <dl class="detail-grid">
+          <div class="detail full">
+            <dt>Message</dt>
+            <dd class="detail-block" id="msgBody">—</dd>
+          </div>
+        </dl>
+
+        <div class="form-grid" style="margin-top:18px">
+          <div class="field">
+            <label for="mAssign">Assigned to</label>
+            <select id="mAssign"></select>
+          </div>
+          <div class="field">
+            <label for="mStatus">Status</label>
+            <select id="mStatus">
+              <option value="new">New</option>
+              <option value="in_progress">In progress</option>
+              <option value="resolved">Resolved</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="mNotes">Internal notes</label>
+            <textarea id="mNotes" placeholder="What you did about this. Only admins see these notes."></textarea>
+            <span class="hint">Not sent to the sender.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <a class="btn btn-quiet spacer" id="mReply" href="#">Reply by email</a>
+        <button class="btn btn-quiet" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="button" id="saveMessage">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-messages.js"></script>
+</body>
+</html>

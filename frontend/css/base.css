@@ -1,0 +1,896 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* ==========================================================
+   CareSphere - base.css
+   ----------------------------------------------------------
+   Shared shell used by every page: navbar, mobile menu,
+   footer, FAQ accordion, focus styles.
+
+   Load this AFTER the page-specific stylesheet so the shared
+   shell always wins:
+
+     <link rel="stylesheet" href="../css/programs.css">
+     <link rel="stylesheet" href="../css/base.css">
+
+   Everything here is scoped to .site-header / .site-footer /
+   .faq-* so it can never leak into a page's own layout.
+========================================================== */
+
+:root{
+    --cs-coral:#E78F81;
+    --cs-coral-dark:#D97A6C;
+    --cs-peach:#FFCFB3;
+    --cs-cream:#FFF5CD;
+    --cs-blue:#B7E0FF;
+    --cs-navy:#26415E;
+    --cs-ink:#2d2d2d;
+    --cs-muted:#6b7280;
+
+    --cs-header-h:78px;
+
+    /* breathing room between the fixed navbar and hero content */
+    --cs-hero-gap:48px;
+}
+
+/* ==========================================================
+   TYPOGRAPHY
+   base.css is the last stylesheet on every page, so this is
+   the single place that decides the font. Form controls and
+   buttons do NOT inherit font-family by default, which is why
+   they are listed explicitly.
+========================================================== */
+
+*,
+*::before,
+*::after{
+    font-family:'Poppins',sans-serif;
+}
+.logo-img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+input,
+select,
+textarea,
+button,
+optgroup,
+option{
+    font-family:'Poppins',sans-serif;
+}
+
+/* ==========================================================
+   ACCESSIBILITY
+========================================================== */
+
+.skip-link{
+    position:absolute;
+    left:-9999px;
+    top:0;
+    z-index:10000;
+    background:var(--cs-navy);
+    color:#fff;
+    padding:12px 20px;
+    border-radius:0 0 12px 0;
+    font-weight:600;
+}
+
+.skip-link:focus{
+    left:0;
+}
+
+.visually-hidden{
+    position:absolute;
+    width:1px;
+    height:1px;
+    margin:-1px;
+    padding:0;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+    white-space:nowrap;
+    border:0;
+}
+
+.newsletter-note{
+    min-height:22px;
+    margin-top:14px;
+    font-size:14.5px;
+    font-weight:500;
+    text-align:center;
+}
+
+/* ==========================================================
+   FORM FEEDBACK
+========================================================== */
+
+.form-message{
+    min-height:22px;
+    margin-bottom:14px;
+    font-size:14.5px;
+    font-weight:500;
+    line-height:1.5;
+}
+
+.form-message.is-error{
+    color:#D3675A;
+}
+
+.form-message.is-ok{
+    color:#2FBF71;
+}
+
+/* login.css and register.css both style a bare `button` selector,
+   which would turn the password eye into a full-width coral button
+   now that it is a real <button> instead of a <span>. */
+#togglePassword{
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    width:auto;
+    height:auto;
+    min-width:32px;
+    min-height:32px;
+    padding:6px;
+    margin:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:none;
+    border:none;
+    border-radius:50%;
+    box-shadow:none;
+    color:#8a8a8a;
+    font-size:15px;
+    cursor:pointer;
+}
+
+#togglePassword:hover{
+    background:none;
+    color:var(--cs-coral);
+    transform:translateY(-50%);
+    box-shadow:none;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible{
+    outline:3px solid var(--cs-coral);
+    outline-offset:2px;
+}
+
+@media(prefers-reduced-motion:reduce){
+    *{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+        scroll-behavior:auto !important;
+    }
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.site-header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(14px);
+    box-shadow:0 3px 14px rgba(38,65,94,.07);
+}
+
+/* volunteer.css sets .navbar to position:sticky - the shared
+   header is fixed, so reset it here rather than in that file. */
+.site-header .navbar{
+    position:static;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    padding:0 6%;
+    /* fixed height so every page's navbar is identical, whatever
+       line-height that page's own stylesheet sets on the body */
+    height:var(--cs-header-h);
+    max-width:1500px;
+    margin:0 auto;
+}
+
+/* ---------- Logo ---------- */
+
+.site-header .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-shrink:0;
+    line-height:1.2;
+    text-decoration:none;
+    color:var(--cs-coral);
+}
+
+.site-header .logo i{
+    color:var(--cs-coral);
+    font-size:28px;
+    line-height:1;
+}
+
+.site-header .logo span{
+    color:var(--cs-coral);
+    font-size:26px;
+    line-height:1;
+    font-weight:700;
+    letter-spacing:-.5px;
+}
+
+/* ---------- Links ---------- */
+
+.site-header .nav-links{
+    display:flex;
+    align-items:center;
+    gap:26px;
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.site-header .nav-links a{
+    position:relative;
+    display:block;
+    padding:6px 0;
+    color:var(--cs-ink);
+    font-size:15px;
+    font-weight:500;
+    /* pinned so pages with their own body line-height (contact.html
+       uses 1.7) don't end up with a taller navbar than the rest */
+    line-height:1.4;
+    text-decoration:none;
+    white-space:nowrap;
+    transition:color .25s;
+}
+
+.site-header .nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    height:2px;
+    width:0;
+    background:var(--cs-coral);
+    border-radius:2px;
+    transition:width .25s;
+}
+
+.site-header .nav-links a:hover{
+    color:var(--cs-coral);
+}
+
+.site-header .nav-links a:hover::after,
+.site-header .nav-links a.active::after{
+    width:100%;
+}
+
+.site-header .nav-links a.active{
+    color:var(--cs-coral);
+    font-weight:600;
+}
+
+/* ---------- Dropdowns ---------- */
+
+.site-header .has-dropdown{
+    position:relative;
+}
+
+.site-header .dropdown-toggle{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:6px 0;
+    border:none;
+    background:none;
+    color:var(--cs-ink);
+    font-size:15px;
+    font-weight:500;
+    line-height:1.4;
+    white-space:nowrap;
+    cursor:pointer;
+    position:relative;
+    transition:color .25s;
+}
+
+/* The chevron used to be a Font Awesome glyph, which renders as
+   an empty box whenever the CDN is blocked. Drawn in CSS it can
+   never fail to load. */
+.caret{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    border-right:2px solid currentColor;
+    border-bottom:2px solid currentColor;
+    border-radius:1px;
+    transform:translateY(-2px) rotate(45deg);
+    opacity:.55;
+    transition:transform .25s, opacity .25s;
+}
+
+.site-header .dropdown-toggle:hover .caret,
+.site-header .has-dropdown.open .caret{
+    opacity:1;
+}
+
+.site-header .dropdown-toggle::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    height:2px;
+    width:0;
+    background:var(--cs-coral);
+    border-radius:2px;
+    transition:width .25s;
+}
+
+.site-header .dropdown-toggle:hover,
+.site-header .has-dropdown.open .dropdown-toggle,
+.site-header .dropdown-toggle.active{
+    color:var(--cs-coral);
+}
+
+.site-header .dropdown-toggle:hover::after,
+.site-header .dropdown-toggle.active::after{
+    width:100%;
+}
+
+.site-header .has-dropdown.open .caret{
+    transform:translateY(1px) rotate(-135deg);
+}
+
+.site-header .dropdown{
+    position:absolute;
+    top:calc(100% + 14px);
+    left:50%;
+    transform:translateX(-50%) translateY(-6px);
+    min-width:286px;
+    padding:12px;
+    margin:0;
+    list-style:none;
+    background:#fff;
+    border:1px solid var(--cs-line, #E6EFF8);
+    border-radius:20px;
+    box-shadow:0 22px 50px rgba(38,65,94,.17),
+                0 4px 12px rgba(38,65,94,.07);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease, visibility .2s;
+    z-index:1001;
+}
+
+/* invisible bridge so the panel doesn't close in the gap */
+.site-header .dropdown::before{
+    content:"";
+    position:absolute;
+    top:-14px;
+    left:0;
+    right:0;
+    height:14px;
+}
+
+/* little caret pointing back at the section it belongs to */
+.site-header .dropdown::after{
+    content:"";
+    position:absolute;
+    top:-7px;
+    left:50%;
+    width:13px;
+    height:13px;
+    margin-left:-6.5px;
+    background:#fff;
+    border-left:1px solid var(--cs-line, #E6EFF8);
+    border-top:1px solid var(--cs-line, #E6EFF8);
+    transform:rotate(45deg);
+    border-radius:3px 0 0 0;
+}
+
+.site-header .has-dropdown.open .dropdown{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translateX(-50%) translateY(0);
+}
+
+.site-header .dropdown li{
+    list-style:none;
+}
+
+.site-header .dropdown a{
+    position:relative;
+    display:block;
+    padding:11px 14px 11px 18px;
+    border-radius:14px;
+    text-decoration:none;
+    transition:background .22s ease, transform .22s ease;
+}
+
+/* accent rail that grows on hover */
+.site-header .dropdown a::before{
+    content:"";
+    position:absolute;
+    left:7px;
+    top:50%;
+    width:3px;
+    height:0;
+    background:var(--cs-coral);
+    border-radius:3px;
+    transform:translateY(-50%);
+    transition:height .22s ease;
+}
+
+.site-header .dropdown a:hover::before,
+.site-header .dropdown a.active::before{
+    height:calc(100% - 20px);
+}
+
+.site-header .dd-title{
+    display:block;
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--cs-navy);
+    line-height:1.35;
+    transition:color .22s;
+}
+
+.site-header .dd-sub{
+    display:block;
+    margin-top:2px;
+    font-size:12.5px;
+    font-weight:400;
+    color:var(--cs-muted);
+    line-height:1.45;
+}
+
+.site-header .dropdown a::after{
+    display:none;
+}
+
+.site-header .dropdown a:hover{
+    background:#F3F8FF;
+    transform:translateX(2px);
+}
+
+.site-header .dropdown a:hover .dd-title{
+    color:var(--cs-coral);
+}
+
+.site-header .dropdown a.active{
+    background:rgba(231,143,129,.10);
+}
+
+.site-header .dropdown a.active .dd-title{
+    color:var(--cs-coral);
+}
+
+/* ---------- Buttons ---------- */
+
+.site-header .nav-buttons{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-shrink:0;
+}
+
+.site-header .login-btn,
+.site-header .register-btn{
+    padding:10px 22px;
+    border-radius:40px;
+    font-size:15px;
+    font-weight:600;
+    text-decoration:none;
+    white-space:nowrap;
+    transition:.28s;
+}
+
+.site-header .login-btn{
+    border:2px solid var(--cs-coral);
+    color:var(--cs-coral);
+    background:transparent;
+}
+
+.site-header .login-btn:hover{
+    background:var(--cs-coral);
+    color:#fff;
+}
+
+.site-header .register-btn{
+    border:2px solid var(--cs-coral);
+    background:var(--cs-coral);
+    color:#fff;
+}
+
+.site-header .register-btn:hover{
+    background:var(--cs-coral-dark);
+    border-color:var(--cs-coral-dark);
+    transform:translateY(-2px);
+}
+
+/* ---------- Hamburger ---------- */
+
+.nav-toggle{
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    gap:5px;
+    width:44px;
+    height:44px;
+    padding:0;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    flex-shrink:0;
+}
+
+.nav-toggle span{
+    display:block;
+    width:24px;
+    height:2px;
+    margin:0 auto;
+    background:var(--cs-navy);
+    border-radius:2px;
+    transition:.3s;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(1){
+    transform:translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(2){
+    opacity:0;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(3){
+    transform:translateY(-7px) rotate(-45deg);
+}
+
+/* ---------- Mobile drawer ---------- */
+
+.mobile-menu{
+    display:none;
+    flex-direction:column;
+    gap:2px;
+    padding:8px 6% 24px;
+    background:#fff;
+    border-top:1px solid #eef3f8;
+    max-height:calc(100vh - var(--cs-header-h));
+    overflow-y:auto;
+}
+
+.mobile-menu.open{
+    display:flex;
+}
+
+.mobile-menu a{
+    padding:14px 4px;
+    color:var(--cs-ink);
+    font-weight:500;
+    text-decoration:none;
+    border-bottom:1px solid #f3f6fa;
+}
+
+.mobile-menu a.active{
+    color:var(--cs-coral);
+    font-weight:600;
+}
+
+.mobile-menu .mobile-group{
+    border-bottom:1px solid #f3f6fa;
+}
+
+.mobile-menu .mobile-group-toggle{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:14px 4px;
+    border:none;
+    background:none;
+    color:var(--cs-ink);
+    font-size:16px;
+    font-weight:500;
+    text-align:left;
+    cursor:pointer;
+}
+
+.mobile-menu .mobile-group-toggle .caret{
+    color:var(--cs-muted);
+}
+
+.mobile-menu .mobile-group-toggle[aria-expanded="true"]{
+    color:var(--cs-coral);
+}
+
+.mobile-menu .mobile-group-toggle[aria-expanded="true"] .caret{
+    transform:translateY(1px) rotate(-135deg);
+    color:var(--cs-coral);
+    opacity:1;
+}
+
+.mobile-menu .mobile-group-panel{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+}
+
+.mobile-menu .mobile-group-panel a{
+    /* the panel is a plain div, not a flex column, so these
+       anchors need display:block or they stack inline and the
+       panel collapses to one line */
+    display:block;
+    padding:11px 4px 11px 18px;
+    border-left:2px solid #EDF3F9;
+    border-bottom:none;
+    font-size:15px;
+    font-weight:500;
+    color:var(--cs-ink);
+}
+
+.mobile-menu .mobile-group-panel a:last-child{
+    padding-bottom:16px;
+}
+
+.mobile-menu .mobile-group-panel a.active{
+    border-left-color:var(--cs-coral);
+    background:rgba(231,143,129,.07);
+    color:var(--cs-coral);
+    font-weight:600;
+}
+
+.mobile-menu .mobile-actions{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+}
+
+.mobile-menu .mobile-actions a{
+    flex:1;
+    text-align:center;
+    padding:12px 16px;
+    border-radius:40px;
+    font-weight:600;
+    border-bottom:none;
+}
+
+.mobile-menu .mobile-actions .login-btn{
+    border:2px solid var(--cs-coral);
+    color:var(--cs-coral);
+}
+
+.mobile-menu .mobile-actions .register-btn{
+    background:var(--cs-coral);
+    border:2px solid var(--cs-coral);
+    color:#fff;
+}
+
+/* Six top-level items instead of ten, so the full navbar now
+   survives down to a much narrower screen. */
+
+@media(max-width:1180px){
+
+    .site-header .navbar{
+        padding:0 4%;
+        gap:18px;
+    }
+
+    .site-header .nav-links{
+        gap:20px;
+    }
+
+    .site-header .nav-links a,
+    .site-header .dropdown-toggle{
+        font-size:14.5px;
+    }
+
+    .site-header .login-btn,
+    .site-header .register-btn{
+        padding:9px 18px;
+        font-size:14.5px;
+    }
+
+}
+
+@media(max-width:1020px){
+
+    .site-header .nav-links,
+    .site-header .nav-buttons{
+        display:none;
+    }
+
+    .nav-toggle{
+        display:flex;
+    }
+
+}
+
+/* ==========================================================
+   HERO CLEARANCE
+   Every page's hero sits under the fixed header, so give the
+   heroes matching top padding instead of doing it per page.
+========================================================== */
+
+.cs-hero-offset{
+    /* header height alone leaves the hero flush against the navbar,
+       so add a gap on top of the clearance */
+    padding-top:calc(var(--cs-header-h) + var(--cs-hero-gap));
+    margin-top:0;
+}
+
+@media(max-width:768px){
+
+    .cs-hero-offset{
+        --cs-hero-gap:32px;
+    }
+
+}
+
+/* The home hero is the only full-viewport one; without this the
+   fixed header would push it past 100vh and create a dead scroll. */
+.hero.cs-hero-offset{
+    min-height:100vh;
+    height:auto;
+}
+
+/* ==========================================================
+   FAQ ACCORDION
+   Height is set inline by site.js from scrollHeight, so long
+   answers are never clipped.
+========================================================== */
+
+.faq-answer{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .35s ease;
+}
+
+.faq-question{
+    width:100%;
+    cursor:pointer;
+    text-align:left;
+}
+
+.faq-question i{
+    transition:transform .3s;
+    flex-shrink:0;
+    margin-left:16px;
+}
+
+.faq-item.active .faq-question i{
+    transform:rotate(45deg);
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.site-footer{
+    background:var(--cs-navy);
+    color:#dbe6f2;
+    padding:70px 6% 28px;
+}
+
+.site-footer .footer-container{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1.2fr;
+    gap:40px;
+    max-width:1500px;
+    margin:0 auto;
+}
+
+.site-footer .footer-column h2{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#fff;
+    font-size:24px;
+    margin-bottom:18px;
+}
+
+.site-footer .footer-column h2 i{
+    color:var(--cs-peach);
+}
+
+.site-footer .footer-column h3{
+    color:#fff;
+    font-size:17px;
+    margin-bottom:18px;
+}
+
+.site-footer .footer-column p{
+    color:#c6d5e6;
+    line-height:1.8;
+    margin-bottom:10px;
+    font-size:15px;
+}
+
+.site-footer .footer-column a{
+    display:block;
+    color:#c6d5e6;
+    text-decoration:none;
+    margin-bottom:12px;
+    font-size:15px;
+    transition:.25s;
+}
+
+.site-footer .footer-column a:hover{
+    color:var(--cs-peach);
+    padding-left:6px;
+}
+
+.site-footer .footer-column i{
+    color:var(--cs-peach);
+    margin-right:10px;
+    width:16px;
+}
+
+.site-footer .footer-socials{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+}
+
+.site-footer .footer-socials a{
+    width:40px;
+    height:40px;
+    margin:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:rgba(255,255,255,.1);
+    color:#fff;
+}
+
+.site-footer .footer-socials a:hover{
+    background:var(--cs-coral);
+    color:#fff;
+    padding-left:0;
+}
+
+.site-footer hr{
+    max-width:1500px;
+    margin:45px auto 24px;
+    border:none;
+    height:1px;
+    background:rgba(255,255,255,.16);
+}
+
+.site-footer .copyright{
+    text-align:center;
+    color:#a9bdd3;
+    font-size:14px;
+    margin:0;
+}
+
+@media(max-width:992px){
+
+    .site-footer .footer-container{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:576px){
+
+    .site-footer{
+        padding:55px 6% 24px;
+    }
+
+    .site-footer .footer-container{
+        grid-template-columns:1fr;
+        gap:32px;
+    }
+
+}

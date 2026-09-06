@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My dashboard · CareSphere</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+  <link rel="stylesheet" href="../css/volunteer-area.css">
+</head>
+<body class="volunteer">
+
+  <header class="vol-bar">
+    <a class="vol-brand" href="index.html">
+      <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+      <b>CareSphere</b>
+    </a>
+
+    <nav class="vol-nav">
+      <a href="volunteer-dashboard.html" class="is-active">Dashboard</a>
+      <a href="volunteer-my-events.html">My events</a>
+      <a href="volunteer-my-hours.html">My hours</a>
+      <a href="volunteer-my-profile.html">My profile</a>
+    </nav>
+
+    <button class="vol-out" type="button" id="signOut">Sign out</button>
+  </header>
+
+  <main class="vol-main">
+    <div class="vol-container">
+
+      <header class="vol-head">
+        <span class="vol-eyebrow">Dashboard</span>
+        <h1 id="greeting">Welcome back</h1>
+        <p id="subline"></p>
+      </header>
+
+      <section class="vol-stats">
+        <div class="vol-stat" data-accent="blue">
+          <span>Events joined</span>
+          <b id="statEvents">—</b>
+          <em id="noteEvents">Across all districts</em>
+        </div>
+        <div class="vol-stat" data-accent="coral">
+          <span>Hours verified</span>
+          <b id="statHours">—</b>
+          <em>Confirmed by an organiser</em>
+        </div>
+        <div class="vol-stat" data-accent="cream">
+          <span>Hours pending</span>
+          <b id="statPending">—</b>
+          <em>Waiting to be checked</em>
+        </div>
+        <div class="vol-stat" data-accent="peach">
+          <span>Volunteering since</span>
+          <b id="statSince" style="font-size:19px">—</b>
+          <em id="noteSince"></em>
+        </div>
+      </section>
+
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Coming up for you</h2>
+          <span class="rule"></span>
+          <a href="volunteer-my-events.html">All my events</a>
+        </div>
+        <div class="vol-list" id="upcomingList"></div>
+      </section>
+
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Open to join</h2>
+          <span class="rule"></span>
+          <a href="volunteer-my-events.html">Browse everything</a>
+        </div>
+        <div class="vol-list" id="openList"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/volunteer-shared.js"></script>
+  <script src="../js/volunteer-dashboard.js"></script>
+</body>
+</html>

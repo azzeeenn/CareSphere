@@ -1,0 +1,488 @@
+/* ==========================================================
+   CareSphere - theme.css
+   ----------------------------------------------------------
+   Ports the visual language of contact.html to every other
+   page: soft multi-stop gradients, glass hero cards, navy
+   type, hairline borders and tinted shadows.
+
+   Load it LAST, after the page stylesheet and base.css:
+
+     <link rel="stylesheet" href="../css/programs.css">
+     <link rel="stylesheet" href="../css/base.css">
+     <link rel="stylesheet" href="../css/theme.css">
+
+   It changes surfaces and colour only - never layout - so the
+   existing grids and spacing in each page stylesheet still do
+   their job.
+========================================================== */
+
+:root{
+
+    /* ---- contact.html tokens ---- */
+    --blue:#B7E0FF;
+    --cream:#FFF5CD;
+    --peach:#FFCFB3;
+    --coral:#E78F81;
+    --coral-dark:#D97A6C;
+    --navy:#26415E;
+    --page:#F8FBFF;
+    --line:#E6EFF8;
+    --field:#F8FBFF;
+
+    --radius-lg:32px;
+    --radius-md:24px;
+    --radius-sm:14px;
+
+    --shadow-sm:0 4px 18px rgba(38,65,94,.06);
+    --shadow-md:0 14px 40px rgba(38,65,94,.09);
+    --shadow-lg:0 26px 70px rgba(38,65,94,.14);
+
+    /* ---- retune the tokens the page stylesheets already use ----
+       The old values were solid blocks of cream (#FFF5CD) and
+       saturated blue (#B7E0FF) used as whole-section backgrounds,
+       which is what made the pages read as heavy next to Contact. */
+    --primary:#E78F81;
+    --secondary:#FFCFB3;
+    --light:#F4F9FF;
+    --accent:#EAF4FF;
+
+    --text:#4B5563;
+    --gray:#6B7280;
+    --dark:#26415E;
+
+    --shadow:0 14px 40px rgba(38,65,94,.09);
+
+}
+
+/* ==========================================================
+   PAGE SURFACE + TYPE
+========================================================== */
+
+body{
+    background:var(--page);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3,h4{
+    color:var(--navy);
+    line-height:1.2;
+}
+
+h1{ font-weight:800; }
+h2,h3,h4{ font-weight:700; }
+
+.section-title h2,
+.section-heading h2{
+    color:var(--navy);
+}
+
+.section-title span,
+.section-heading span{
+    color:var(--coral);
+}
+
+/* ==========================================================
+   HEROES
+   Every hero used either a heavy coral wash, a 45% black
+   scrim, or a dark navy gradient. They all become the same
+   soft pastel sweep now, with navy type instead of white.
+========================================================== */
+
+.cs-hero-offset{
+    background:linear-gradient(115deg,
+        var(--blue) 0%,
+        #D6E9F3 30%,
+        var(--cream) 66%,
+        var(--peach) 100%) !important;
+    position:relative;
+}
+
+/* the old scrims are no longer needed */
+.cs-hero-offset .overlay{
+    background:none;
+}
+
+/* the hero text block becomes contact.html's glass card */
+.cs-hero-offset .hero-content{
+    background:linear-gradient(150deg,
+        rgba(255,255,255,.72),
+        rgba(255,255,255,.42));
+    border:1px solid rgba(255,255,255,.7);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-lg);
+    padding:56px 44px 50px;
+    max-width:1000px;
+    margin:0 auto;
+    color:var(--text);
+}
+
+.cs-hero-offset .hero-content h1,
+.cs-hero-offset .hero-content h2{
+    color:var(--navy);
+}
+
+.cs-hero-offset .hero-content p,
+.cs-hero-offset .hero-content .lead{
+    color:var(--text);
+}
+
+.cs-hero-offset .hero-content span:not(.section-tag){
+    color:var(--coral);
+}
+
+.cs-hero-offset .section-tag{
+    background:rgba(255,255,255,.7);
+    color:var(--coral);
+    border:1px solid rgba(255,255,255,.9);
+}
+
+/* hero buttons need real contrast on a light background */
+.cs-hero-offset .secondary-btn{
+    border:2px solid var(--navy);
+    color:var(--navy);
+}
+
+.cs-hero-offset .secondary-btn:hover{
+    background:var(--navy);
+    color:#fff;
+}
+
+.cs-hero-offset .primary-btn{
+    background:var(--coral);
+    color:#fff;
+    box-shadow:0 10px 24px rgba(231,143,129,.35);
+}
+
+.cs-hero-offset .primary-btn:hover{
+    background:var(--coral-dark);
+}
+
+/* ==========================================================
+   SECTION BACKGROUNDS
+========================================================== */
+
+.mission-section,
+.timeline-section,
+.why-section,
+.featured-programs,
+.categories,
+.help-section,
+.inst-intro,
+.inst-stories,
+.votm,
+.certificates,
+.rewards,
+.event-testimonials,
+.featured-event{
+    background:var(--light);
+}
+
+.values-section,
+.team-section,
+.faq-section,
+.more-programs,
+.success-stories,
+.inst-types,
+.hall-of-fame,
+.badges,
+.event-timeline,
+.past-events,
+.volunteer-benefits{
+    background:#fff;
+}
+
+.event-stats{
+    background:var(--light);
+}
+
+/* ==========================================================
+   CARDS
+   White surface, hairline border, tinted shadow - the same
+   recipe contact.html uses for .info-card and .faq-item.
+========================================================== */
+
+.mission-card,
+.value-card,
+.why-card,
+.team-card,
+.timeline-content,
+.program-card,
+.category-card,
+.help-card,
+.story-card,
+.benefit-card,
+.type-card,
+.process-card,
+.hof-card,
+.cert-card,
+.badge-card,
+.reward-card,
+.event-card,
+.stat-card,
+.testimonial-card,
+.impact-card,
+.work-card,
+.faq-item,
+.votm-card,
+.activity,
+.stat{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    box-shadow:var(--shadow-sm);
+}
+
+.mission-card:hover,
+.value-card:hover,
+.why-card:hover,
+.team-card:hover,
+.program-card:hover,
+.category-card:hover,
+.help-card:hover,
+.story-card:hover,
+.benefit-card:hover,
+.type-card:hover,
+.hof-card:hover,
+.cert-card:hover,
+.badge-card:hover,
+.reward-card:hover,
+.event-card:hover,
+.testimonial-card:hover,
+.work-card:hover{
+    box-shadow:var(--shadow-md);
+    border-color:#DCEAF7;
+}
+
+/* the old hover swapped the whole card to saturated blue */
+.value-card:hover,
+.category-card:hover,
+.type-card:hover,
+.hof-card:hover,
+.badge-card:hover{
+    background:#fff;
+}
+
+.team-card,
+.story-card,
+.program-card,
+.event-card,
+.votm-card{
+    overflow:hidden;
+}
+
+/* ==========================================================
+   ICON CHIPS
+========================================================== */
+
+.mission-card i,
+.help-card i,
+.benefit-card i,
+.category-card i,
+.type-card i,
+.badge-icon,
+.cert-preview,
+.number{
+    background:linear-gradient(140deg,var(--blue),var(--cream));
+    color:var(--coral);
+    border:1px solid rgba(255,255,255,.8);
+}
+
+.value-card i,
+.why-card i,
+.reward-card i,
+.program-content i{
+    color:var(--coral);
+}
+
+/* ==========================================================
+   GRADIENT PANELS
+   Impact / CTA blocks were a flat two-stop coral-to-peach.
+   Contact's CTA runs coral -> peach -> cream with navy type.
+========================================================== */
+
+.impact,
+.cta-section,
+.event-cta,
+.rec-cta,
+.inst-process,
+.volunteer-cta,
+.inst-cta{
+    background:linear-gradient(115deg,
+        var(--coral) 0%,
+        var(--peach) 62%,
+        var(--cream) 100%) !important;
+    color:var(--navy);
+}
+
+.impact h2,
+.impact p,
+.cta-section h2,
+.cta-section p,
+.event-cta h2,
+.event-cta p,
+.rec-cta h2,
+.rec-cta p,
+.inst-process h3,
+.inst-process p,
+.volunteer-cta h2,
+.volunteer-cta p,
+.inst-cta h2,
+.inst-cta p,
+.impact .section-title span,
+.impact .section-title h2,
+.inst-process .section-title span,
+.inst-process .section-title h2{
+    color:var(--navy);
+}
+
+.impact-card,
+.process-card{
+    background:rgba(255,255,255,.55);
+    border:1px solid rgba(255,255,255,.75);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    box-shadow:var(--shadow-sm);
+}
+
+.impact-card:hover,
+.process-card:hover{
+    background:rgba(255,255,255,.72);
+}
+
+.impact-card i,
+.process-card .step-number{
+    background:none;
+    border:none;
+    color:var(--coral);
+}
+
+/* buttons sitting on the gradient */
+.cta-section .primary-btn,
+.event-cta .cta-btn,
+.rec-cta .primary-btn,
+.volunteer-cta .primary-btn,
+.inst-cta .primary-btn,
+.cta-btn{
+    background:var(--navy);
+    color:#fff;
+    box-shadow:0 12px 26px rgba(38,65,94,.28);
+}
+
+.cta-section .primary-btn:hover,
+.event-cta .cta-btn:hover,
+.rec-cta .primary-btn:hover,
+.volunteer-cta .primary-btn:hover,
+.inst-cta .primary-btn:hover,
+.cta-btn:hover{
+    background:#1C3149;
+    color:#fff;
+}
+
+.cta-section .secondary-btn,
+.rec-cta .secondary-btn,
+.inst-cta .secondary-btn,
+.volunteer-cta .secondary-btn{
+    border:2px solid var(--navy);
+    color:var(--navy);
+}
+
+.cta-section .secondary-btn:hover,
+.rec-cta .secondary-btn:hover,
+.inst-cta .secondary-btn:hover,
+.volunteer-cta .secondary-btn:hover{
+    background:var(--navy);
+    color:#fff;
+}
+
+/* ==========================================================
+   TIMELINE / MISC ACCENTS
+========================================================== */
+
+.timeline::before,
+.timeline-item::before,
+.time{
+    background:var(--coral);
+}
+
+.timeline-item::before{
+    border-color:var(--blue);
+}
+
+.year{
+    background:var(--coral);
+    color:#fff;
+}
+
+.faq-question{
+    background:#fff;
+    color:var(--navy);
+}
+
+.faq-item{
+    overflow:hidden;
+}
+
+.votm-ribbon{
+    background:var(--coral);
+}
+
+.social-icons a{
+    background:var(--accent);
+    color:var(--coral);
+}
+
+.social-icons a:hover{
+    background:var(--coral);
+    color:#fff;
+}
+
+/* ==========================================================
+   FORMS
+========================================================== */
+
+.inst-form{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-md);
+}
+
+.input-box input,
+.input-box select,
+.textarea-box textarea,
+.input-group input,
+.input-group select,
+.input-group textarea{
+    background:var(--field);
+    border:2px solid var(--line);
+    border-radius:var(--radius-sm);
+}
+
+.input-box input:focus,
+.input-box select:focus,
+.textarea-box textarea:focus,
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus{
+    background:#fff;
+    border-color:var(--coral);
+}
+
+/* ==========================================================
+   REDUCED TRANSPARENCY FALLBACK
+   backdrop-filter is unsupported on older browsers, where a
+   72% white card over a photo would be unreadable.
+========================================================== */
+
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+
+    .cs-hero-offset .hero-content,
+    .impact-card,
+    .process-card{
+        background:rgba(255,255,255,.92);
+    }
+
+}

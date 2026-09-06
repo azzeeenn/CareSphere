@@ -1,0 +1,247 @@
+
+/* ==========================================================
+   CareSphere Volunteer Page
+   Theme Palette:
+   #B7E0FF #FFF5CD #FFCFB3 #E78F81
+========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root{
+    --blue:#B7E0FF;
+    --cream:#FFF5CD;
+    --peach:#FFCFB3;
+    --coral:#E78F81;
+    --dark:#26415E;
+    --text:#4b5563;
+    --white:#fff;
+    --bg:#F8FBFF;
+    --shadow:0 15px 35px rgba(38,65,94,.10);
+    --radius:20px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);line-height:1.7}
+img{max-width:100%;display:block}
+a{text-decoration:none}
+section{padding:90px 8%}
+
+.navbar{
+    position:sticky;top:0;z-index:1000;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 8%;
+    background:rgba(255,255,255,.92);
+    backdrop-filter:blur(12px);
+    box-shadow:0 8px 20px rgba(0,0,0,.05)
+}
+
+.logo{display:flex;align-items:center;gap:12px;color:var(--dark)}
+.logo i{font-size:2rem;color:var(--coral)}
+.nav-links{display:flex;list-style:none;gap:28px}
+.nav-links a{color:var(--dark);font-weight:500;transition:.3s}
+.nav-links a:hover,.nav-links .active{color:var(--coral)}
+.nav-buttons{display:flex;gap:14px}
+.login-btn,.register-btn,.primary-btn,.apply-btn{
+    padding:12px 24px;border-radius:50px;font-weight:600;transition:.3s
+}
+.login-btn{
+    border:2px solid var(--coral);
+    color:var(--coral);
+}
+.login-btn:hover{
+    background:var(--coral);color:#fff;
+}
+.register-btn,.primary-btn,.apply-btn{
+    background:linear-gradient(135deg,var(--coral),#f3a18f);
+    color:#fff;
+    box-shadow:var(--shadow)
+}
+.register-btn:hover,.primary-btn:hover,.apply-btn:hover{
+    transform:translateY(-3px)
+}
+
+.volunteer-hero{
+    min-height:88vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    background:linear-gradient(135deg,var(--blue),var(--cream));
+    overflow:hidden;
+}
+.overlay{
+    position:absolute;inset:0;
+    background:radial-gradient(circle at top right,rgba(255,255,255,.35),transparent 55%);
+}
+.hero-content{
+    position:relative;
+    max-width:900px;
+    text-align:center;
+    background:rgba(255,255,255,.55);
+    backdrop-filter:blur(12px);
+    padding:55px;
+    border-radius:30px;
+    box-shadow:var(--shadow)
+}
+.hero-content span,
+.section-title span{
+    color:var(--coral);
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+.hero-content h1,
+.section-title h2{
+    color:var(--dark);
+    font-size:clamp(2.2rem,5vw,3.7rem);
+    margin:18px 0;
+    line-height:1.2;
+}
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    flex-wrap:wrap;
+    margin-top:35px
+}
+.secondary-btn{
+    padding:12px 24px;
+    border-radius:50px;
+    border:2px solid var(--dark);
+    color:var(--dark);
+    font-weight:600;
+}
+.secondary-btn:hover{background:var(--dark);color:#fff}
+
+.section-title{text-align:center;margin-bottom:50px}
+.intro{max-width:900px;margin:0 auto 50px;text-align:center}
+
+.why-grid,.work-grid,.benefits-grid,.process-container,.testimonial-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:28px;
+}
+
+.why-card,.work-card,.benefit-card,.process-card,.testimonial-card,.faq-item{
+    background:#fff;
+    border-radius:var(--radius);
+    padding:30px;
+    box-shadow:var(--shadow);
+    transition:.35s;
+}
+.why-card:hover,.work-card:hover,.benefit-card:hover,.process-card:hover,.testimonial-card:hover{
+    transform:translateY(-8px)
+}
+.why-card i,.work-card i,.benefit-card i{
+    font-size:2.3rem;
+    color:var(--coral);
+    margin-bottom:18px;
+}
+.apply-content{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:45px;
+    align-items:center;
+}
+.apply-image img{
+    border-radius:25px;
+    box-shadow:var(--shadow)
+}
+.apply-text ul{list-style:none;margin-top:20px}
+.apply-text li{margin:14px 0}
+.apply-text li i{color:var(--coral);margin-right:10px}
+
+.number{
+    width:60px;height:60px;
+    border-radius:50%;
+    background:var(--coral);
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:1.4rem;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+.testimonial-card{text-align:center}
+.testimonial-card img{
+    width:90px;height:90px;
+    object-fit:cover;
+    border-radius:50%;
+    margin:0 auto 20px;
+    border:5px solid var(--blue);
+}
+
+.faq-container{max-width:900px;margin:auto}
+.faq-item{margin-bottom:18px}
+.faq-question{
+    width:100%;
+    border:none;
+    background:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+    font-size:1rem;
+    font-weight:600;
+    color:var(--dark);
+}
+.faq-answer > p{padding-top:15px}
+
+.volunteer-cta{
+    background:linear-gradient(135deg,var(--blue),var(--cream));
+    text-align:center;
+}
+.cta-content{
+    max-width:850px;
+    margin:auto;
+}
+.cta-content h2{
+    color:var(--dark);
+    margin:20px 0;
+    font-size:2.8rem;
+}
+.cta-content p{margin-bottom:35px}
+
+footer{
+    background:var(--dark);
+    color:#fff;
+    padding:70px 8% 30px;
+}
+.footer-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:35px;
+}
+.footer-column h2,.footer-column h3{margin-bottom:18px}
+.footer-column a{
+    display:block;
+    color:#fff;
+    margin:8px 0;
+}
+.footer-column a:hover{color:var(--cream)}
+footer hr{
+    margin:35px 0;
+    border:none;
+    border-top:1px solid rgba(255,255,255,.2);
+}
+.copyright{text-align:center}
+
+@media(max-width:900px){
+    .navbar{flex-direction:column;gap:18px}
+    .nav-links{flex-wrap:wrap;justify-content:center}
+    .apply-content{grid-template-columns:1fr}
+    .hero-content{padding:35px 25px}
+}
+
+@media(max-width:600px){
+    section{padding:70px 6%}
+    .hero-content h1{font-size:2.2rem}
+    .hero-buttons,.nav-buttons{flex-direction:column}
+    .primary-btn,.secondary-btn,.login-btn,.register-btn,.apply-btn{
+        width:100%;
+        text-align:center;
+    }
+}

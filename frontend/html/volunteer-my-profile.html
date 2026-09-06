@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My profile · CareSphere</title>
+  <link rel="stylesheet" href="../css/base.css">
+      <link rel="stylesheet" href="../css/auth.css">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+  <link rel="stylesheet" href="../css/volunteer-area.css">
+</head>
+<body class="volunteer">
+
+  <header class="vol-bar">
+    <a class="vol-brand" href="index.html">
+      <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+      <b>CareSphere</b>
+    </a>
+    <nav class="vol-nav">
+      <a href="volunteer-dashboard.html">Dashboard</a>
+      <a href="volunteer-my-events.html">My events</a>
+      <a href="volunteer-my-hours.html">My hours</a>
+      <a href="volunteer-my-profile.html" class="is-active">My profile</a>
+    </nav>
+    <button class="vol-out" type="button" id="signOut">Sign out</button>
+  </header>
+
+  <main class="vol-main">
+    <div class="vol-container">
+
+      <header class="vol-head">
+        <span class="vol-eyebrow">My profile</span>
+        <h1 id="profileName">My profile</h1>
+        <p id="profileSince"></p>
+      </header>
+
+      <!-- ===================== CONTACT DETAILS ===================== -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Your details</h2>
+          <span class="rule"></span>
+        </div>
+
+        <div class="vol-panel">
+          <h3>Contact details</h3>
+          <p>Keep these current so organisers can reach you about an event.</p>
+
+          <div class="vol-form">
+            <div class="field">
+              <label for="pName">Full name</label>
+              <input type="text" id="pName">
+              <span class="error"></span>
+            </div>
+            <div class="field">
+              <label for="pEmail">Email address</label>
+              <input type="email" id="pEmail" disabled>
+              <span class="hint">Ask the office if you need this changed.</span>
+            </div>
+            <div class="field">
+              <label for="pPhone">Phone number</label>
+              <input type="tel" id="pPhone">
+              <span class="error"></span>
+            </div>
+            <div class="field">
+              <label for="pCity">Town or city</label>
+              <input type="text" id="pCity">
+              <span class="error"></span>
+            </div>
+            <div class="field">
+              <label for="pEmergencyName">Emergency contact</label>
+              <input type="text" id="pEmergencyName">
+              <span class="error"></span>
+            </div>
+            <div class="field">
+              <label for="pEmergencyPhone">Emergency phone</label>
+              <input type="tel" id="pEmergencyPhone">
+              <span class="error"></span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" type="button" id="saveDetails">Save changes</button>
+        </div>
+      </section>
+
+      <!-- ===================== PASSWORD ===================== -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Sign-in</h2>
+          <span class="rule"></span>
+        </div>
+
+        <div class="vol-panel">
+          <h3>Change your password</h3>
+          <p>You'll stay signed in on this device.</p>
+
+          <div class="vol-form">
+            <div class="field">
+              <label for="pCurrent">Current password</label>
+              <input type="password" id="pCurrent" autocomplete="current-password">
+              <span class="error"></span>
+            </div>
+            <div class="field"></div>
+            <div class="field">
+              <label for="pNew">New password</label>
+              <input type="password" id="pNew" autocomplete="new-password">
+              <span class="hint">At least 8 characters, including a number.</span>
+              <span class="error"></span>
+            </div>
+            <div class="field">
+              <label for="pConfirm">Confirm new password</label>
+              <input type="password" id="pConfirm" autocomplete="new-password">
+              <span class="error"></span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" type="button" id="savePassword">Change password</button>
+        </div>
+      </section>
+
+      <!-- ===================== APPLICATION ===================== -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Your application</h2>
+          <span class="rule"></span>
+        </div>
+
+        <div class="vol-panel">
+          <h3>What you told us when you applied</h3>
+          <p>Get in touch with the office if any of this needs changing.</p>
+          <dl class="vol-detail" id="applicationDetail"></dl>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/volunteer-shared.js"></script>
+  <script src="../js/volunteer-my-profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News &amp; Updates · CareSphere Admin</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+</head>
+<body class="admin" data-page="news" data-group="content">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="page-head">
+          <div class="page-head-text">
+            <a class="crumb" href="admin-home.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Admin Home
+            </a>
+            <h1>News &amp; Updates</h1>
+            <p>Drafts stay hidden. Publishing puts a post on the news page straight away.</p>
+          </div>
+          <button class="btn btn-primary" type="button" id="newPost">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            New post
+          </button>
+        </header>
+
+        <section class="summary-row" id="summaryRow"></section>
+
+        <section class="toolbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+            <input type="search" id="searchBox" placeholder="Search by title or summary" aria-label="Search posts">
+          </label>
+
+          <div class="filter-set" id="statusFilter" role="group" aria-label="Filter by status">
+            <button class="chip is-on" data-status="all">All</button>
+            <button class="chip" data-status="published">Published</button>
+            <button class="chip" data-status="draft">Drafts</button>
+          </div>
+
+          <select id="categoryFilter" aria-label="Filter by category">
+            <option value="all">All categories</option>
+          </select>
+        </section>
+
+        <section class="table-wrap">
+          <div class="table-scroll">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Post</th>
+                  <th>Category</th>
+                  <th>Published</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="emptyState" hidden>
+            <span class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v12H6a2 2 0 0 1-2-2z"/><path d="M19 8h1.5A1.5 1.5 0 0 1 22 9.5V17a2 2 0 0 1-2 2"/><path d="M8 9h7M8 13h7M8 16h4"/></svg>
+            </span>
+            <h3 id="emptyTitle">No posts yet</h3>
+            <p id="emptyBody">Write your first update and publish it when it's ready.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Create / edit -->
+  <div class="modal" id="formModal" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+    <div class="modal-box is-wide">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="formTitle">New post</h2>
+          <p>Save as a draft while you're still writing.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-grid">
+
+          <div class="field full">
+            <label for="nTitle">Title</label>
+            <input type="text" id="nTitle" data-autofocus placeholder="3,000 saplings planted across Mysuru district">
+            <span class="error" data-error="nTitle"></span>
+          </div>
+
+          <div class="field">
+            <label for="nCategory">Category</label>
+            <select id="nCategory">
+              <option value="Education">Education</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Green Cover">Green Cover</option>
+              <option value="General">General</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="nStatus">Status</label>
+            <select id="nStatus">
+              <option value="draft">Draft — hidden from the site</option>
+              <option value="published">Published — live on the news page</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="nExcerpt">Summary</label>
+            <textarea id="nExcerpt" style="min-height:70px" placeholder="One or two sentences. This is what shows on the news listing."></textarea>
+            <span class="error" data-error="nExcerpt"></span>
+          </div>
+
+          <div class="field full">
+            <label for="nBody">Full text</label>
+            <textarea id="nBody" style="min-height:170px" placeholder="The full post."></textarea>
+            <span class="error" data-error="nBody"></span>
+          </div>
+
+          <div class="field full">
+            <label for="nPinned">Placement</label>
+            <select id="nPinned">
+              <option value="no">Normal — sits in date order</option>
+              <option value="yes">Pinned — stays at the top of the news page</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="button" id="savePost">Save post</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete -->
+  <div class="modal" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+    <div class="modal-box is-slim">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="deleteTitle">Delete this post?</h2>
+          <p id="deleteBody">This cannot be undone.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Keep it</button>
+        <button class="btn btn-danger" type="button" id="confirmDelete">Delete post</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-news.js"></script>
+</body>
+</html>

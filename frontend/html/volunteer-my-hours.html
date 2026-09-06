@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My hours · CareSphere</title>
+  <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/auth.css">
+
+  <link rel="stylesheet" href="../css/volunteer-area.css">
+</head>
+<body class="volunteer">
+
+  <header class="vol-bar">
+    <a class="vol-brand" href="index.html">
+      <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+      <b>CareSphere</b>
+    </a>
+    <nav class="vol-nav">
+      <a href="volunteer-dashboard.html">Dashboard</a>
+      <a href="volunteer-my-events.html">My events</a>
+      <a href="volunteer-my-hours.html" class="is-active">My hours</a>
+      <a href="volunteer-my-profile.html">My profile</a>
+    </nav>
+    <button class="vol-out" type="button" id="signOut">Sign out</button>
+  </header>
+
+  <main class="vol-main">
+    <div class="vol-container">
+
+      <header class="vol-head">
+        <span class="vol-eyebrow">My hours</span>
+        <h1>Hours</h1>
+        <p>Log what you gave after an event. An organiser checks it before it counts towards your total.</p>
+      </header>
+
+      <section class="vol-stats">
+        <div class="vol-stat" data-accent="blue">
+          <span>Verified</span>
+          <b id="statVerified">—</b>
+          <em>Confirmed by an organiser</em>
+        </div>
+        <div class="vol-stat" data-accent="cream">
+          <span>Awaiting check</span>
+          <b id="statPending">—</b>
+          <em>Logged, not yet verified</em>
+        </div>
+        <div class="vol-stat" data-accent="peach">
+          <span>Not accepted</span>
+          <b id="statRejected">—</b>
+          <em>See the note on the entry</em>
+        </div>
+        <div class="vol-stat" data-accent="coral">
+          <span>Events attended</span>
+          <b id="statEvents">—</b>
+          <em>Past events you joined</em>
+        </div>
+      </section>
+
+      <!-- ===================== LOG FORM ===================== -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Log some hours</h2>
+          <span class="rule"></span>
+        </div>
+
+        <div class="vol-panel" id="logPanel">
+          <div class="vol-form">
+            <div class="field">
+              <label for="hEvent">Which event</label>
+              <select id="hEvent"></select>
+              <span class="error"></span>
+            </div>
+            <div class="field">
+              <label for="hHours">Hours you gave</label>
+              <input type="number" id="hHours" step="0.5" min="0.5" max="24" placeholder="4">
+              <span class="hint">Half hours are fine, for example 3.5.</span>
+              <span class="error"></span>
+            </div>
+            <div class="field full">
+              <label for="hNote">Anything worth mentioning (optional)</label>
+              <textarea id="hNote" style="min-height:70px" placeholder="Stayed on to help pack up."></textarea>
+              <span class="error"></span>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="button" id="logHours">Log these hours</button>
+        </div>
+      </section>
+
+      <!-- ===================== HISTORY ===================== -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Everything you've logged</h2>
+          <span class="rule"></span>
+        </div>
+        <div class="vol-list" id="list"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/volunteer-shared.js"></script>
+  <script src="../js/volunteer-my-hours.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partnerships &middot; CareSphere Admin</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+</head>
+<body class="admin" data-page="partnerships" data-group="ops">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="page-head">
+          <div class="page-head-text">
+            <a class="crumb" href="admin-home.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Admin Home
+            </a>
+            <h1>Partnerships</h1>
+            <p>Schools, colleges and care centres that asked to work with us. Move a request along as you contact them.</p>
+          </div>
+        </header>
+
+        <section class="summary-row" id="summaryRow"></section>
+
+        <section class="toolbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+            <input type="search" id="searchBox" placeholder="Search by institution, contact or place" aria-label="Search partnership requests">
+          </label>
+
+          <div class="filter-set" id="statusFilter" role="group" aria-label="Filter by status">
+            <button class="chip is-on" data-status="new">New</button>
+            <button class="chip" data-status="contacted">Contacted</button>
+            <button class="chip" data-status="active">Active</button>
+            <button class="chip" data-status="declined">Declined</button>
+            <button class="chip" data-status="all">All</button>
+          </div>
+        </section>
+
+        <section class="table-wrap">
+          <div class="table-scroll">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Institution</th>
+                  <th>Contact</th>
+                  <th>Received</th>
+                  <th>Children</th>
+                  <th>Assigned to</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="emptyState" hidden>
+            <span class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7.5h2M13 7.5h2M9 11.5h2M13 11.5h2"/><path d="M10 21v-4h4v4"/></svg>
+            </span>
+            <h3 id="emptyTitle">Nothing waiting</h3>
+            <p id="emptyBody">No new partnership requests from the institutions page.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <div class="modal" id="partnerModal" role="dialog" aria-modal="true" aria-labelledby="pName">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="pName">&mdash;</h2>
+          <p id="pMeta">&mdash;</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <dl class="detail-grid">
+          <div class="detail">
+            <dt>Institution type</dt>
+            <dd id="pType">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Location</dt>
+            <dd id="pLocation">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Contact person</dt>
+            <dd id="pContact">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Designation</dt>
+            <dd id="pRole">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Email</dt>
+            <dd id="pEmail">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Phone</dt>
+            <dd id="pPhone">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Approx. children</dt>
+            <dd id="pChildren">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Submitted</dt>
+            <dd id="pReceived">&mdash;</dd>
+          </div>
+          <div class="detail full">
+            <dt>What they wrote</dt>
+            <dd class="detail-block" id="pMessage">&mdash;</dd>
+          </div>
+        </dl>
+
+        <div class="form-grid" style="margin-top:18px">
+          <div class="field">
+            <label for="pAssign">Assigned to</label>
+            <select id="pAssign"></select>
+          </div>
+          <div class="field">
+            <label for="pStatus">Status</label>
+            <select id="pStatus">
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="active">Active partner</option>
+              <option value="declined">Declined</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="pNotes">Internal notes</label>
+            <textarea id="pNotes" placeholder="Call outcomes, MOU status, next step. Only admins see these notes."></textarea>
+            <span class="hint">Not sent to the institution.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <a class="btn btn-quiet" id="pReply" href="#" target="_blank" rel="noopener">Draft in Gmail</a>
+        <button class="btn btn-quiet spacer" type="button" id="pCopyDraft">Copy draft</button>
+        <button class="btn btn-quiet" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-danger" type="button" id="declinePartner">Decline</button>
+        <button class="btn btn-quiet" type="button" id="savePartner">Save</button>
+        <button class="btn btn-primary" type="button" id="acceptPartner">Accept as partner</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-partnerships.js"></script>
+</body>
+</html>

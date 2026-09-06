@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in · CareSphere</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+</head>
+<body class="auth">
+
+  <div class="auth-shell">
+
+    <aside class="auth-aside">
+      <div class="auth-brand">
+        <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>        <b>CareSphere</b>
+      </div>
+      <h2>Six districts.<br>One foundation.</h2>
+      <p>Education, healthcare and green cover work across Karnataka, run by people who live there.</p>
+      <ul class="auth-points">
+        <li><b>128</b> volunteers active this month</li>
+        <li><b>24,500</b> people reached so far</li>
+        <li><b>12,800</b> trees planted and counting</li>
+      </ul>
+    </aside>
+
+    <main class="auth-main">
+
+      <!-- ===============================================================
+           Shown when somebody is already signed in.
+
+           The page used to redirect straight to the dashboard, which
+           meant a signed-in person could never reach this form — they had
+           to find "sign out" somewhere else first. Now they get the
+           choice, one click either way.
+           =============================================================== -->
+      <div id="already" hidden>
+        <div class="auth-head">
+          <span class="auth-eyebrow">Already signed in</span>
+          <h1>Welcome back, <span id="already-name">there</span></h1>
+          <p id="already-sub">You're signed in already. Carry on, or sign in as someone else.</p>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="button" id="continue">Continue</button>
+
+        <p class="auth-foot" style="margin-top:14px">
+          <a href="#" id="switch-account">Sign in as someone else</a>
+        </p>
+      </div>
+
+      <!-- ===============================================================
+           The sign-in form
+           =============================================================== -->
+      <div id="signin">
+
+        <div class="auth-head">
+          <span class="auth-eyebrow">Sign in</span>
+          <h1>Welcome back</h1>
+          <p>Choose how you're signing in, then enter your details.</p>
+        </div>
+
+        <div class="notice" id="notice" hidden></div>
+
+        <div class="field">
+          <label for="role">Sign in as</label>
+          <select id="role">
+            <option value="volunteer">Volunteer</option>
+            <option value="admin">Admin</option>
+            <option value="super_admin">Super Admin</option>
+          </select>
+          <span class="error"></span>
+        </div>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" autocomplete="username" placeholder="you@example.com">
+          <span class="error"></span>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" autocomplete="current-password" placeholder="Your password">
+          <span class="error"></span>
+        </div>
+
+        <div class="auth-links">
+          <a href="forgot-password.html">Forgotten your password?</a>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="button" id="submit">Sign in</button>
+
+        <p class="auth-foot">
+          New here? <a href="register.html">Create a volunteer account</a>
+        </p>
+
+        <!-- REMOVE THIS BLOCK BEFORE SUBMISSION -->
+        <div class="demo-box">
+          <b>Test accounts</b><br>
+          Super Admin — <code>azeen@caresphere.org</code> / <code>admin123</code><br>
+          Admin — <code>saija@caresphere.org</code> / <code>admin123</code><br>
+          Volunteer, approved — <code>lakshmi.d@example.com</code> / <code>vol123</code><br>
+          Volunteer, still pending — <code>priya.n@example.com</code> / <code>vol123</code>
+        </div>
+        <!-- END REMOVE -->
+
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+  (function () {
+    "use strict";
+
+    var role     = document.getElementById("role");
+    var email    = document.getElementById("email");
+    var password = document.getElementById("password");
+    var submit   = document.getElementById("submit");
+
+    var signinPanel  = document.getElementById("signin");
+    var alreadyPanel = document.getElementById("already");
+
+    /* ----------------------------------------------------------------
+       Where does a given user belong?
+
+       Volunteers need their application state, which the session alone
+       may not carry, so this asks the server rather than guessing.
+       ---------------------------------------------------------------- */
+
+    function homeFor(user) {
+      if (user.role === "admin" || user.role === "super_admin") {
+        return Promise.resolve("../../adminside/frontend/html/admin-home.html");
+      }
+
+      return CSStore.myApplication().then(function (app) {
+        /* Record the real state in the session before sending them on.
+           The destination page's guard reads applicationStatus, and if
+           it is missing or stale that page bounces straight back here —
+           which looks like the Continue button doing nothing. */
+        var stored = CSStore.session.get() || {};
+        stored.applicationStatus = app ? app.status : "not_submitted";
+        stored.applicationId = app ? app._id : null;
+        CSStore.session.set(stored);
+
+        if (!app) return "volunteer-application.html";
+        if (app.status === "more_info") return "volunteer-application.html";
+        if (app.status === "approved") return "volunteer-dashboard.html";
+        /* pending or rejected — they should not be signed in at all. */
+        return null;
+      }).catch(function () {
+        return "volunteer-dashboard.html";
+      });
+    }
+
+    function describe(user) {
+      if (user.role === "super_admin") return "Signed in as Super Admin.";
+      if (user.role === "admin")       return "Signed in as Admin.";
+      return "Signed in as a volunteer.";
+    }
+
+    function showForm() {
+      alreadyPanel.hidden = true;
+      signinPanel.hidden  = false;
+    }
+
+    /* ----------------------------------------------------------------
+       Already signed in?
+
+       The stored session is only a hint. It can be stale, partial, or
+       left over from an account that has since been deactivated, so the
+       server is asked to confirm who this actually is. If it says no,
+       the sign-in form is shown instead of a panel that would send the
+       person somewhere they cannot go.
+       ---------------------------------------------------------------- */
+
+    var existing = CSAuth.current();
+
+    if (!existing) {
+      showForm();
+    } else {
+      signinPanel.hidden  = true;
+      alreadyPanel.hidden = false;
+
+      var nameEl = document.getElementById("already-name");
+      var subEl  = document.getElementById("already-sub");
+      var contin = document.getElementById("continue");
+
+      nameEl.textContent = existing.name || "there";
+      subEl.textContent  = "Checking your session\u2026";
+      contin.disabled    = true;
+
+      CSStore.auth.me().then(function (user) {
+        nameEl.textContent = user.name;
+        subEl.textContent  = describe(user) + " Carry on, or sign in as someone else.";
+
+        return homeFor(user).then(function (destination) {
+          if (!destination) {
+            /* Signed in, but their application is not in a state that
+               gets them anywhere. Sign them out and say so. */
+            CSStore.auth.logout();
+            showForm();
+            CSAuth.notice("wait", "Your application is still being reviewed",
+                          "You'll be able to sign in once it has been approved.");
+            return;
+          }
+
+          contin.disabled = false;
+          contin.addEventListener("click", function () {
+            window.location.href = destination;
+          });
+        });
+      }).catch(function () {
+        /* Token expired, invalid, or the account is gone. Nothing to
+           continue to, so just show the form. */
+        CSStore.auth.logout();
+        showForm();
+      });
+
+      document.getElementById("switch-account").addEventListener("click", function (e) {
+        e.preventDefault();
+        /* Discards the token as well as the session, so the previous
+           account is properly signed out rather than just hidden. */
+        CSStore.auth.logout();
+        showForm();
+        email.focus();
+      });
+    }
+
+    /* ----------------------------------------------------------------
+       Validation
+       ---------------------------------------------------------------- */
+
+    function validate() {
+      CSAuth.clearErrors();
+      var ok = true, first = null;
+
+      if (!email.value.trim()) {
+        CSAuth.fail(email, "Enter your email address."); first = first || email; ok = false;
+      } else if (!CSAuth.isEmail(email.value.trim())) {
+        CSAuth.fail(email, "That doesn't look like an email address."); first = first || email; ok = false;
+      }
+
+      if (!password.value) {
+        CSAuth.fail(password, "Enter your password."); first = first || password; ok = false;
+      }
+
+      if (first) first.focus();
+      return ok;
+    }
+
+    /* ----------------------------------------------------------------
+       Sign in
+       ---------------------------------------------------------------- */
+
+    function go() {
+      CSAuth.hideNotice();
+      if (!validate()) return;
+
+      submit.disabled = true;
+      submit.textContent = "Checking\u2026";
+
+      CSAuth.signIn(email.value.trim(), password.value, role.value)
+        .then(function (result) {
+
+          if (result.ok) {
+            /* Were they sent here from somewhere? Take them back. */
+            var back = null;
+            try {
+              back = localStorage.getItem("caresphere_return");
+              localStorage.removeItem("caresphere_return");
+            } catch (e) {}
+
+            if (back && result.role !== "application") {
+              window.location.href = back;
+              return;
+            }
+
+            if (result.role === "admin") {
+              window.location.href = "../../adminside/frontend/html/admin-home.html";
+            } else if (result.role === "application") {
+              window.location.href = "volunteer-application.html";
+            } else {
+              window.location.href = "volunteer-dashboard.html";
+            }
+            return;
+          }
+
+          submit.disabled = false;
+          submit.textContent = "Sign in";
+          CSAuth.notice(result.tone, result.title, result.body);
+
+          /* When more information was requested, let them go back and fix it */
+          if (result.resume) {
+            var el = document.getElementById("notice");
+            var link = document.createElement("a");
+            link.href = "volunteer-application.html";
+            link.textContent = "Update your application";
+            link.style.cssText = "display:block;margin-top:8px;color:var(--cs-coral-dark);font-weight:500";
+            el.querySelector("span:last-child").appendChild(link);
+          }
+        })
+        .catch(function () {
+          /* signIn resolves its own errors, so reaching here means
+             something unexpected. Never leave the button stuck. */
+          submit.disabled = false;
+          submit.textContent = "Sign in";
+          CSAuth.notice("stop", "Something went wrong", "Please try again in a moment.");
+        });
+    }
+
+    submit.addEventListener("click", go);
+
+    [email, password].forEach(function (el) {
+      el.addEventListener("keydown", function (e) { if (e.key === "Enter") go(); });
+    });
+
+    /* Change the placeholder so the dropdown feels like it does something */
+    role.addEventListener("change", function () {
+      email.placeholder = this.value === "volunteer"
+        ? "you@example.com"
+        : "you@caresphere.org";
+      CSAuth.hideNotice();
+    });
+
+  })();
+  </script>
+</body>
+</html>

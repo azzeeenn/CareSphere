@@ -1,0 +1,921 @@
+/* ==========================================================
+                        GOOGLE FONT
+========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ==========================================================
+                        RESET
+========================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    background:#F8FAFC;
+    color:#333;
+    line-height:1.6;
+
+}
+
+/* ==========================================================
+                        VARIABLES
+========================================================== */
+
+:root{
+
+    --blue:#B7E0FF;
+    --cream:#FFF5CD;
+    --peach:#FFCFB3;
+    --coral:#E78F81;
+
+    --dark:#26415E;
+    --text:#444;
+    --white:#fff;
+
+    --shadow:0 15px 35px rgba(0,0,0,.08);
+
+    --radius:18px;
+
+}
+
+/* ==========================================================
+                        HEADER
+========================================================== */
+
+.application-header{
+
+    width:100%;
+
+    background:linear-gradient(135deg,var(--blue),var(--cream));
+
+    padding:70px 10%;
+
+}
+
+.header-content{
+
+    max-width:900px;
+
+    margin:auto;
+
+    text-align:center;
+
+}
+
+.back-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:var(--dark);
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    margin-bottom:30px;
+
+    transition:.3s;
+
+}
+
+.back-btn:hover{
+
+    color:var(--coral);
+
+}
+
+.application-header h1{
+
+    font-size:3rem;
+
+    color:var(--dark);
+
+    margin-bottom:15px;
+
+}
+
+.application-header p{
+
+    color:#555;
+
+    max-width:750px;
+
+    margin:auto;
+
+}
+
+/* ==========================================================
+                        PROGRESS
+========================================================== */
+
+.progress-section{
+
+    padding:40px 10%;
+
+}
+
+.progress-container{
+
+    max-width:900px;
+
+    margin:auto;
+
+}
+
+.progress-bar{
+
+    height:10px;
+
+    background:#E2E8F0;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+}
+
+.progress-fill{
+
+    width:20%;
+
+    height:100%;
+
+    background:linear-gradient(to right,var(--coral),var(--peach));
+
+    transition:.4s;
+
+}
+
+.step-text{
+
+    text-align:right;
+
+    margin-top:15px;
+
+    font-weight:600;
+
+    color:#666;
+
+}
+
+/* ==========================================================
+                        MAIN
+========================================================== */
+
+main{
+
+    width:100%;
+
+    padding:0 10% 80px;
+
+}
+
+form{
+
+    max-width:1000px;
+
+    margin:auto;
+
+}
+
+.form-step{
+
+    display:none;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:45px;
+
+    box-shadow:var(--shadow);
+
+}
+
+.form-step.active{
+
+    display:block;
+
+    animation:fade .4s ease;
+
+}
+
+.form-step h2{
+
+    color:var(--dark);
+
+    margin-bottom:10px;
+
+}
+
+.form-step>p{
+
+    color:#666;
+
+    margin-bottom:35px;
+
+}
+/* ==========================================================
+                        FORM GRID
+========================================================== */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:25px;
+
+}
+
+.full-width{
+
+    grid-column:1/-1;
+
+}
+
+/* ==========================================================
+                        INPUT GROUP
+========================================================== */
+
+.input-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.input-group label{
+
+    margin-bottom:8px;
+
+    color:var(--dark);
+
+    font-weight:600;
+
+    font-size:.95rem;
+
+}
+
+/* ==========================================================
+                        INPUTS
+========================================================== */
+
+.input-group input,
+.input-group select,
+.input-group textarea{
+
+    width:100%;
+
+    padding:14px 18px;
+
+    border:2px solid #E5E7EB;
+
+    border-radius:12px;
+
+    font-size:1rem;
+
+    color:#333;
+
+    background:#fff;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+.input-group input:hover,
+.input-group select:hover,
+.input-group textarea:hover{
+
+    border-color:var(--blue);
+
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus{
+
+    border-color:var(--coral);
+
+    box-shadow:0 0 0 4px rgba(231,143,129,.15);
+
+}
+
+.input-group textarea{
+
+    resize:vertical;
+
+    min-height:120px;
+
+}
+
+.input-group input[type="file"]{
+
+    cursor:pointer;
+
+    padding:12px;
+
+}
+
+/* ==========================================================
+                        PLACEHOLDERS
+========================================================== */
+
+::placeholder{
+
+    color:#A1A1AA;
+
+}
+
+/* ==========================================================
+                        SUB HEADING
+========================================================== */
+
+.sub-heading{
+
+    margin:40px 0 20px;
+
+    color:var(--dark);
+
+    font-size:1.3rem;
+
+}
+
+/* ==========================================================
+                        CHECKBOX GRID
+========================================================== */
+
+.checkbox-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:15px;
+
+    margin-bottom:40px;
+
+}
+
+.checkbox-grid label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    background:#fff;
+
+    border:2px solid #ECECEC;
+
+    border-radius:12px;
+
+    padding:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-weight:500;
+
+}
+
+.checkbox-grid label:hover{
+
+    border-color:var(--coral);
+
+    background:#FFF8F6;
+
+}
+
+.checkbox-grid input{
+
+    accent-color:var(--coral);
+
+    width:18px;
+
+    height:18px;
+
+}
+
+/* ==========================================================
+                        RADIO GROUP
+========================================================== */
+
+.radio-group{
+
+    display:flex;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:40px;
+
+}
+
+.radio-group label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    border:2px solid #ECECEC;
+
+    border-radius:12px;
+
+    padding:15px 22px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    background:#fff;
+
+    font-weight:500;
+
+}
+
+.radio-group label:hover{
+
+    border-color:var(--coral);
+
+    background:#FFF8F6;
+
+}
+
+.radio-group input{
+
+    accent-color:var(--coral);
+
+}
+
+/* ==========================================================
+                        DIVIDER
+========================================================== */
+
+.section-divider{
+
+    margin:50px 0;
+
+    border:none;
+
+    border-top:2px dashed #D6D6D6;
+
+}
+/* ==========================================================
+                    DECLARATION BOX
+========================================================== */
+
+.declaration-box{
+
+    margin-top:40px;
+
+    background:linear-gradient(135deg,#FFFDF6,#FFF5CD);
+
+    border-left:6px solid var(--coral);
+
+    border-radius:16px;
+
+    padding:30px;
+
+}
+
+.declaration-box h3{
+
+    color:var(--dark);
+
+    margin-bottom:15px;
+
+}
+
+.declaration-box p{
+
+    color:#555;
+
+    line-height:1.8;
+
+    margin-bottom:25px;
+
+}
+
+.checkbox-label{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:12px;
+
+    font-weight:500;
+
+    cursor:pointer;
+
+    color:var(--text);
+
+}
+
+.checkbox-label input{
+
+    margin-top:4px;
+
+    accent-color:var(--coral);
+
+    width:18px;
+
+    height:18px;
+
+    flex-shrink:0;
+
+}
+
+/* ==========================================================
+                    BUTTONS
+========================================================== */
+
+.button-group{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:45px;
+
+    gap:20px;
+
+}
+
+.button-group button{
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:14px 28px;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.prev-btn{
+
+    background:#EDF2F7;
+
+    color:#333;
+
+}
+
+.prev-btn:hover{
+
+    background:#DDE6EF;
+
+}
+
+.next-btn,
+.submit-btn{
+
+    background:var(--coral);
+
+    color:#fff;
+
+}
+
+.next-btn:hover,
+.submit-btn:hover{
+
+    background:#d9796a;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 20px rgba(231,143,129,.25);
+
+}
+
+/* ==========================================================
+                    SUCCESS MODAL
+========================================================== */
+
+.success-modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+    z-index:9999;
+
+}
+
+.success-modal.show{
+
+    display:flex;
+
+}
+
+.success-content{
+
+    background:#fff;
+
+    width:100%;
+
+    max-width:550px;
+
+    border-radius:20px;
+
+    padding:45px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+    animation:popup .35s ease;
+
+}
+
+.success-icon{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:50%;
+
+    background:#EAFBF1;
+
+    color:#2FBF71;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:3rem;
+
+    margin:0 auto 25px;
+
+}
+
+.success-content h2{
+
+    color:var(--dark);
+
+    margin-bottom:18px;
+
+}
+
+.success-content p{
+
+    color:#666;
+
+    line-height:1.8;
+
+    margin-bottom:30px;
+
+}
+
+.home-btn{
+
+    display:inline-block;
+
+    padding:14px 30px;
+
+    background:var(--coral);
+
+    color:#fff;
+
+    text-decoration:none;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.home-btn:hover{
+
+    background:#d9796a;
+
+}
+
+/* ==========================================================
+                    ANIMATIONS
+========================================================== */
+
+@keyframes fade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes popup{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.9);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+/* ==========================================================
+                    RESPONSIVE
+========================================================== */
+
+@media(max-width:900px){
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .full-width{
+
+        grid-column:auto;
+
+    }
+
+    .button-group{
+
+        flex-direction:column;
+
+    }
+
+    .button-group button{
+
+        width:100%;
+
+        justify-content:center;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .application-header{
+
+        padding:50px 7%;
+
+    }
+
+    .application-header h1{
+
+        font-size:2.2rem;
+
+    }
+
+    .progress-section{
+
+        padding:30px 7%;
+
+    }
+
+    main{
+
+        padding:0 7% 60px;
+
+    }
+
+    .form-step{
+
+        padding:30px 22px;
+
+    }
+
+    .checkbox-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .radio-group{
+
+        flex-direction:column;
+
+    }
+
+}
+
+@media(max-width:500px){
+
+    .application-header h1{
+
+        font-size:1.9rem;
+
+    }
+
+    .form-step{
+
+        padding:25px 18px;
+
+    }
+
+    .success-content{
+
+        padding:35px 22px;
+
+    }
+
+}
+
+/* ==========================================================
+                    UTILITIES
+========================================================== */
+
+.hidden{
+
+    display:none !important;
+
+}
+
+.text-center{
+
+    text-align:center;
+
+}
+
+.mt-20{
+
+    margin-top:20px;
+
+}
+
+.mb-20{
+
+    margin-bottom:20px;
+
+}

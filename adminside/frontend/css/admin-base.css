@@ -1,0 +1,458 @@
+/* ==========================================================================
+   CareSphere — Admin Base
+   Shell layer: tokens, sidebar, page frame, shared badges/buttons.
+   Palette is the site palette. Nothing invented.
+   ========================================================================== */
+
+@import url("../../../frontend/css/base.css");
+
+/* --------------------------------------------------------------------------
+   1. Tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* Site palette — unchanged */
+  --cs-coral:       #E78F81;
+  --cs-coral-dark:  #D97A6C;
+  --cs-peach:       #FFCFB3;
+  --cs-cream:       #FFF5CD;
+  --cs-blue:        #B7E0FF;
+  --cs-navy:        #26415E;
+  --cs-ink:         #2d2d2d;
+  --cs-muted:       #6b7280;
+  --cs-white:       #FFFFFF;
+  --cs-page:        #F8FBFF;
+
+  /* Shades of navy for the sidebar only */
+  --cs-navy-mid:    #1E3450;
+  --cs-navy-deep:   #18293D;
+
+  /* Lines, derived from navy so they never read as a new colour */
+  --cs-line:        rgba(38, 65, 94, 0.13);
+  --cs-line-strong: rgba(38, 65, 94, 0.24);
+
+  /* Sidebar text, derived from blue so it stays in family */
+  --cs-on-navy:     #E4EFF9;
+  --cs-on-navy-dim: rgba(183, 224, 255, 0.62);
+
+  /* Admin page wash — peach, cream and blue at low opacity over the
+     site background. Same three colours, arranged as light. */
+  --cs-admin-bg:
+    radial-gradient(1100px 640px at 6% -8%,  rgba(183, 224, 255, 0.55), transparent 62%),
+    radial-gradient(900px  540px at 99% 2%,  rgba(255, 245, 205, 0.52), transparent 60%),
+    radial-gradient(860px  640px at 80% 104%, rgba(255, 207, 179, 0.40), transparent 63%),
+    var(--cs-page);
+
+  /* Metrics */
+  --cs-sidebar-w:   262px;
+  --cs-radius:      14px;
+  --cs-radius-sm:   9px;
+  --cs-shadow:      0 1px 2px rgba(38, 65, 94, 0.05),
+                    0 8px 24px rgba(38, 65, 94, 0.07);
+  --cs-shadow-lift: 0 2px 4px rgba(38, 65, 94, 0.06),
+                    0 16px 36px rgba(38, 65, 94, 0.13);
+  --cs-ease:        cubic-bezier(0.4, 0, 0.2, 1);
+}
+.brand-mark {
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.brand-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: inherit;
+}
+/* --------------------------------------------------------------------------
+   2. Page frame
+   -------------------------------------------------------------------------- */
+
+body.admin {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--cs-admin-bg);
+  background-attachment: fixed;
+  color: var(--cs-ink);
+  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.admin-shell { display: flex; min-height: 100vh; }
+
+.admin-main {
+  flex: 1;
+  min-width: 0;
+  margin-left: var(--cs-sidebar-w);
+  padding: 44px 46px 72px;
+}
+
+.admin-container { max-width: 1180px; margin: 0 auto; }
+
+/* --------------------------------------------------------------------------
+   3. Sidebar
+   -------------------------------------------------------------------------- */
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--cs-sidebar-w);
+  background: linear-gradient(185deg,
+              var(--cs-navy) 0%,
+              var(--cs-navy-mid) 64%,
+              var(--cs-navy-deep) 100%);
+  display: flex;
+  flex-direction: column;
+  z-index: 60;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(183, 224, 255, 0.28) transparent;
+}
+
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(183, 224, 255, 0.28);
+  border-radius: 3px;
+}
+
+/* Brand ------------------------------------------------------------------ */
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 78px;
+  padding: 0 22px;
+  border-bottom: 1px solid rgba(183, 224, 255, 0.16);
+  flex-shrink: 0;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(140deg, var(--cs-peach) 0%, var(--cs-coral) 100%);
+  display: grid;
+  place-items: center;
+  color: var(--cs-white);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.brand-text { line-height: 1.2; }
+
+.brand-name {
+  color: var(--cs-white);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.brand-sub {
+  color: var(--cs-on-navy-dim);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Nav -------------------------------------------------------------------- */
+
+.sidebar-nav { flex: 1; padding: 18px 0 24px; }
+
+.nav-group + .nav-group { margin-top: 20px; }
+
+.nav-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 22px 8px;
+  color: var(--cs-on-navy-dim);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.nav-label::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--group-accent, var(--cs-blue));
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 22px;
+  color: var(--cs-on-navy);
+  font-size: 13.5px;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: background 0.16s var(--cs-ease),
+              border-color 0.16s var(--cs-ease),
+              color 0.16s var(--cs-ease);
+}
+
+.nav-item svg { width: 17px; height: 17px; flex-shrink: 0; opacity: 0.7; }
+
+.nav-item:hover {
+  background: rgba(183, 224, 255, 0.09);
+  color: var(--cs-white);
+}
+
+.nav-item:hover svg { opacity: 1; }
+
+.nav-item.is-active {
+  background: linear-gradient(90deg,
+              rgba(231, 143, 129, 0.22) 0%,
+              rgba(231, 143, 129, 0.04) 100%);
+  border-left-color: var(--cs-coral);
+  color: var(--cs-white);
+  font-weight: 500;
+}
+
+.nav-item.is-active svg { opacity: 1; color: var(--cs-peach); }
+
+.nav-item:focus-visible { outline: 2px solid var(--cs-coral); outline-offset: -2px; }
+
+.nav-count {
+  margin-left: auto;
+  min-width: 21px;
+  height: 19px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--cs-coral);
+  color: var(--cs-white);
+  font-size: 11px;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+}
+
+/* Footer ----------------------------------------------------------------- */
+
+.sidebar-foot {
+  flex-shrink: 0;
+  padding: 14px 18px 18px;
+  border-top: 1px solid rgba(183, 224, 255, 0.16);
+  background: rgba(24, 41, 61, 0.55);
+}
+
+.user-chip { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; }
+
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--cs-cream) 0%, var(--cs-peach) 100%);
+  color: var(--cs-navy);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.user-meta { min-width: 0; line-height: 1.3; }
+
+.user-name {
+  color: var(--cs-white);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role {
+  color: var(--cs-on-navy-dim);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.btn-signout {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid rgba(183, 224, 255, 0.24);
+  border-radius: var(--cs-radius-sm);
+  background: transparent;
+  color: var(--cs-on-navy);
+  font-family: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background 0.16s var(--cs-ease), border-color 0.16s var(--cs-ease);
+}
+
+.btn-signout:hover {
+  background: rgba(183, 224, 255, 0.1);
+  border-color: var(--cs-blue);
+  color: var(--cs-white);
+}
+
+/* Demo role switch — remove once auth.js supplies the real role ----------- */
+
+.role-switch {
+  margin-bottom: 12px;
+  padding: 9px 10px;
+  border: 1px dashed rgba(183, 224, 255, 0.26);
+  border-radius: var(--cs-radius-sm);
+}
+
+.role-switch span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--cs-on-navy-dim);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.role-switch select {
+  width: 100%;
+  padding: 5px 7px;
+  border: 1px solid rgba(183, 224, 255, 0.24);
+  border-radius: 6px;
+  background: var(--cs-navy-deep);
+  color: var(--cs-on-navy);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   4. Mobile drawer
+   -------------------------------------------------------------------------- */
+
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 80;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--cs-line);
+  border-radius: 11px;
+  background: var(--cs-white);
+  box-shadow: var(--cs-shadow);
+  cursor: pointer;
+  padding: 0;
+}
+
+.menu-toggle i {
+  display: block;
+  width: 17px;
+  height: 1.7px;
+  margin: 3.4px auto;
+  background: var(--cs-navy);
+  border-radius: 2px;
+  transition: transform 0.22s var(--cs-ease), opacity 0.18s var(--cs-ease);
+}
+
+.menu-toggle.is-open i:nth-child(1) { transform: translateY(5.1px) rotate(45deg); }
+.menu-toggle.is-open i:nth-child(2) { opacity: 0; }
+.menu-toggle.is-open i:nth-child(3) { transform: translateY(-5.1px) rotate(-45deg); }
+
+.scrim {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: rgba(38, 65, 94, 0.45);
+  opacity: 0;
+  transition: opacity 0.24s var(--cs-ease);
+}
+
+.scrim.is-visible { opacity: 1; }
+
+/* --------------------------------------------------------------------------
+   5. Shared pieces
+   -------------------------------------------------------------------------- */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 11px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.status-badge::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-badge.is-pending  { background: var(--cs-cream); color: var(--cs-navy); }
+.status-badge.is-approved { background: var(--cs-blue);  color: var(--cs-navy); }
+.status-badge.is-rejected { background: var(--cs-peach); color: var(--cs-coral-dark); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border: 1px solid transparent;
+  border-radius: var(--cs-radius-sm);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.17s var(--cs-ease),
+              border-color 0.17s var(--cs-ease),
+              color 0.17s var(--cs-ease),
+              transform 0.17s var(--cs-ease);
+}
+
+.btn-primary { background: var(--cs-coral); color: var(--cs-white); }
+.btn-primary:hover { background: var(--cs-coral-dark); transform: translateY(-1px); }
+
+.btn-quiet {
+  background: var(--cs-white);
+  border-color: var(--cs-line-strong);
+  color: var(--cs-navy);
+}
+
+.btn-quiet:hover { border-color: var(--cs-coral); color: var(--cs-coral-dark); }
+
+.btn:focus-visible { outline: 2px solid var(--cs-coral); outline-offset: 2px; }
+
+/* --------------------------------------------------------------------------
+   6. Responsive
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) { .admin-main { padding: 40px 32px 64px; } }
+
+@media (max-width: 900px) {
+  .menu-toggle { display: block; }
+  .scrim.is-visible { display: block; }
+
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.28s var(--cs-ease);
+    box-shadow: 0 0 40px rgba(38, 65, 94, 0.3);
+  }
+
+  .sidebar.is-open { transform: translateX(0); }
+  .admin-main { margin-left: 0; padding: 78px 20px 56px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

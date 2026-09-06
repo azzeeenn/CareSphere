@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Events | CareSphere</title>
+
+    <link rel="stylesheet" href="../css/events.css">
+    <link rel="stylesheet" href="../css/chatbot.css">
+
+    <link rel="stylesheet"
+    href="../css/icons.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/theme.css">
+        <link rel="stylesheet" href="../css/auth.css">
+
+
+</head>
+
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- ==========================
+     NAVBAR
+========================== -->
+
+<header class="site-header">
+
+    <nav class="navbar" aria-label="Main navigation">
+
+        <a href="index.html" class="logo" aria-label="CareSphere home">
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+            <span>CareSphere</span>
+
+        </a>
+
+        <ul class="nav-links">
+
+            <li><a href="index.html">Home</a></li>
+
+            <li><a href="about.html">About</a></li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Our Work</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="programs.html">
+                            <span class="dd-title">Programs</span>
+                            <span class="dd-sub">Education, health and environment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="events.html">
+                            <span class="dd-title">Events</span>
+                            <span class="dd-sub">What&rsquo;s coming up</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="impact-dashboard.html">
+                            <span class="dd-title">Impact Dashboard</span>
+                            <span class="dd-sub">The numbers so far</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Get Involved</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="volunteer.html">
+                            <span class="dd-title">Volunteer</span>
+                            <span class="dd-sub">Roles, process and benefits</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="volunteer-application.html">
+                            <span class="dd-title">Apply Now</span>
+                            <span class="dd-sub">Start your application</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="institutions.html">
+                            <span class="dd-title">Partner With Us</span>
+                            <span class="dd-sub">For schools and companies</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Stories</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="news.html">
+                            <span class="dd-title">News</span>
+                            <span class="dd-sub">Articles and updates</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="testimonials.html">
+                            <span class="dd-title">Testimonials</span>
+                            <span class="dd-sub">Words from our community</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="recognition.html">
+                            <span class="dd-title">Recognition</span>
+                            <span class="dd-sub">Certificates, badges, rewards</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Contact</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="contact.html">
+                            <span class="dd-title">Contact Us</span>
+                            <span class="dd-sub">Reach the team</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="faq.html">
+                            <span class="dd-title">FAQ</span>
+                            <span class="dd-sub">Common questions answered</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+        </ul>
+
+        <div class="nav-buttons">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+        <button class="nav-toggle"
+                id="navToggle"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="mobileMenu">
+
+            <span></span><span></span><span></span>
+
+        </button>
+
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <a href="index.html">Home</a>
+
+        <a href="about.html">About</a>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Our Work</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="programs.html">Programs</a>
+                <a href="events.html">Events</a>
+                <a href="impact-dashboard.html">Impact Dashboard</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Get Involved</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="volunteer.html">Volunteer</a>
+                <a href="volunteer-application.html">Apply Now</a>
+                <a href="institutions.html">Partner With Us</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Stories</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="news.html">News</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="recognition.html">Recognition</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Contact</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="contact.html">Contact Us</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-actions">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main id="main">
+
+<!-- ==========================
+     HERO
+========================== -->
+
+<section class="event-hero cs-hero-offset">
+
+    <div class="overlay"></div>
+
+    <div class="hero-content">
+
+        <h1>Upcoming Events</h1>
+
+        <p>
+
+            Join CareSphere in creating positive change through
+            community events, awareness campaigns, volunteer
+            activities, and environmental initiatives.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     EVENT INTRO
+========================== -->
+
+<section class="event-intro">
+
+    <div class="section-title">
+
+        <span>JOIN OUR EVENTS</span>
+
+        <h2>Be Part Of Something Meaningful</h2>
+
+    </div>
+
+    <p class="intro-text">
+
+        Every CareSphere event is an opportunity to make a real
+        difference. Whether you're planting trees, donating blood,
+        teaching children, or participating in awareness campaigns,
+        your contribution matters.
+
+    </p>
+
+</section>
+
+<!-- ==========================
+     UPCOMING EVENTS
+========================== -->
+
+<section class="upcoming-events">
+
+    <div class="event-grid">
+
+        <div class="event-card">
+
+            <img src="../images/event1.jpg" alt="Tree Plantation">
+
+            <div class="event-content">
+
+                <span class="date">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    15 August 2026
+
+                </span>
+
+                <h3>Tree Plantation Drive</h3>
+
+                <p>
+
+                    Join us in planting over 2,000 trees to
+                    promote a greener and healthier environment.
+
+                </p>
+
+                <div class="event-details">
+
+                    <span>
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        Cubbon Park
+
+                    </span>
+
+                    <span>
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        9:00 AM
+
+                    </span>
+
+                </div>
+
+                <button>Register Now</button>
+
+            </div>
+
+        </div>
+
+        <div class="event-card">
+
+            <img src="../images/event2.jpg" alt="Blood Donation">
+
+            <div class="event-content">
+
+                <span class="date">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    28 August 2026
+
+                </span>
+
+                <h3>Blood Donation Camp</h3>
+
+                <p>
+
+                    Help save lives by participating in our annual
+                    blood donation initiative.
+
+                </p>
+
+                <div class="event-details">
+
+                    <span>
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        City Hospital
+
+                    </span>
+
+                    <span>
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        10:00 AM
+
+                    </span>
+
+                </div>
+
+                <button>Register Now</button>
+
+            </div>
+
+        </div>
+
+        <div class="event-card">
+
+            <img src="../images/event3.jpg" alt="Education">
+
+            <div class="event-content">
+
+                <span class="date">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    10 September 2026
+
+                </span>
+
+                <h3>Education Workshop</h3>
+
+                <p>
+
+                    Volunteer to mentor students through career
+                    guidance and digital learning sessions.
+
+                </p>
+
+                <div class="event-details">
+
+                    <span>
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        Government School
+
+                    </span>
+
+                    <span>
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        11:00 AM
+
+                    </span>
+
+                </div>
+
+                <button>Register Now</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ==========================
+     FEATURED EVENT
+========================== -->
+
+<section class="featured-event">
+
+    <div class="featured-image">
+
+        <img src="../images/featured-event.jpg" alt="Featured Event">
+
+    </div>
+
+    <div class="featured-content">
+
+        <span>FEATURED EVENT</span>
+
+        <h2>CareSphere Annual Community Impact Day</h2>
+
+        <p>
+
+            Join hundreds of volunteers for our biggest event of the
+            year. Participate in tree plantation drives, free health
+            camps, educational activities, food distribution, and
+            environmental awareness campaigns across the city.
+
+        </p>
+
+        <div class="featured-info">
+
+            <div>
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+                <span>25 October 2026</span>
+
+            </div>
+
+            <div>
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <span>Freedom Park, Bengaluru</span>
+
+            </div>
+
+            <div>
+
+                <i class="fa-solid fa-clock"></i>
+
+                <span>8:00 AM - 6:00 PM</span>
+
+            </div>
+
+        </div>
+
+        <a href="register.html" class="register-btn2">
+
+            Register For Event
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     EVENT TIMELINE
+========================== -->
+
+<section class="event-timeline">
+
+    <div class="section-title">
+
+        <span>EVENT SCHEDULE</span>
+
+        <h2>What's Happening?</h2>
+
+    </div>
+
+    <div class="timeline">
+
+        <div class="timeline-item">
+
+            <div class="time">
+
+                08:00 AM
+
+            </div>
+
+            <div class="activity">
+
+                <h3>Volunteer Registration</h3>
+
+                <p>
+                    Check-in, welcome kits and volunteer briefing.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+            <div class="time">
+
+                09:00 AM
+
+            </div>
+
+            <div class="activity">
+
+                <h3>Tree Plantation</h3>
+
+                <p>
+                    Plant trees across designated community areas.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+            <div class="time">
+
+                11:30 AM
+
+            </div>
+
+            <div class="activity">
+
+                <h3>Health Awareness Camp</h3>
+
+                <p>
+                    Free medical consultations and awareness sessions.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+            <div class="time">
+
+                02:00 PM
+
+            </div>
+
+            <div class="activity">
+
+                <h3>Food Distribution</h3>
+
+                <p>
+                    Meal distribution to nearby communities.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+            <div class="time">
+
+                05:00 PM
+
+            </div>
+
+            <div class="activity">
+
+                <h3>Closing Ceremony</h3>
+
+                <p>
+                    Certificates, appreciation, and group photographs.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     EVENT GALLERY
+========================== -->
+
+<section class="past-events">
+
+    <div class="section-title">
+
+        <span>PAST EVENTS</span>
+
+        <h2>Moments We've Shared</h2>
+
+    </div>
+
+    <div class="gallery-grid">
+
+        <img src="../images/gallery1.jpg" alt="Gallery">
+        <img src="../images/gallery2.jpg" alt="Gallery">
+        <img src="../images/gallery3.jpg" alt="Gallery">
+        <img src="../images/gallery4.jpg" alt="Gallery">
+        <img src="../images/gallery5.jpg" alt="Gallery">
+        <img src="../images/gallery6.jpg" alt="Gallery">
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     EVENT STATISTICS
+========================== -->
+
+<section class="event-stats">
+
+    <div class="stats-container">
+
+        <div class="stat-card">
+
+            <h2>75+</h2>
+
+            <p>Events Conducted</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>12K+</h2>
+
+            <p>Participants</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>850+</h2>
+
+            <p>Volunteers</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>30+</h2>
+
+            <p>Community Partners</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     REGISTRATION CTA
+========================== -->
+
+<section class="event-cta">
+
+    <div class="cta-content">
+
+        <h2>Ready To Make An Impact?</h2>
+
+        <p>
+
+            Become a volunteer and participate in upcoming
+            CareSphere events that create lasting change.
+
+        </p>
+
+        <a href="volunteer.html" class="cta-btn">
+
+            Join As Volunteer
+
+        </a>
+
+    </div>
+
+</section>
+<!-- ==========================
+     VOLUNTEER BENEFITS
+========================== -->
+
+<section class="volunteer-benefits">
+
+    <div class="section-title">
+
+        <span>WHY VOLUNTEER?</span>
+
+        <h2>Benefits of Joining Our Events</h2>
+
+    </div>
+
+    <div class="benefits-grid">
+
+        <div class="benefit-card">
+
+            <i class="fa-solid fa-certificate"></i>
+
+            <h3>Certificate</h3>
+
+            <p>
+
+                Receive an official participation certificate after
+                successfully completing the event.
+
+            </p>
+
+        </div>
+
+        <div class="benefit-card">
+
+            <i class="fa-solid fa-user-group"></i>
+
+            <h3>Networking</h3>
+
+            <p>
+
+                Meet passionate volunteers, professionals,
+                and organizations making a difference.
+
+            </p>
+
+        </div>
+
+        <div class="benefit-card">
+
+            <i class="fa-solid fa-seedling"></i>
+
+            <h3>Real Impact</h3>
+
+            <p>
+
+                Your contribution directly improves lives
+                and strengthens communities.
+
+            </p>
+
+        </div>
+
+        <div class="benefit-card">
+
+            <i class="fa-solid fa-award"></i>
+
+            <h3>Experience</h3>
+
+            <p>
+
+                Gain leadership, teamwork, and event
+                management experience.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     TESTIMONIALS
+========================== -->
+
+<section class="event-testimonials">
+
+    <div class="section-title">
+
+        <span>TESTIMONIALS</span>
+
+        <h2>What Our Volunteers Say</h2>
+
+    </div>
+
+    <div class="testimonial-grid">
+
+        <div class="testimonial-card">
+
+            <img src="../images/person1.jpg" alt="Volunteer">
+
+            <p>
+
+                "Volunteering with CareSphere was one of the most
+                rewarding experiences I've ever had. Seeing the
+                smiles on people's faces made every moment worth it."
+
+            </p>
+
+            <h3>Priya Sharma</h3>
+
+            <span>Volunteer</span>
+
+        </div>
+
+        <div class="testimonial-card">
+
+            <img src="../images/person2.jpg" alt="Volunteer">
+
+            <p>
+
+                "The organization was incredibly well managed.
+                I met amazing people while contributing to a
+                meaningful cause."
+
+            </p>
+
+            <h3>Rahul Mehta</h3>
+
+            <span>Volunteer</span>
+
+        </div>
+
+        <div class="testimonial-card">
+
+            <img src="../images/person3.jpg" alt="Volunteer">
+
+            <p>
+
+                "Every event is organized professionally and
+                creates genuine impact. I look forward to joining
+                more initiatives."
+
+            </p>
+
+            <h3>Aisha Khan</h3>
+
+            <span>Volunteer</span>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     FOOTER
+========================== -->
+
+</main>
+
+<footer class="site-footer">
+
+    <div class="footer-container">
+
+        <div class="footer-column">
+
+            <h2>
+                
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+
+                CareSphere
+            </h2>
+
+            <p>
+                A volunteer-run foundation working in education, healthcare
+                and green cover across Karnataka. Every hour given goes
+                straight back into the community.
+            </p>
+
+            <div class="footer-socials">
+
+                <a href="#" aria-label="CareSphere on Facebook">
+                    <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                </a>
+
+                <a href="#" aria-label="CareSphere on Instagram">
+                    <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+                </a>
+
+                <a href="#" aria-label="CareSphere on LinkedIn">
+                    <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Explore</h3>
+
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="programs.html">Programs</a>
+            <a href="events.html">Events</a>
+            <a href="news.html">News</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="recognition.html">Recognition</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Get Involved</h3>
+
+            <a href="volunteer.html">Volunteer</a>
+            <a href="volunteer-application.html">Apply Now</a>
+            <a href="institutions.html">Partner With Us</a>
+            <a href="register.html">Create Account</a>
+            <a href="contact.html">Contact Us</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Reach Us</h3>
+
+            <p>
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                <a href="mailto:info@caresphere.org"
+                   style="display:inline">info@caresphere.org</a>
+            </p>
+
+            <p>
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <a href="tel:+919876543210"
+                   style="display:inline">+91 98765 43210</a>
+            </p>
+
+            <p>
+                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                Bengaluru, Karnataka, India
+            </p>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <p class="copyright">
+        &copy; 2026 CareSphere Foundation. All rights reserved.
+    </p>
+
+</footer>
+
+<div id="cs-chat-root">
+
+    <button id="cs-chat-launcher" aria-label="Open chat">
+
+        <i class="fa-solid fa-comment-dots"></i>
+        <span class="cs-badge"></span>
+
+    </button>
+
+    <div id="cs-chat-window">
+
+        <div id="cs-chat-header">
+
+            <div class="cs-avatar">
+
+                <i class="fa-solid fa-hand-holding-heart"></i>
+
+            </div>
+
+            <div class="cs-header-text">
+
+                <h4>CareSphere Assistant</h4>
+                <span>Online now</span>
+
+            </div>
+
+            <button id="cs-chat-close" aria-label="Close chat">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <div id="cs-chat-messages"></div>
+
+        <div id="cs-quick-replies"></div>
+
+        <div id="cs-chat-input-row">
+
+            <label for="cs-chat-input" class="visually-hidden">Type your question...</label>
+<input type="text" id="cs-chat-input" placeholder="Type your question..." autocomplete="off">
+
+            <button id="cs-chat-send" aria-label="Send">
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+            </button>
+
+        </div>
+
+        <div id="cs-chat-footer-note">
+
+            Answers are automated and may not always be exact.
+
+        </div>
+
+    </div>
+
+</div>
+<script src="../js/site.js"></script>
+<script src="../js/chatbot.js"></script>
+<script src="../js/events.js"></script>
+
+</body>
+
+</html>

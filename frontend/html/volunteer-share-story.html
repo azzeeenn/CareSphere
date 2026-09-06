@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share your story · CareSphere</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+  <link rel="stylesheet" href="../css/volunteer-area.css">
+</head>
+<body class="volunteer">
+
+  <header class="vol-bar">
+    <a class="vol-brand" href="index.html">
+      <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+      <b>CareSphere</b>
+    </a>
+    <nav class="vol-nav"></nav>
+    <button class="vol-out" type="button" id="signOut">Sign out</button>
+  </header>
+
+  <main class="vol-main">
+    <div class="vol-container">
+
+      <header class="vol-head">
+        <span class="vol-eyebrow">My story</span>
+        <h1>Share your story</h1>
+        <p>Tell us what volunteering with CareSphere has been like. An organiser reads every story before it goes on the site.</p>
+      </header>
+
+      <!-- ===================== FORM ===================== -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Write your story</h2>
+          <span class="rule"></span>
+        </div>
+
+        <div class="vol-panel" id="formPanel">
+
+          <h3>In your own words</h3>
+          <p>What you worked on, who you met, what stayed with you. A short paragraph is plenty.</p>
+
+          <div class="field full" style="margin-top:18px">
+            <label for="sName">Name to show</label>
+            <input type="text" id="sName" placeholder="Your name">
+            <span class="hint">This appears beside your story on the public site.</span>
+            <span class="error"></span>
+          </div>
+
+          <div class="field full">
+            <label for="sRole">Role and district</label>
+            <input type="text" id="sRole" placeholder="Volunteer, Mandya">
+            <span class="hint">For example: Volunteer, Mandya.</span>
+            <span class="error"></span>
+          </div>
+
+          <div class="field full">
+            <label for="sBody">Your story</label>
+            <textarea id="sBody" style="min-height:150px" maxlength="600"
+                      placeholder="I joined the tutoring programme last year&hellip;"></textarea>
+            <span class="hint"><span id="bodyCount">0</span> / 600 characters &middot; at least 20 to send</span>
+            <span class="error"></span>
+          </div>
+
+          <button class="btn btn-primary" type="button" id="submitStory">Send my story</button>
+        </div>
+      </section>
+
+      <!-- ===================== STATUS ===================== -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Where it's up to</h2>
+          <span class="rule"></span>
+        </div>
+        <div class="vol-list" id="statusList"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/volunteer-shared.js"></script>
+  <script src="../js/volunteer-share-story.js"></script>
+</body>
+</html>

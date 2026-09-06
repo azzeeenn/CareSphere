@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificates · CareSphere Admin</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+  <style>
+    /* Proof photos, only used on this page */
+    .proof-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+    .proof-view {
+      width: 150px; height: 112px; border-radius: 9px; overflow: hidden;
+      border: 1px solid var(--cs-line); background: rgba(183,224,255,.3);
+      display: block; padding: 0; cursor: zoom-in;
+    }
+    .proof-view img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .lightbox {
+      position: fixed; inset: 0; z-index: 130; display: none;
+      align-items: center; justify-content: center; padding: 40px;
+      background: rgba(38,65,94,.82); cursor: zoom-out;
+    }
+    .lightbox.is-open { display: flex; }
+    .lightbox img {
+      max-width: 100%; max-height: 100%; border-radius: 12px;
+      box-shadow: 0 24px 70px rgba(0,0,0,.4);
+    }
+    .evidence {
+      display: flex; gap: 11px; padding: 13px 15px; margin-bottom: 18px;
+      border: 1px solid var(--cs-line); border-left: 3px solid var(--cs-blue);
+      border-radius: 9px; background: rgba(183,224,255,.18);
+      font-size: 12.5px; color: var(--cs-navy); line-height: 1.6;
+    }
+    .evidence.is-thin { border-left-color: var(--cs-coral); background: rgba(255,207,179,.28); }
+    .evidence b { font-weight: 600; }
+  </style>
+</head>
+<body class="admin" data-page="certificates" data-group="people">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="page-head">
+          <div class="page-head-text">
+            <a class="crumb" href="admin-home.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Admin Home
+            </a>
+            <h1>Certificates</h1>
+            <p>Volunteers use these for jobs and college records, so check the evidence before issuing one.</p>
+          </div>
+        </header>
+
+        <section class="summary-row" id="summaryRow"></section>
+
+        <section class="toolbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+            <input type="search" id="searchBox" placeholder="Search by volunteer or certificate number" aria-label="Search requests">
+          </label>
+
+          <div class="filter-set" id="statusFilter" role="group" aria-label="Filter by status">
+            <button class="chip is-on" data-status="pending">Pending</button>
+            <button class="chip" data-status="approved">Issued</button>
+            <button class="chip" data-status="rejected">Not issued</button>
+            <button class="chip" data-status="all">All</button>
+          </div>
+
+          <select id="typeFilter" aria-label="Filter by type">
+            <option value="all">All types</option>
+          </select>
+        </section>
+
+        <section class="table-wrap">
+          <div class="table-scroll">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Volunteer</th>
+                  <th>Certificate</th>
+                  <th>Evidence</th>
+                  <th>Requested</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="emptyState" hidden>
+            <span class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><circle cx="12" cy="14" r="2.6"/></svg>
+            </span>
+            <h3 id="emptyTitle">Nothing to review</h3>
+            <p id="emptyBody">Certificate requests from volunteers will appear here.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Review -->
+  <div class="modal" id="reviewModal" role="dialog" aria-modal="true" aria-labelledby="reviewName">
+    <div class="modal-box is-wide">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="reviewName">—</h2>
+          <p id="reviewMeta">—</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="evidenceBox"></div>
+        <dl class="detail-grid" id="reviewGrid"></dl>
+      </div>
+      <div class="modal-foot" id="reviewFoot"></div>
+    </div>
+  </div>
+
+  <!-- Issue -->
+  <div class="modal" id="issueModal" role="dialog" aria-modal="true" aria-labelledby="issueTitle">
+    <div class="modal-box is-slim">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="issueTitle">Issue this certificate</h2>
+          <p id="issueSub">—</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="field full">
+          <label for="iNumber">Certificate number</label>
+          <input type="text" id="iNumber" data-autofocus>
+          <span class="hint">Suggested next in sequence. Change it if your records run differently.</span>
+          <span class="error" id="iNumberError"></span>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="button" id="confirmIssue">Issue certificate</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decline -->
+  <div class="modal" id="declineModal" role="dialog" aria-modal="true" aria-labelledby="declineTitle">
+    <div class="modal-box is-slim">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="declineTitle">Decline this request</h2>
+          <p>The volunteer sees this on their certificates page.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="field full">
+          <label for="dReason">Reason</label>
+          <textarea id="dReason" data-autofocus placeholder="For example: we can only certify hours an organiser has verified. Please log your hours first."></textarea>
+          <span class="error" id="dReasonError"></span>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-danger" type="button" id="confirmDecline">Decline request</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox"><img id="lightboxImg" alt="Proof photo"></div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-certificates.js"></script>
+</body>
+</html>

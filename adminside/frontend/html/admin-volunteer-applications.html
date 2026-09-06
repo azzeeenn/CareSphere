@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volunteer Applications · CareSphere Admin</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+</head>
+<body class="admin" data-page="applications" data-group="people">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="page-head">
+          <div class="page-head-text">
+            <a class="crumb" href="admin-home.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Admin Home
+            </a>
+            <h1>Volunteer Applications</h1>
+            <p>Approving an application is what lets that person sign in.</p>
+          </div>
+        </header>
+
+        <section class="summary-row" id="summaryRow"></section>
+
+        <section class="toolbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+            <input type="search" id="searchBox" placeholder="Search by name, email or district" aria-label="Search applications">
+          </label>
+
+          <div class="filter-set" id="statusFilter" role="group" aria-label="Filter by status">
+            <button class="chip is-on" data-status="pending">Pending</button>
+            <button class="chip" data-status="approved">Approved</button>
+            <button class="chip" data-status="rejected">Rejected</button>
+            <button class="chip" data-status="more_info">Info requested</button>
+            <button class="chip" data-status="all">All</button>
+          </div>
+
+          <select id="districtFilter" aria-label="Filter by district">
+            <option value="all">All districts</option>
+          </select>
+        </section>
+
+        <section class="table-wrap">
+          <div class="table-scroll">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Applicant</th>
+                  <th>District</th>
+                  <th>Interest</th>
+                  <th>Availability</th>
+                  <th>Submitted</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="emptyState" hidden>
+            <span class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14 2 2 4-4"/></svg>
+            </span>
+            <h3 id="emptyTitle">Nothing to review</h3>
+            <p id="emptyBody">New applications will appear here as soon as volunteers submit them.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==================================================================
+       Detail modal — read the form, then decide
+       ================================================================== -->
+  <div class="modal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailName">
+    <div class="modal-box is-wide">
+
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="detailName">—</h2>
+          <p id="detailMeta">—</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <dl class="detail-grid" id="detailGrid"></dl>
+      </div>
+
+      <div class="modal-foot" id="detailFoot"></div>
+    </div>
+  </div>
+
+  <!-- ==================================================================
+       Reason modal — rejection reason or an information request
+       ================================================================== -->
+  <div class="modal" id="reasonModal" role="dialog" aria-modal="true" aria-labelledby="reasonTitle">
+    <div class="modal-box is-slim">
+
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="reasonTitle">Reason</h2>
+          <p id="reasonHelp">The applicant will see this message.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="field full">
+          <label for="reasonText" id="reasonLabel">Message</label>
+          <textarea id="reasonText" data-autofocus placeholder="Write a short, clear reason."></textarea>
+          <span class="error" id="reasonError"></span>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button class="btn btn-quiet" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="button" id="reasonConfirm">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-applications.js"></script>
+</body>
+</html>

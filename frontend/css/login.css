@@ -1,0 +1,405 @@
+/* ==========================================================
+   CareSphere - login.css
+   ----------------------------------------------------------
+   Same design language as contact.html: soft pastel sweep,
+   glass panel, navy type, hairline borders, tinted shadows.
+
+   Load order on the page is:
+       login.css  ->  base.css  ->  theme.css
+
+   theme.css loads later and sets body{background:var(--page)}
+   plus .input-box input styling, so a few rules here use
+   `html body` or deliberately match theme's radius.
+========================================================== */
+
+:root{
+    --blue:#B7E0FF;
+    --cream:#FFF5CD;
+    --peach:#FFCFB3;
+    --coral:#E78F81;
+    --coral-dark:#D97A6C;
+    --navy:#26415E;
+    --text:#4B5563;
+    --page:#F8FBFF;
+    --line:#E6EFF8;
+    --field:#F8FBFF;
+    --white:#fff;
+
+    --radius-lg:32px;
+    --radius-md:24px;
+    --radius-sm:14px;
+
+    --shadow-sm:0 4px 18px rgba(38,65,94,.06);
+    --shadow-md:0 14px 40px rgba(38,65,94,.09);
+    --shadow-lg:0 26px 70px rgba(38,65,94,.14);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* `html body` so this survives theme.css, which loads later
+   and sets a flat body background. */
+html body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:32px 20px;
+    color:var(--text);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+background:linear-gradient(115deg,
+        var(--blue) 0%,
+        #D6E9F3 30%,
+        var(--cream) 66%,
+        var(--peach) 100%);
+}
+
+a{ text-decoration:none; }
+
+/* ==========================================================
+   SHELL
+========================================================== */
+
+.login-container{
+    width:1120px;
+    max-width:100%;
+    min-height:640px;
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    box-shadow:var(--shadow-lg);
+}
+
+/* ==========================================================
+   LEFT - BRAND PANEL
+   The old version laid a 65% navy scrim over a photo, which
+   is what made it read so much heavier than contact.html.
+========================================================== */
+
+.left-section{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:56px 44px;
+    background:linear-gradient(115deg,
+        var(--blue) 0%,
+        #D6E9F3 30%,
+        var(--cream) 66%,
+        var(--peach) 100%);
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 78% 12%,
+        rgba(255,255,255,.55), transparent 58%);
+}
+
+.content{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    max-width:420px;
+    padding:48px 36px;
+    border-radius:var(--radius-lg);
+    /* Solid white with a navy hairline. A translucent card with a
+       WHITE border disappears wherever the gradient behind it is
+       pale (the cream/peach half), because both the fill and the
+       border match the background there. The edge has to be darker
+       than the lightest part of the gradient to stay visible. */
+    background:#fff;
+    border:1px solid rgba(38,65,94,.12);
+    box-shadow:0 18px 44px rgba(38,65,94,.18),
+                0 3px 10px rgba(38,65,94,.08);
+}
+
+.logo-icon{
+    font-size:44px;
+    color:var(--coral);
+    margin-bottom:20px;
+}
+
+.content h1{
+    font-size:38px;
+    font-weight:800;
+    line-height:1.15;
+    color:var(--navy);
+    margin-bottom:16px;
+}
+
+.content p{
+    font-size:15.5px;
+    line-height:1.8;
+    color:var(--text);
+}
+
+/* ==========================================================
+   RIGHT - FORM PANEL
+========================================================== */
+
+.right-section{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:56px 44px;
+    background:var(--white);
+}
+
+.login-box{
+    width:100%;
+    max-width:400px;
+}
+
+.login-box h2{
+    font-size:34px;
+    font-weight:800;
+    color:var(--navy);
+    line-height:1.2;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:var(--text);
+    font-size:15px;
+    margin-bottom:28px;
+}
+
+/* ==========================================================
+   FIELDS
+   14px radius matches theme.css, which also styles
+   .input-box input and would otherwise win on radius.
+========================================================== */
+
+.input-box{
+    position:relative;
+    margin-bottom:18px;
+}
+
+.input-box i{
+    position:absolute;
+    left:18px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--coral);
+    font-size:15px;
+    pointer-events:none;
+}
+
+.input-box input{
+    width:100%;
+    padding:16px 52px 16px 48px;
+    font-size:15px;
+    color:var(--navy);
+    background:var(--field);
+    border:2px solid var(--line);
+    border-radius:var(--radius-sm);
+    outline:none;
+    transition:border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.input-box input::placeholder{
+    color:#9AA6B4;
+}
+
+.input-box input:hover{
+    border-color:#D8E7F5;
+}
+
+.input-box input:focus{
+    background:var(--white);
+    border-color:var(--coral);
+    box-shadow:0 0 0 4px rgba(231,143,129,.14);
+}
+
+/* ==========================================================
+   OPTIONS ROW
+========================================================== */
+
+.options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    margin:6px 0 26px;
+    font-size:14px;
+}
+
+.options label{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    color:var(--text);
+    cursor:pointer;
+}
+
+.options input[type="checkbox"]{
+    width:17px;
+    height:17px;
+    accent-color:var(--coral);
+    cursor:pointer;
+}
+
+.options a{
+    color:var(--coral);
+    font-weight:600;
+}
+
+.options a:hover{
+    color:var(--coral-dark);
+    text-decoration:underline;
+}
+
+/* ==========================================================
+   SUBMIT
+   Not a bare `button` selector - that would also catch
+   #togglePassword sitting inside .input-box.
+========================================================== */
+
+.login-box button[type="submit"]{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:var(--radius-sm);
+    background:var(--coral);
+    color:var(--white);
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 10px 24px rgba(231,143,129,.35);
+    transition:background .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+.login-box button[type="submit"]:hover{
+    background:var(--coral-dark);
+    transform:translateY(-2px);
+    box-shadow:0 16px 30px rgba(231,143,129,.42);
+}
+
+.login-box button[type="submit"]:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+    transform:none;
+}
+
+/* ==========================================================
+   FOOTER LINKS
+========================================================== */
+
+.register,
+.home{
+    text-align:center;
+    font-size:14.5px;
+    color:var(--text);
+}
+
+.register{ margin-top:24px; }
+.home{ margin-top:12px; }
+
+.register a{
+    color:var(--coral);
+    font-weight:600;
+}
+
+.register a:hover{
+    text-decoration:underline;
+}
+
+.home a{
+    color:var(--navy);
+    font-weight:500;
+}
+
+.home a:hover{
+    color:var(--coral);
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:960px){
+
+    .login-container{
+        grid-template-columns:1fr;
+        min-height:0;
+    }
+
+    .left-section{ padding:44px 26px; }
+
+    .content{
+        padding:34px 26px;
+        max-width:none;
+    }
+
+    .content h1{ font-size:30px; }
+
+    .right-section{ padding:40px 26px 48px; }
+
+}
+
+@media(max-width:480px){
+
+    html body{ padding:16px 12px; }
+
+    .login-container{ border-radius:var(--radius-md); }
+
+    .login-box h2{ font-size:28px; }
+
+    .options{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+    }
+
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    .login-box button[type="submit"]:hover{ transform:none; }
+
+}
+
+/* backdrop-filter fallback - a 72% white card over the
+   gradient would be low contrast without the blur */
+
+
+/* ==========================================================
+   FIT-TO-VIEWPORT
+   An auth screen shouldn't scroll. These values keep the card
+   inside a 768px-tall viewport, which covers most laptops.
+========================================================== */
+
+/* the status line only reserves space once it has something
+   to say - empty, it was costing 36px of dead height */
+.form-message:empty{
+    min-height:0;
+    margin:0;
+}
+
+@media(max-height:820px) and (min-width:961px){
+
+    html body{ padding:18px 20px; }
+
+    .left,
+    .left-section{ padding:32px 30px; }
+
+    .right,
+    .right-section{ padding:32px 38px; }
+
+    .content{ padding:28px 24px; }
+
+    .input-box{ margin-bottom:10px; }
+
+    .input-box input{ height:46px; padding-top:0; padding-bottom:0; }
+
+    .divider{ margin:14px 0; }
+
+}

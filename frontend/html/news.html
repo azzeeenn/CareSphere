@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>News &amp; Blog | CareSphere</title>
+    <meta name="description" content="Articles, success stories, volunteer experiences and press coverage from the CareSphere community.">
+
+    <link rel="stylesheet" href="../css/news.css">
+    <link rel="stylesheet" href="../css/chatbot.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+    <link rel="stylesheet"
+        href="../css/icons.css">
+
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/theme.css">
+        <link rel="stylesheet" href="../css/auth.css">
+
+
+</head>
+
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header class="site-header">
+
+    <nav class="navbar" aria-label="Main navigation">
+
+        <a href="index.html" class="logo" aria-label="CareSphere home">
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+            <span>CareSphere</span>
+
+        </a>
+
+        <ul class="nav-links">
+
+            <li><a href="index.html">Home</a></li>
+
+            <li><a href="about.html">About</a></li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Our Work</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="programs.html">
+                            <span class="dd-title">Programs</span>
+                            <span class="dd-sub">Education, health and environment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="events.html">
+                            <span class="dd-title">Events</span>
+                            <span class="dd-sub">What&rsquo;s coming up</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="impact-dashboard.html">
+                            <span class="dd-title">Impact Dashboard</span>
+                            <span class="dd-sub">The numbers so far</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Get Involved</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="volunteer.html">
+                            <span class="dd-title">Volunteer</span>
+                            <span class="dd-sub">Roles, process and benefits</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="volunteer-application.html">
+                            <span class="dd-title">Apply Now</span>
+                            <span class="dd-sub">Start your application</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="institutions.html">
+                            <span class="dd-title">Partner With Us</span>
+                            <span class="dd-sub">For schools and companies</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Stories</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="news.html">
+                            <span class="dd-title">News</span>
+                            <span class="dd-sub">Articles and updates</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="testimonials.html">
+                            <span class="dd-title">Testimonials</span>
+                            <span class="dd-sub">Words from our community</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="recognition.html">
+                            <span class="dd-title">Recognition</span>
+                            <span class="dd-sub">Certificates, badges, rewards</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Contact</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="contact.html">
+                            <span class="dd-title">Contact Us</span>
+                            <span class="dd-sub">Reach the team</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="faq.html">
+                            <span class="dd-title">FAQ</span>
+                            <span class="dd-sub">Common questions answered</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+        </ul>
+
+        <div class="nav-buttons">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+        <button class="nav-toggle"
+                id="navToggle"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="mobileMenu">
+
+            <span></span><span></span><span></span>
+
+        </button>
+
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <a href="index.html">Home</a>
+
+        <a href="about.html">About</a>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Our Work</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="programs.html">Programs</a>
+                <a href="events.html">Events</a>
+                <a href="impact-dashboard.html">Impact Dashboard</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Get Involved</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="volunteer.html">Volunteer</a>
+                <a href="volunteer-application.html">Apply Now</a>
+                <a href="institutions.html">Partner With Us</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Stories</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="news.html">News</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="recognition.html">Recognition</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Contact</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="contact.html">Contact Us</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-actions">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main id="main">
+
+<!-- ==========================================
+     PAGE BANNER
+========================================== -->
+
+<section class="page-banner cs-hero-offset">
+
+    <div class="hero-content page-banner-content">
+
+        <span class="section-tag">NEWS &amp; BLOG</span>
+
+        <h1>Stories From The Field</h1>
+
+        <p>
+            Articles, success stories, volunteer experiences,
+            monthly newsletters and press coverage &mdash; all in
+            one place.
+        </p>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+
+            <a href="index.html">Home</a>
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">News &amp; Blog</span>
+
+        </nav>
+
+    </div>
+
+</section>
+
+<!-- ==========================================
+     FILTERS
+========================================== -->
+
+<section class="blog-filters">
+
+    <div class="filter-bar" id="filterBar" role="group" aria-label="Filter updates by category">
+
+        <button class="filter-btn" data-filter="all" data-active="true" aria-pressed="true">All</button>
+        <button class="filter-btn" data-filter="Education" aria-pressed="false">Education</button>
+        <button class="filter-btn" data-filter="Healthcare" aria-pressed="false">Healthcare</button>
+        <button class="filter-btn" data-filter="Green Cover" aria-pressed="false">Green Cover</button>
+        <button class="filter-btn" data-filter="General" aria-pressed="false">General</button>
+
+        <button class="add-update-btn" id="openModalBtn">
+
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            Add Update
+
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ==========================================
+     BLOG GRID
+========================================== -->
+
+<section class="blog-posts">
+
+    <div class="section-heading">
+
+        <span id="resultsCount" role="status" aria-live="polite">Showing all updates</span>
+        <h2>Latest From Our Community</h2>
+
+    </div>
+
+    <div class="blog-grid" id="blogGrid"><!-- cards injected by news.js --></div>
+
+    <p class="empty-state" id="emptyState">
+        Nothing here yet. Be the first to add an update.
+    </p>
+
+</section>
+
+<!-- ==========================================
+     NEWSLETTER
+========================================== -->
+
+<section class="newsletter">
+
+    <div class="newsletter-inner">
+
+        <h2>Stay Updated</h2>
+
+        <p>
+            Subscribe to receive updates about upcoming
+            events, volunteer opportunities and campaigns.
+        </p>
+
+        <form class="newsletter-box" id="newsletterForm" novalidate>
+
+            <label for="newsletterEmail" class="visually-hidden">Email address</label>
+
+            <input type="email"
+                   id="newsletterEmail"
+                   name="email"
+                   placeholder="Enter your email"
+                   autocomplete="email"
+                   required>
+
+            <button type="submit">Subscribe</button>
+
+        </form>
+
+        <p class="newsletter-note" id="newsletterNote" role="status" aria-live="polite"></p>
+
+    </div>
+
+</section>
+
+</main>
+
+<footer class="site-footer">
+
+    <div class="footer-container">
+
+        <div class="footer-column">
+
+            <h2>
+                
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+
+                CareSphere
+            </h2>
+
+            <p>
+                A volunteer-run foundation working in education, healthcare
+                and green cover across Karnataka. Every hour given goes
+                straight back into the community.
+            </p>
+
+            <div class="footer-socials">
+
+                <a href="#" aria-label="CareSphere on Facebook">
+                    <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                </a>
+
+                <a href="#" aria-label="CareSphere on Instagram">
+                    <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+                </a>
+
+                <a href="#" aria-label="CareSphere on LinkedIn">
+                    <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Explore</h3>
+
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="programs.html">Programs</a>
+            <a href="events.html">Events</a>
+            <a href="news.html">News</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="recognition.html">Recognition</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Get Involved</h3>
+
+            <a href="volunteer.html">Volunteer</a>
+            <a href="volunteer-application.html">Apply Now</a>
+            <a href="institutions.html">Partner With Us</a>
+            <a href="register.html">Create Account</a>
+            <a href="contact.html">Contact Us</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Reach Us</h3>
+
+            <p>
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                <a href="mailto:info@caresphere.org"
+                   style="display:inline">info@caresphere.org</a>
+            </p>
+
+            <p>
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <a href="tel:+919876543210"
+                   style="display:inline">+91 98765 43210</a>
+            </p>
+
+            <p>
+                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                Bengaluru, Karnataka, India
+            </p>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <p class="copyright">
+        &copy; 2026 CareSphere Foundation. All rights reserved.
+    </p>
+
+</footer>
+
+<!-- ==========================================
+     ADD UPDATE MODAL
+========================================== -->
+
+<div class="modal-overlay" id="modalOverlay">
+
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+        <button class="modal-close" id="closeModalBtn" aria-label="Close form">
+
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+
+        </button>
+
+        <span class="section-tag">SHARE AN UPDATE</span>
+        <h2 id="modalTitle">Add A New Post</h2>
+
+        <form id="postForm">
+
+            <div class="field">
+                <label for="f-title">Title</label>
+                <input type="text" id="f-title" required maxlength="90" placeholder="e.g. New literacy program launches">
+            </div>
+
+            <div class="field-row">
+
+                <div class="field">
+                    <label for="f-category">Category</label>
+                    <select id="f-category" required>
+                        <option value="Education">Education</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Green Cover">Green Cover</option>
+                        <option value="General">General</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="f-author">Author</label>
+                    <input type="text" id="f-author" required maxlength="40" placeholder="Your name">
+                </div>
+
+            </div>
+
+            <div class="field">
+                <label for="f-excerpt">Summary</label>
+                <textarea id="f-excerpt" required maxlength="240" placeholder="A couple of sentences about what happened..."></textarea>
+            </div>
+
+            <div class="field">
+                <label for="f-content">Full Story (optional)</label>
+                <textarea id="f-content" placeholder="The full article. If left blank, the summary will be shown instead." rows="5"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="f-link">Link (optional)</label>
+                <input type="url" id="f-link" placeholder="https://...">
+            </div>
+
+            <p class="form-message" id="postFormMessage" role="status" aria-live="polite"></p>
+
+            <div class="modal-actions">
+
+                <button type="button" class="ghost-btn" id="cancelBtn">Cancel</button>
+                <button type="submit" class="primary-btn">Post Update</button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ==========================================
+     READ ARTICLE MODAL
+========================================== -->
+
+<div class="modal-overlay" id="readModalOverlay">
+
+    <div class="modal-box read-modal" role="dialog" aria-modal="true" aria-labelledby="readModalTitle">
+
+        <button class="modal-close" id="closeReadModalBtn" aria-label="Close article">
+
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+
+        </button>
+
+        <div class="read-modal-icon" id="readModalIcon">
+
+            <i class="fa-solid fa-newspaper" aria-hidden="true"></i>
+
+        </div>
+
+        <div class="card-meta">
+            <span class="category-tag" id="readModalCategory">Article</span>
+            <span class="post-date" id="readModalDate">Jul 28, 2026</span>
+        </div>
+
+        <h2 id="readModalTitle">Article Title</h2>
+
+        <p class="read-modal-author" id="readModalAuthor">By Author Name</p>
+
+        <div class="read-modal-body" id="readModalBody">
+            <p>Full article content goes here.</p>
+        </div>
+
+        <a href="#" id="readModalLink" class="read-modal-link" target="_blank" rel="noopener">
+
+            View Original Source
+            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+
+        </a>
+
+    </div>
+
+</div>
+
+<div id="cs-chat-root">
+
+    <button id="cs-chat-launcher" aria-label="Open chat">
+
+        <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
+        <span class="cs-badge"></span>
+
+    </button>
+
+    <div id="cs-chat-window">
+
+        <div id="cs-chat-header">
+
+            <div class="cs-avatar">
+
+                
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+
+
+            </div>
+
+            <div class="cs-header-text">
+
+                <h4>CareSphere Assistant</h4>
+                <span>Online now</span>
+
+            </div>
+
+            <button id="cs-chat-close" aria-label="Close chat">
+
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+
+            </button>
+
+        </div>
+
+        <div id="cs-chat-messages"></div>
+
+        <div id="cs-quick-replies"></div>
+
+        <div id="cs-chat-input-row">
+
+            <label for="cs-chat-input" class="visually-hidden">Type your question</label>
+            <input type="text" id="cs-chat-input" placeholder="Type your question..." autocomplete="off">
+
+            <button id="cs-chat-send" aria-label="Send">
+
+                <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+
+            </button>
+
+        </div>
+
+        <div id="cs-chat-footer-note">
+
+            Answers are automated and may not always be exact.
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="../js/site.js"></script>
+<script src="../js/chatbot.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/news.js"></script>
+
+</body>
+
+</html>

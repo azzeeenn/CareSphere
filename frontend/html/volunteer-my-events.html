@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My events · CareSphere</title>
+  <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/auth.css">
+
+  <link rel="stylesheet" href="../css/volunteer-area.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+</head>
+<body class="volunteer">
+
+  <header class="vol-bar">
+    <a class="vol-brand" href="index.html">
+      <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+      <b>CareSphere</b>
+    </a>
+    <nav class="vol-nav">
+      <a href="volunteer-dashboard.html">Dashboard</a>
+      <a href="volunteer-my-events.html" class="is-active">My events</a>
+      <a href="volunteer-my-hours.html">My hours</a>
+      <a href="volunteer-my-profile.html">My profile</a>
+    </nav>
+    <button class="vol-out" type="button" id="signOut">Sign out</button>
+  </header>
+
+  <main class="vol-main">
+    <div class="vol-container">
+
+      <header class="vol-head">
+        <span class="vol-eyebrow">My events</span>
+        <h1>Events</h1>
+        <p>Places are given out first come, first served. If an event is full you'll go on the waiting list.</p>
+      </header>
+
+      <div class="vol-filters" id="filters" role="group" aria-label="Filter events">
+        <button class="vol-chip is-on" data-view="open">Open to join</button>
+        <button class="vol-chip" data-view="mine">I'm going</button>
+        <button class="vol-chip" data-view="past">Past events</button>
+      </div>
+
+      <div class="vol-list" id="list"></div>
+
+    </div>
+  </main>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/volunteer-shared.js"></script>
+  <script src="../js/volunteer-my-events.js"></script>
+</body>
+</html>

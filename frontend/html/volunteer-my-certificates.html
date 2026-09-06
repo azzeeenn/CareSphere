@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My certificates · CareSphere</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+  <link rel="stylesheet" href="../css/volunteer-area.css">
+</head>
+<body class="volunteer">
+
+  <header class="vol-bar">
+    <a class="vol-brand" href="index.html">
+      <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+      <b>CareSphere</b>
+    </a>
+    <nav class="vol-nav"></nav>
+    <button class="vol-out" type="button" id="signOut">Sign out</button>
+  </header>
+
+  <main class="vol-main">
+    <div class="vol-container">
+
+      <header class="vol-head">
+        <span class="vol-eyebrow">My certificates</span>
+        <h1>Certificates</h1>
+        <p>Ask for a certificate covering the work you've done. An organiser checks the request before issuing it.</p>
+      </header>
+
+      <section class="vol-stats">
+        <div class="vol-stat" data-accent="blue">
+          <span>Issued</span>
+          <b id="statIssued">—</b>
+          <em>Approved and numbered</em>
+        </div>
+        <div class="vol-stat" data-accent="cream">
+          <span>Awaiting review</span>
+          <b id="statPending">—</b>
+          <em>With an organiser now</em>
+        </div>
+        <div class="vol-stat" data-accent="coral">
+          <span>Verified hours</span>
+          <b id="statHours">—</b>
+          <em>What a certificate can state</em>
+        </div>
+        <div class="vol-stat" data-accent="peach">
+          <span>Events attended</span>
+          <b id="statEvents">—</b>
+          <em>Eligible for participation</em>
+        </div>
+      </section>
+
+      <!-- ===================== REQUEST ===================== -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Request a certificate</h2>
+          <span class="rule"></span>
+        </div>
+
+        <div class="vol-panel" id="requestPanel">
+
+          <h3>What do you need?</h3>
+          <p>Pick the one that matches what you've been asked for.</p>
+
+          <div class="type-list" id="typeList"></div>
+
+          <div id="typeExtras" style="margin-top:22px"></div>
+
+          <div class="field full" style="margin-top:4px">
+            <label for="cPurpose">What's it for?</label>
+            <textarea id="cPurpose" style="min-height:80px" placeholder="For example: my college needs proof of community service hours."></textarea>
+            <span class="hint">A line or two. It helps the organiser word the certificate properly.</span>
+            <span class="error"></span>
+          </div>
+
+          <!-- Proof -->
+          <div class="field full">
+            <label>Photos as proof <span style="font-weight:400;color:var(--cs-muted)">(optional, up to 3)</span></label>
+            <label class="proof-zone" id="proofZone">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg>
+              <strong>Add a photo, or drop one here</strong>
+              <span id="proofHint">Photos of you at the event, or a signed attendance slip</span>
+              <input type="file" id="proofInput" accept="image/jpeg,image/png,image/webp">
+            </label>
+            <div class="proof-strip" id="proofStrip"></div>
+            <span class="error" id="proofError"></span>
+          </div>
+
+          <button class="btn btn-primary" type="button" id="submitRequest">Send request</button>
+        </div>
+      </section>
+
+      <!-- ===================== HISTORY ===================== -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Your requests</h2>
+          <span class="rule"></span>
+        </div>
+        <div class="vol-list" id="list"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/volunteer-shared.js"></script>
+  <script src="../js/volunteer-my-certificates.js"></script>
+</body>
+</html>

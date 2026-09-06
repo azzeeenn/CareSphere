@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gallery | CareSphere</title>
+    <meta name="description" content="Photos from CareSphere classrooms, health camps, plantation drives and community events.">
+
+    <link rel="stylesheet" href="../css/gallery.css">
+    <link rel="stylesheet" href="../css/chatbot.css">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="../css/icons.css">
+
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/theme.css">
+
+</head>
+
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header class="site-header">
+
+    <nav class="navbar" aria-label="Main navigation">
+
+        <a href="index.html" class="logo" aria-label="CareSphere home">
+
+            
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+
+            <span>CareSphere</span>
+
+        </a>
+
+        <ul class="nav-links">
+
+            <li><a href="index.html">Home</a></li>
+
+            <li><a href="about.html">About</a></li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Our Work</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="programs.html">
+                            <span class="dd-title">Programs</span>
+                            <span class="dd-sub">Education, health and environment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="events.html">
+                            <span class="dd-title">Events</span>
+                            <span class="dd-sub">What&rsquo;s coming up</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="impact-dashboard.html">
+                            <span class="dd-title">Impact Dashboard</span>
+                            <span class="dd-sub">The numbers so far</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Get Involved</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="volunteer.html">
+                            <span class="dd-title">Volunteer</span>
+                            <span class="dd-sub">Roles, process and benefits</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="volunteer-application.html">
+                            <span class="dd-title">Apply Now</span>
+                            <span class="dd-sub">Start your application</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="institutions.html">
+                            <span class="dd-title">Partner With Us</span>
+                            <span class="dd-sub">For schools and companies</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Stories</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="news.html">
+                            <span class="dd-title">News</span>
+                            <span class="dd-sub">Articles and updates</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="testimonials.html">
+                            <span class="dd-title">Testimonials</span>
+                            <span class="dd-sub">Words from our community</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="recognition.html">
+                            <span class="dd-title">Recognition</span>
+                            <span class="dd-sub">Certificates, badges, rewards</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Contact</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="contact.html">
+                            <span class="dd-title">Contact Us</span>
+                            <span class="dd-sub">Reach the team</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="faq.html">
+                            <span class="dd-title">FAQ</span>
+                            <span class="dd-sub">Common questions answered</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+        </ul>
+
+        <div class="nav-buttons">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+        <button class="nav-toggle"
+                id="navToggle"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="mobileMenu">
+
+            <span></span><span></span><span></span>
+
+        </button>
+
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <a href="index.html">Home</a>
+
+        <a href="about.html">About</a>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Our Work</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="programs.html">Programs</a>
+                <a href="events.html">Events</a>
+                <a href="impact-dashboard.html">Impact Dashboard</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Get Involved</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="volunteer.html">Volunteer</a>
+                <a href="volunteer-application.html">Apply Now</a>
+                <a href="institutions.html">Partner With Us</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Stories</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="news.html">News</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="recognition.html">Recognition</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Contact</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="contact.html">Contact Us</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-actions">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main id="main">
+
+<!-- ==========================
+     HERO
+========================== -->
+
+<section class="gal-hero cs-hero-offset">
+
+    <div class="hero-content">
+
+        <span class="section-tag">MOMENTS THAT MATTER</span>
+
+        <h1>Our Gallery</h1>
+
+        <p>
+            A window into the classrooms, camps, plantation
+            drives and everyday moments that make up life
+            at CareSphere.
+        </p>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+
+            <a href="index.html">Home</a>
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">Gallery</span>
+
+        </nav>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     FILTER TABS
+========================== -->
+
+<section class="gal-filters">
+
+    <div class="filter-tabs" role="group" aria-label="Filter photos by category">
+
+        <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-btn" data-filter="volunteers" aria-pressed="false">Volunteers</button>
+        <button class="filter-btn" data-filter="education" aria-pressed="false">Education</button>
+        <button class="filter-btn" data-filter="healthcare" aria-pressed="false">Healthcare</button>
+        <button class="filter-btn" data-filter="environment" aria-pressed="false">Environment</button>
+        <button class="filter-btn" data-filter="events" aria-pressed="false">Events</button>
+        <button class="filter-btn" data-filter="community" aria-pressed="false">Community</button>
+
+    </div>
+
+    <p class="filter-count" id="filterCount" role="status" aria-live="polite"></p>
+
+</section>
+
+<!-- ==========================
+     GALLERY GRID
+========================== -->
+
+<section class="gal-grid-section">
+
+    <div class="gallery-grid" id="galleryGrid">
+
+        <button class="gallery-item" data-category="volunteers" type="button"
+                aria-label="Open photo: New Volunteer Orientation">
+
+            <img src="../images/gallery-vol-1.jpg" alt="Volunteers gathered at an orientation day session" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Volunteers</span>
+                <h4>New Volunteer Orientation</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="volunteers" type="button"
+                aria-label="Open photo: Team Huddle Before Kickoff">
+
+            <img src="../images/gallery-vol-2.jpg" alt="A volunteer team huddling before an event begins" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Volunteers</span>
+                <h4>Team Huddle Before Kickoff</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="volunteers" type="button"
+                aria-label="Open photo: Appreciation Evening">
+
+            <img src="../images/gallery-vol-3.jpg" alt="Volunteers at an appreciation evening gathering" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Volunteers</span>
+                <h4>Appreciation Evening</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="education" type="button"
+                aria-label="Open photo: Weekend Tutoring Session">
+
+            <img src="../images/gallery-edu-1.jpg" alt="A weekend tutoring session with children" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Education</span>
+                <h4>Weekend Tutoring Session</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="education" type="button"
+                aria-label="Open photo: Digital Literacy Workshop">
+
+            <img src="../images/gallery-edu-2.jpg" alt="Students at a digital literacy workshop" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Education</span>
+                <h4>Digital Literacy Workshop</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="education" type="button"
+                aria-label="Open photo: School Supplies Handout">
+
+            <img src="../images/gallery-edu-3.jpg" alt="Children receiving school supplies" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Education</span>
+                <h4>School Supplies Handout</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="healthcare" type="button"
+                aria-label="Open photo: Weekend Health Camp">
+
+            <img src="../images/gallery-health-1.jpg" alt="A checkup underway at a weekend healthcare camp" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Healthcare</span>
+                <h4>Weekend Health Camp</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="healthcare" type="button"
+                aria-label="Open photo: Free Consultation Drive">
+
+            <img src="../images/gallery-health-2.jpg" alt="A volunteer doctor consulting a patient" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Healthcare</span>
+                <h4>Free Consultation Drive</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="environment" type="button"
+                aria-label="Open photo: Tree Plantation Drive">
+
+            <img src="../images/gallery-env-1.jpg" alt="Volunteers planting trees in Bengaluru" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Environment</span>
+                <h4>Tree Plantation Drive</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="environment" type="button"
+                aria-label="Open photo: Lake Cleanup Morning">
+
+            <img src="../images/gallery-env-2.jpg" alt="Volunteers clearing litter along a lakeside" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Environment</span>
+                <h4>Lake Cleanup Morning</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="environment" type="button"
+                aria-label="Open photo: Sapling Distribution">
+
+            <img src="../images/gallery-env-3.jpg" alt="Saplings being packed for distribution" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Environment</span>
+                <h4>Sapling Distribution</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="events" type="button"
+                aria-label="Open photo: Annual Fundraiser Gala">
+
+            <img src="../images/gallery-event-1.jpg" alt="Guests at the annual CareSphere fundraiser gala" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Events</span>
+                <h4>Annual Fundraiser Gala</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="events" type="button"
+                aria-label="Open photo: Volunteer Retreat">
+
+            <img src="../images/gallery-event-2.jpg" alt="Volunteers at the annual appreciation retreat" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Events</span>
+                <h4>Volunteer Retreat</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="events" type="button"
+                aria-label="Open photo: Disaster Relief Drive">
+
+            <img src="../images/gallery-event-3.jpg" alt="Supplies being sorted at a disaster relief drive" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Events</span>
+                <h4>Disaster Relief Drive</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="community" type="button"
+                aria-label="Open photo: Neighbourhood Festival Booth">
+
+            <img src="../images/gallery-comm-1.jpg" alt="Community members at a local festival booth" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Community</span>
+                <h4>Neighbourhood Festival Booth</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="community" type="button"
+                aria-label="Open photo: Community Meal Program">
+
+            <img src="../images/gallery-comm-2.jpg" alt="Families gathered at a community meal" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Community</span>
+                <h4>Community Meal Program</h4>
+            </div>
+
+        </button>
+
+
+        <button class="gallery-item" data-category="community" type="button"
+                aria-label="Open photo: Partner Institution Signing">
+
+            <img src="../images/gallery-comm-3.jpg" alt="A partner institution signing ceremony" loading="lazy">
+
+            <div class="gallery-overlay">
+                <span class="cat-tag">Community</span>
+                <h4>Partner Institution Signing</h4>
+            </div>
+
+        </button>
+
+    </div>
+
+    <p class="empty-state" id="emptyState">No photos in this category yet.</p>
+
+</section>
+
+<!-- ==========================
+     CTA
+========================== -->
+
+<section class="gal-cta">
+
+    <div class="cta-content">
+
+        <h2>Have Photos From A CareSphere Event?</h2>
+
+        <p>
+            Share your favourite moments with us and we might
+            feature them right here in the gallery.
+        </p>
+
+        <div class="cta-buttons">
+
+            <a href="mailto:media@caresphere.org?subject=Gallery%20Submission" class="primary-btn">Submit A Photo</a>
+            <a href="events.html" class="secondary-btn">See Upcoming Events</a>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<!-- ==========================
+     LIGHTBOX
+========================== -->
+
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+
+    <button id="lightbox-close" aria-label="Close">
+        <span class="lb-x" aria-hidden="true"></span>
+    </button>
+
+    <button id="lightbox-prev" aria-label="Previous photo">
+        <span class="lb-arrow left" aria-hidden="true"></span>
+    </button>
+
+    <div class="lightbox-content">
+
+        <img id="lightbox-img" src="" alt="">
+
+        <div class="lightbox-caption">
+            <span class="cat-tag" id="lightbox-tag"></span>
+            <h4 id="lightbox-title"></h4>
+            <span class="lightbox-count" id="lightbox-count"></span>
+        </div>
+
+    </div>
+
+    <button id="lightbox-next" aria-label="Next photo">
+        <span class="lb-arrow right" aria-hidden="true"></span>
+    </button>
+
+</div>
+
+<footer class="site-footer">
+
+    <div class="footer-container">
+
+        <div class="footer-column">
+
+            <h2>
+                
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+
+                CareSphere
+            </h2>
+
+            <p>
+                A volunteer-run foundation working in education, healthcare
+                and green cover across Karnataka. Every hour given goes
+                straight back into the community.
+            </p>
+
+            <div class="footer-socials">
+
+                <a href="#" aria-label="CareSphere on Facebook">
+                    <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                </a>
+
+                <a href="#" aria-label="CareSphere on Instagram">
+                    <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+                </a>
+
+                <a href="#" aria-label="CareSphere on LinkedIn">
+                    <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Explore</h3>
+
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="programs.html">Programs</a>
+            <a href="events.html">Events</a>
+            <a href="news.html">News</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="recognition.html">Recognition</a>
+            <a href="gallery.html">Gallery</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Get Involved</h3>
+
+            <a href="volunteer.html">Volunteer</a>
+            <a href="volunteer-application.html">Apply Now</a>
+            <a href="institutions.html">Partner With Us</a>
+            <a href="register.html">Create Account</a>
+            <a href="contact.html">Contact Us</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Reach Us</h3>
+
+            <p>
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                <a href="mailto:info@caresphere.org"
+                   style="display:inline">info@caresphere.org</a>
+            </p>
+
+            <p>
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <a href="tel:+919876543210"
+                   style="display:inline">+91 98765 43210</a>
+            </p>
+
+            <p>
+                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                Bengaluru, Karnataka, India
+            </p>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <p class="copyright">
+        &copy; 2026 CareSphere Foundation. All rights reserved.
+    </p>
+
+</footer>
+
+<div id="cs-chat-root">
+
+    <button id="cs-chat-launcher" aria-label="Open chat">
+
+        <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
+        <span class="cs-badge"></span>
+
+    </button>
+
+    <div id="cs-chat-window">
+
+        <div id="cs-chat-header">
+
+            <div class="cs-avatar">
+
+                
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+
+
+            </div>
+
+            <div class="cs-header-text">
+
+                <h4>CareSphere Assistant</h4>
+                <span>Online now</span>
+
+            </div>
+
+            <button id="cs-chat-close" aria-label="Close chat">
+
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+
+            </button>
+
+        </div>
+
+        <div id="cs-chat-messages"></div>
+
+        <div id="cs-quick-replies"></div>
+
+        <div id="cs-chat-input-row">
+
+            <label for="cs-chat-input" class="visually-hidden">Type your question</label>
+            <input type="text" id="cs-chat-input" placeholder="Type your question..." autocomplete="off">
+
+            <button id="cs-chat-send" aria-label="Send">
+
+                <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+
+            </button>
+
+        </div>
+
+        <div id="cs-chat-footer-note">
+
+            Answers are automated and may not always be exact.
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="../js/site.js"></script>
+<script src="../js/chatbot.js"></script>
+<script src="../js/gallery.js"></script>
+
+</body>
+
+</html>

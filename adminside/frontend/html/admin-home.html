@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Home · CareSphere</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+  <link rel="stylesheet" href="../css/admin-home.css">
+</head>
+<body class="admin" data-page="home">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+
+    <!-- Filled by admin-shell.js -->
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="greeting">
+          <span class="greeting-eyebrow">Admin Home</span>
+          <h1 id="greetingLine">Welcome back</h1>
+          <p id="todayLine"></p>
+        </header>
+
+        <section class="attention" id="attentionStrip" hidden>
+          <span class="attention-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 22 20H2z"/><path d="M12 10v4"/><path d="M12 17h.01"/></svg>
+          </span>
+          <span class="attention-body">
+            <strong id="attentionTitle"></strong>
+            <span id="attentionSub"></span>
+          </span>
+          <a class="btn btn-primary" href="admin-volunteer-applications.html">Review now</a>
+        </section>
+
+        <section class="stat-row">
+
+          <a class="stat-card" data-accent="coral" href="admin-volunteer-applications.html">
+            <span class="stat-top">
+              <span class="stat-label">Pending applications</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>
+            </span>
+            <span class="stat-value" data-stat="applications">—</span>
+            <span class="stat-note">Waiting on your decision</span>
+          </a>
+
+          <a class="stat-card" data-accent="blue" href="admin-events.html">
+            <span class="stat-top">
+              <span class="stat-label">Upcoming events</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/></svg>
+            </span>
+            <span class="stat-value" data-stat="events">—</span>
+            <span class="stat-note" data-stat-note="events">Published and scheduled</span>
+          </a>
+
+          <a class="stat-card" data-accent="peach" href="admin-messages.html">
+            <span class="stat-top">
+              <span class="stat-label">Unread messages</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/></svg>
+            </span>
+            <span class="stat-value" data-stat="messages">—</span>
+            <span class="stat-note">From the contact form</span>
+          </a>
+
+          <a class="stat-card" data-accent="cream" href="admin-volunteers.html">
+            <span class="stat-top">
+              <span class="stat-label">Active volunteers</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3.2"/><path d="M22 20v-2a4 4 0 0 0-3-3.8"/></svg>
+            </span>
+            <span class="stat-value" data-stat="volunteers">—</span>
+            <span class="stat-note">Across 6 districts</span>
+          </a>
+
+        </section>
+
+        <!-- PEOPLE -->
+        <section class="module-section" data-group="people">
+          <div class="section-head"><h2>People</h2><span class="rule"></span></div>
+          <div class="module-grid">
+
+            <article class="module-card">
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14 2 2 4-4"/></svg></span>
+                <span class="module-title">
+                  <h3>Volunteer Applications</h3>
+                  <p>Read submitted forms, then approve or reject them.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="module-meta is-waiting"><b data-stat="applications">—</b> awaiting review</span>
+                <a class="btn btn-primary" href="admin-volunteer-applications.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card">
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3.2"/><path d="M22 20v-2a4 4 0 0 0-3-3.8"/><path d="M16 3.3a4 4 0 0 1 0 7.4"/></svg></span>
+                <span class="module-title">
+                  <h3>Volunteers</h3>
+                  <p>Browse approved volunteers and deactivate accounts.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="module-meta"><b data-stat="volunteers">—</b> active</span>
+                <a class="btn btn-quiet" href="admin-volunteers.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card">
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.9"/></svg></span>
+                <span class="module-title">
+                  <h3>Hours Verification</h3>
+                  <p>Confirm the hours volunteers logged against events.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="module-meta is-waiting"><b data-stat="hours">—</b> to verify</span>
+                <a class="btn btn-primary" href="admin-hours-verification.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card">
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><circle cx="12" cy="13" r="2.4"/><path d="m10.4 15.2-.6 3.4 2.2-1.2 2.2 1.2-.6-3.4"/></svg></span>
+                <span class="module-title">
+                  <h3>Certificates</h3>
+                  <p>Check the evidence, then issue or decline a request.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="module-meta is-waiting"><b data-stat="certificates">—</b> to review</span>
+                <a class="btn btn-primary" href="admin-certificates.html">Open</a>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- CONTENT -->
+        <section class="module-section" data-group="content">
+          <div class="section-head"><h2>Content</h2><span class="rule"></span></div>
+          <div class="module-grid">
+
+            <article class="module-card">
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/></svg></span>
+                <span class="module-title">
+                  <h3>Events</h3>
+                  <p>Create events, set capacity, and manage who registers.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="module-meta"><b data-stat="events">—</b> upcoming</span>
+                <a class="btn btn-quiet" href="admin-events.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card">
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v12H6a2 2 0 0 1-2-2z"/><path d="M19 8h1.5A1.5 1.5 0 0 1 22 9.5V17a2 2 0 0 1-2 2"/><path d="M8 9h7M8 13h7M8 16h4"/></svg></span>
+                <span class="module-title">
+                  <h3>News &amp; Updates</h3>
+                  <p>Write posts for the news page and publish when ready.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="module-meta"><b data-stat="newsDrafts">—</b> drafts</span>
+                <a class="btn btn-quiet" href="admin-news.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card">
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="m4 17 5-5 4.5 4.5L17 13l3 3"/></svg></span>
+                <span class="module-title">
+                  <h3>Gallery</h3>
+                  <p>Add photos, caption them, and sort them into albums.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="module-meta"><b data-stat="gallery">—</b> photos</span>
+                <a class="btn btn-quiet" href="admin-gallery.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card">
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H8l-5 3 1.4-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14.5h4"/></svg></span>
+                <span class="module-title">
+                  <h3>Testimonials</h3>
+                  <p>Approve submitted stories before they go on the site.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="module-meta is-waiting"><b data-stat="testimonials">—</b> awaiting review</span>
+                <a class="btn btn-primary" href="admin-testimonials.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card">
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="m8.2 13.5-1.4 7 5.2-2.6 5.2 2.6-1.4-7"/></svg></span>
+                <span class="module-title">
+                  <h3>Recognition</h3>
+                  <p>Keep awards and partner organisations up to date.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="module-meta"><b data-stat="recognition">—</b> entries</span>
+                <a class="btn btn-quiet" href="admin-recognition.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card">
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.4c-.7.3-1 .9-1 1.6v.3"/><path d="M12 17h.01"/></svg></span>
+                <span class="module-title">
+                  <h3>FAQ</h3>
+                  <p>Edit questions, group them, and change their order.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="module-meta"><b data-stat="faq">—</b> questions</span>
+                <a class="btn btn-quiet" href="admin-faq.html">Open</a>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- OPERATIONS -->
+        <section class="module-section" data-group="ops">
+          <div class="section-head"><h2>Operations</h2><span class="rule"></span></div>
+          <div class="module-grid">
+
+            <article class="module-card is-restricted" data-superadmin>
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 8.5 12 20 3.5 8.5A4.6 4.6 0 0 1 12 5.5a4.6 4.6 0 0 1 8.5 3z"/></svg></span>
+                <span class="module-title">
+                  <h3>Donations</h3>
+                  <p>Track contributions, mark them verified, issue receipts.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="lock-tag">Super Admin only</span>
+                <a class="btn btn-quiet" href="admin-donations.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card">
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/></svg></span>
+                <span class="module-title">
+                  <h3>Messages</h3>
+                  <p>Answer contact-form enquiries and mark them resolved.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="module-meta is-waiting"><b data-stat="messages">—</b> unread</span>
+                <a class="btn btn-primary" href="admin-messages.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card is-restricted" data-superadmin>
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V11M10 20V5M16 20v-6M22 20H2"/></svg></span>
+                <span class="module-title">
+                  <h3>Impact Numbers</h3>
+                  <p>Update the figures shown on the impact dashboard.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="lock-tag">Super Admin only</span>
+                <a class="btn btn-quiet" href="admin-impact-numbers.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card is-restricted" data-superadmin>
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2"/></svg></span>
+                <span class="module-title">
+                  <h3>Admin Users</h3>
+                  <p>Add or deactivate admin accounts and reset passwords.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="lock-tag">Super Admin only</span>
+                <a class="btn btn-quiet" href="admin-users.html">Open</a>
+              </div>
+            </article>
+
+            <article class="module-card is-restricted" data-superadmin>
+              <div class="module-head">
+                <span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 14.5a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1v.3a2 2 0 0 1-4 0v-.2a1.6 1.6 0 0 0-2.8-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7h-.3a2 2 0 0 1 0-4h.2a1.6 1.6 0 0 0 1.1-2.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 2.7-1.1V3a2 2 0 0 1 4 0v.2a1.6 1.6 0 0 0 2.8 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7h.3a2 2 0 0 1 0 4h-.2a1.6 1.6 0 0 0-1.5 1z"/></svg></span>
+                <span class="module-title">
+                  <h3>Settings</h3>
+                  <p>Change the address, phone, email and social links.</p>
+                </span>
+              </div>
+              <div class="module-foot">
+                <span class="lock-tag">Super Admin only</span>
+                <a class="btn btn-quiet" href="admin-settings.html">Open</a>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-home.js"></script>
+</body>
+</html>

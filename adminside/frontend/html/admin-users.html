@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Users · CareSphere Admin</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+</head>
+<body class="admin" data-page="users" data-group="ops" data-superonly="true">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="page-head">
+          <div class="page-head-text">
+            <a class="crumb" href="admin-home.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Admin Home
+            </a>
+            <h1>Admin Users</h1>
+            <p>Who can get into this panel, and what they're allowed to do.</p>
+          </div>
+          <button class="btn btn-primary" type="button" id="newAdmin">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            Add an admin
+          </button>
+        </header>
+
+        <section class="admin-panel" style="margin-bottom:20px">
+          <div class="panel-note">
+            <span>
+              <b>Super Admins can do everything an Admin can, plus manage this page.</b>
+              Keep the number of Super Admins small. There must always be at least one
+              active, so the last one can't be deactivated or demoted.
+            </span>
+          </div>
+
+          <div class="summary-row" id="summaryRow" style="margin-bottom:18px"></div>
+
+          <div class="table-wrap" style="box-shadow:none">
+            <div class="table-scroll">
+              <table class="data">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Access level</th>
+                    <th>Added</th>
+                    <th>Account</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="rows"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Add / edit -->
+  <div class="modal" id="formModal" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="formTitle">Add an admin</h2>
+          <p id="formSub">They can sign in as soon as you save.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="uName">Full name</label>
+            <input type="text" id="uName" data-autofocus placeholder="Saija">
+            <span class="error" id="uNameError"></span>
+          </div>
+          <div class="field full">
+            <label for="uEmail">Email address</label>
+            <input type="email" id="uEmail" placeholder="saija@caresphere.org">
+            <span class="error" id="uEmailError"></span>
+          </div>
+          <div class="field full">
+            <label for="uRole">Access level</label>
+            <select id="uRole">
+              <option value="admin">Admin — everything except this page</option>
+              <option value="super_admin">Super Admin — everything, including this page</option>
+            </select>
+            <span class="error" id="uRoleError"></span>
+          </div>
+          <div class="field full" id="passwordField">
+            <label for="uPassword">Starting password</label>
+            <input type="text" id="uPassword">
+            <span class="hint">Tell them this in person and ask them to change it once they're in.</span>
+            <span class="error" id="uPasswordError"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="button" id="saveAdmin">Add admin</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset password -->
+  <div class="modal" id="resetModal" role="dialog" aria-modal="true" aria-labelledby="resetTitle">
+    <div class="modal-box is-slim">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="resetTitle">Reset password</h2>
+          <p id="resetSub">—</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="field full">
+          <label for="rPassword">New password</label>
+          <input type="text" id="rPassword" data-autofocus>
+          <span class="hint">Give it to them directly. They should change it after signing in.</span>
+          <span class="error" id="rPasswordError"></span>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="button" id="confirmReset">Set password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deactivate -->
+  <div class="modal" id="stateModal" role="dialog" aria-modal="true" aria-labelledby="stateTitle">
+    <div class="modal-box is-slim">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="stateTitle">Deactivate this account?</h2>
+          <p id="stateBody">—</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-danger" type="button" id="confirmState">Deactivate</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-users.js"></script>
+</body>
+</html>

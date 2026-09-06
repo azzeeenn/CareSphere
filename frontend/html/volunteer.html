@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Volunteer | CareSphere</title>
+
+    <link rel="stylesheet"
+          href="../css/volunteer.css">
+
+    <link rel="stylesheet"
+          href="../css/icons.css">
+     <link rel="stylesheet" href="../css/chatbot.css">
+     <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/auth.css">
+
+</head>
+
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- ==========================
+        NAVBAR
+========================== -->
+
+<header class="site-header">
+
+    <nav class="navbar" aria-label="Main navigation">
+
+        <a href="index.html" class="logo" aria-label="CareSphere home">
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+            <span>CareSphere</span>
+
+        </a>
+
+        <ul class="nav-links">
+
+            <li><a href="index.html">Home</a></li>
+
+            <li><a href="about.html">About</a></li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Our Work</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="programs.html">
+                            <span class="dd-title">Programs</span>
+                            <span class="dd-sub">Education, health and environment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="events.html">
+                            <span class="dd-title">Events</span>
+                            <span class="dd-sub">What&rsquo;s coming up</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="impact-dashboard.html">
+                            <span class="dd-title">Impact Dashboard</span>
+                            <span class="dd-sub">The numbers so far</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Get Involved</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="volunteer.html">
+                            <span class="dd-title">Volunteer</span>
+                            <span class="dd-sub">Roles, process and benefits</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="volunteer-application.html">
+                            <span class="dd-title">Apply Now</span>
+                            <span class="dd-sub">Start your application</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="institutions.html">
+                            <span class="dd-title">Partner With Us</span>
+                            <span class="dd-sub">For schools and companies</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Stories</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="news.html">
+                            <span class="dd-title">News</span>
+                            <span class="dd-sub">Articles and updates</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="testimonials.html">
+                            <span class="dd-title">Testimonials</span>
+                            <span class="dd-sub">Words from our community</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="recognition.html">
+                            <span class="dd-title">Recognition</span>
+                            <span class="dd-sub">Certificates, badges, rewards</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Contact</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="contact.html">
+                            <span class="dd-title">Contact Us</span>
+                            <span class="dd-sub">Reach the team</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="faq.html">
+                            <span class="dd-title">FAQ</span>
+                            <span class="dd-sub">Common questions answered</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+        </ul>
+
+        <div class="nav-buttons">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+        <button class="nav-toggle"
+                id="navToggle"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="mobileMenu">
+
+            <span></span><span></span><span></span>
+
+        </button>
+
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <a href="index.html">Home</a>
+
+        <a href="about.html">About</a>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Our Work</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="programs.html">Programs</a>
+                <a href="events.html">Events</a>
+                <a href="impact-dashboard.html">Impact Dashboard</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Get Involved</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="volunteer.html">Volunteer</a>
+                <a href="volunteer-application.html">Apply Now</a>
+                <a href="institutions.html">Partner With Us</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Stories</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="news.html">News</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="recognition.html">Recognition</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Contact</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="contact.html">Contact Us</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-actions">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main id="main">
+
+<!-- ==========================
+        HERO
+========================== -->
+
+<section class="volunteer-hero cs-hero-offset">
+
+    <div class="overlay"></div>
+
+    <div class="hero-content">
+
+        <span>JOIN OUR MISSION</span>
+
+        <h1>
+
+            Your Time Can Change
+            Someone's Tomorrow
+
+        </h1>
+
+        <p>
+
+            At CareSphere, volunteers are the driving force behind every
+            successful initiative. Whether you're teaching children,
+            organizing community events, planting trees, or supporting
+            healthcare programs, your contribution creates lasting impact.
+
+        </p>
+
+        <div class="hero-buttons">
+            <a href="volunteer-application.html"
+           class="apply-btn">
+
+            Apply as a Volunteer
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+
+
+            <a href="#journey"
+               class="secondary-btn">
+
+               Learn More
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        WHY VOLUNTEER
+========================== -->
+
+<section id="journey"
+         class="why-volunteer">
+
+    <div class="section-title">
+
+        <span>WHY CARESPHERE?</span>
+
+        <h2>
+
+            More Than Volunteering,
+            It's Creating Lasting Change
+
+        </h2>
+
+    </div>
+
+    <p class="intro">
+
+        Volunteering at CareSphere is about more than donating your time.
+        It's about becoming part of a compassionate community dedicated to
+        improving lives. Every project, every event, and every hour you
+        contribute helps build stronger, healthier, and happier communities.
+
+    </p>
+
+    <div class="why-grid">
+
+        <div class="why-card">
+
+            <i class="fa-solid fa-heart"></i>
+
+            <h3>Make a Difference</h3>
+
+            <p>
+
+                Support meaningful initiatives that positively impact
+                individuals, families, and local communities.
+
+            </p>
+
+        </div>
+
+        <div class="why-card">
+
+            <i class="fa-solid fa-users"></i>
+
+            <h3>Meet Inspiring People</h3>
+
+            <p>
+
+                Collaborate with volunteers, professionals,
+                educators, healthcare workers, and community leaders.
+
+            </p>
+
+        </div>
+
+        <div class="why-card">
+
+            <i class="fa-solid fa-award"></i>
+
+            <h3>Grow Personally</h3>
+
+            <p>
+
+                Build confidence, leadership,
+                communication, and teamwork skills while helping others.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        WHAT YOU'LL DO
+========================== -->
+
+<section class="volunteer-work">
+
+    <div class="section-title">
+
+        <span>YOUR ROLE</span>
+
+        <h2>
+
+            How You'll Make
+            An Impact
+
+        </h2>
+
+    </div>
+
+    <div class="work-grid">
+
+        <div class="work-card">
+
+            <i class="fa-solid fa-book-open"></i>
+
+            <h3>Education Support</h3>
+
+            <p>
+
+                Mentor students, assist with learning activities,
+                and promote digital literacy.
+
+            </p>
+
+        </div>
+
+        <div class="work-card">
+
+            <i class="fa-solid fa-seedling"></i>
+
+            <h3>Environmental Projects</h3>
+
+            <p>
+
+                Participate in tree plantation drives,
+                clean-up campaigns, and sustainability programs.
+
+            </p>
+
+        </div>
+
+        <div class="work-card">
+
+            <i class="fa-solid fa-hand-holding-medical"></i>
+
+            <h3>Healthcare Initiatives</h3>
+
+            <p>
+
+                Support blood donation drives,
+                awareness campaigns, and community health events.
+
+            </p>
+
+        </div>
+
+        <div class="work-card">
+
+            <i class="fa-solid fa-bowl-food"></i>
+
+            <h3>Community Outreach</h3>
+
+            <p>
+
+                Help organize food drives,
+                clothing distributions, and relief programs.
+
+            </p>
+
+        </div>
+
+        <div class="work-card">
+
+            <i class="fa-solid fa-paw"></i>
+
+            <h3>Animal Welfare</h3>
+
+            <p>
+
+                Assist with rescue operations,
+                feeding drives, and adoption events.
+
+            </p>
+
+        </div>
+
+        <div class="work-card">
+
+            <i class="fa-solid fa-calendar-check"></i>
+
+            <h3>Event Support</h3>
+
+            <p>
+
+                Help manage registrations,
+                logistics, photography, and volunteer coordination.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ==========================
+        BENEFITS
+========================== -->
+
+<section class="benefits">
+
+    <div class="section-title">
+
+        <span>WHY JOIN US?</span>
+
+        <h2>What You'll Gain</h2>
+
+    </div>
+
+    <div class="benefits-grid">
+
+        <div class="benefit-card">
+
+            <i class="fa-solid fa-certificate"></i>
+
+            <h3>Volunteer Certificate</h3>
+
+            <p>
+
+                Receive official certificates recognizing
+                your contribution after successfully
+                participating in our initiatives.
+
+            </p>
+
+        </div>
+
+        <div class="benefit-card">
+
+            <i class="fa-solid fa-people-group"></i>
+
+            <h3>Build Connections</h3>
+
+            <p>
+
+                Meet passionate volunteers, mentors,
+                professionals, and organizations
+                working toward meaningful causes.
+
+            </p>
+
+        </div>
+
+        <div class="benefit-card">
+
+            <i class="fa-solid fa-brain"></i>
+
+            <h3>Learn New Skills</h3>
+
+            <p>
+
+                Improve communication, leadership,
+                teamwork, problem-solving, and
+                event management skills.
+
+            </p>
+
+        </div>
+
+        <div class="benefit-card">
+
+            <i class="fa-solid fa-handshake-angle"></i>
+
+            <h3>Real Community Impact</h3>
+
+            <p>
+
+                Every hour you volunteer contributes
+                to projects that improve lives and
+                strengthen communities.
+
+            </p>
+
+        </div>
+
+        <div class="benefit-card">
+
+            <i class="fa-solid fa-briefcase"></i>
+
+            <h3>Professional Experience</h3>
+
+            <p>
+
+                Gain valuable experience that
+                strengthens your resume and
+                personal portfolio.
+
+            </p>
+
+        </div>
+
+        <div class="benefit-card">
+
+            <i class="fa-solid fa-heart-circle-check"></i>
+
+            <h3>Purpose & Fulfillment</h3>
+
+            <p>
+
+                Experience the satisfaction of making
+                a positive difference while helping
+                people and communities.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        WHO CAN APPLY
+========================== -->
+
+<section class="who-can-apply">
+
+    <div class="apply-content">
+
+        <div class="apply-text">
+
+            <span>WHO CAN APPLY?</span>
+
+            <h2>Everyone Has Something Valuable To Offer</h2>
+
+            <p>
+
+                We welcome people from all backgrounds who
+                are passionate about creating positive change.
+                Whether you're a student, working professional,
+                homemaker, retiree, or freelancer, your skills
+                and dedication can make a real difference.
+
+            </p>
+
+            <ul>
+
+                <li><i class="fa-solid fa-check"></i> Minimum age: 16 years</li>
+
+                <li><i class="fa-solid fa-check"></i> Passion to help communities</li>
+
+                <li><i class="fa-solid fa-check"></i> Willingness to work in a team</li>
+
+                <li><i class="fa-solid fa-check"></i> Commitment to volunteer responsibilities</li>
+
+                <li><i class="fa-solid fa-check"></i> Respect for CareSphere's values and policies</li>
+
+            </ul>
+
+        </div>
+
+        <div class="apply-image">
+
+            <img src="../images/volunteer-team.jpg"
+                 alt="Volunteer Team">
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        APPLICATION PROCESS
+========================== -->
+
+<section class="application-process">
+
+    <div class="section-title">
+
+        <span>APPLICATION PROCESS</span>
+
+        <h2>Your Journey Starts Here</h2>
+
+    </div>
+
+    <div class="process-container">
+
+        <div class="process-card">
+
+            <div class="number">1</div>
+
+            <h3>Submit Application</h3>
+
+            <p>
+
+                Complete the volunteer application with
+                your personal details, skills, interests,
+                and experience.
+
+            </p>
+
+        </div>
+
+        <div class="process-card">
+
+            <div class="number">2</div>
+
+            <h3>Application Review</h3>
+
+            <p>
+
+                Our administrative team carefully reviews
+                every application to understand how you
+                can best contribute.
+
+            </p>
+
+        </div>
+
+        <div class="process-card">
+
+            <div class="number">3</div>
+
+            <h3>Approval Decision</h3>
+
+            <p>
+
+                You'll receive an update once your
+                application has been accepted or
+                declined.
+
+            </p>
+
+        </div>
+
+        <div class="process-card">
+
+            <div class="number">4</div>
+
+            <h3>Access Your Dashboard</h3>
+
+            <p>
+
+                Approved volunteers can log in,
+                register for events, and begin
+                volunteering with CareSphere.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        TESTIMONIALS
+========================== -->
+
+<section class="volunteer-testimonials">
+
+    <div class="section-title">
+
+        <span>VOLUNTEER STORIES</span>
+
+        <h2>Hear From Our Volunteers</h2>
+
+    </div>
+
+    <div class="testimonial-grid">
+
+        <div class="testimonial-card">
+
+            <img src="../images/person1.jpg"
+                 alt="Volunteer">
+
+            <p>
+
+                "CareSphere gave me the opportunity
+                to make a real difference while meeting
+                incredible people who share the same passion."
+
+            </p>
+
+            <h3>Priya Sharma</h3>
+
+            <span>Volunteer</span>
+
+        </div>
+
+        <div class="testimonial-card">
+
+            <img src="../images/person2.jpg"
+                 alt="Volunteer">
+
+            <p>
+
+                "Every event taught me something new.
+                It helped me grow personally while
+                giving back to the community."
+
+            </p>
+
+            <h3>Rahul Mehta</h3>
+
+            <span>Volunteer</span>
+
+        </div>
+
+        <div class="testimonial-card">
+
+            <img src="../images/person3.jpg"
+                 alt="Volunteer">
+
+            <p>
+
+                "Being a CareSphere volunteer has been
+                one of the most rewarding experiences
+                of my life."
+
+            </p>
+
+            <h3>Aisha Khan</h3>
+
+            <span>Volunteer</span>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ==========================
+        FAQ
+========================== -->
+
+<section class="volunteer-faq">
+
+    <div class="section-title">
+
+        <span>FREQUENTLY ASKED QUESTIONS</span>
+
+        <h2>Have Questions?</h2>
+
+    </div>
+
+    <div class="faq-container">
+
+        <div class="faq-item">
+
+            <button class="faq-question">
+
+                Do I need previous volunteering experience?
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+
+                    No. Previous volunteering experience is not required.
+                    We welcome anyone who is passionate about helping
+                    others and willing to learn.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="faq-item">
+
+            <button class="faq-question">
+
+                Is there a minimum age requirement?
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+
+                    Yes. Applicants should be at least
+                    <strong>16 years old</strong> to apply.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="faq-item">
+
+            <button class="faq-question">
+
+                Why is my application reviewed before approval?
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+
+                    Every application is reviewed to ensure volunteers
+                    are matched with suitable opportunities and to
+                    maintain a safe and organized volunteering environment.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="faq-item">
+
+            <button class="faq-question">
+
+                Can I participate in events immediately after applying?
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+
+                    No. You'll be able to register for events only after
+                    your application has been approved by our
+                    administrative team.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="faq-item">
+
+            <button class="faq-question">
+
+                Will I receive a certificate?
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+
+                    Yes. Volunteers who actively participate in eligible
+                    events may receive certificates based on attendance
+                    and contribution.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        FINAL CTA
+========================== -->
+
+<section class="volunteer-cta">
+
+    <div class="cta-content">
+
+        <span>READY TO MAKE A DIFFERENCE?</span>
+
+        <h2>
+
+            Your Journey Starts With
+            One Application
+
+        </h2>
+
+        <p>
+
+            Join a growing community of volunteers committed to creating
+            positive change. Complete the application, and once approved,
+            you'll gain access to volunteer opportunities, events, and
+            your own CareSphere volunteer dashboard.
+
+        </p>
+
+        <a href="volunteer-application.html"
+           class="apply-btn">
+
+            Apply as a Volunteer
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        FOOTER
+========================== -->
+
+</main>
+
+<footer class="site-footer">
+
+    <div class="footer-container">
+
+        <div class="footer-column">
+
+            <h2>
+                
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+
+                CareSphere
+            </h2>
+
+            <p>
+                A volunteer-run foundation working in education, healthcare
+                and green cover across Karnataka. Every hour given goes
+                straight back into the community.
+            </p>
+
+            <div class="footer-socials">
+
+                <a href="#" aria-label="CareSphere on Facebook">
+                    <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                </a>
+
+                <a href="#" aria-label="CareSphere on Instagram">
+                    <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+                </a>
+
+                <a href="#" aria-label="CareSphere on LinkedIn">
+                    <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Explore</h3>
+
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="programs.html">Programs</a>
+            <a href="events.html">Events</a>
+            <a href="news.html">News</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="recognition.html">Recognition</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Get Involved</h3>
+
+            <a href="volunteer.html">Volunteer</a>
+            <a href="volunteer-application.html">Apply Now</a>
+            <a href="institutions.html">Partner With Us</a>
+            <a href="register.html">Create Account</a>
+            <a href="contact.html">Contact Us</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Reach Us</h3>
+
+            <p>
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                <a href="mailto:info@caresphere.org"
+                   style="display:inline">info@caresphere.org</a>
+            </p>
+
+            <p>
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <a href="tel:+919876543210"
+                   style="display:inline">+91 98765 43210</a>
+            </p>
+
+            <p>
+                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                Bengaluru, Karnataka, India
+            </p>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <p class="copyright">
+        &copy; 2026 CareSphere Foundation. All rights reserved.
+    </p>
+
+</footer>
+
+<div id="cs-chat-root">
+
+    <button id="cs-chat-launcher" aria-label="Open chat">
+
+        <i class="fa-solid fa-comment-dots"></i>
+        <span class="cs-badge"></span>
+
+    </button>
+
+    <div id="cs-chat-window">
+
+        <div id="cs-chat-header">
+
+            <div class="cs-avatar">
+
+                <i class="fa-solid fa-hand-holding-heart"></i>
+
+            </div>
+
+            <div class="cs-header-text">
+
+                <h4>CareSphere Assistant</h4>
+                <span>Online now</span>
+
+            </div>
+
+            <button id="cs-chat-close" aria-label="Close chat">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <div id="cs-chat-messages"></div>
+
+        <div id="cs-quick-replies"></div>
+
+        <div id="cs-chat-input-row">
+
+            <label for="cs-chat-input" class="visually-hidden">Type your question...</label>
+<input type="text" id="cs-chat-input" placeholder="Type your question..." autocomplete="off">
+
+            <button id="cs-chat-send" aria-label="Send">
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+            </button>
+
+        </div>
+
+        <div id="cs-chat-footer-note">
+
+            Answers are automated and may not always be exact.
+
+        </div>
+
+    </div>
+
+</div>
+<script src="../js/site.js"></script>
+<script src="../js/volunteer.js"></script>
+<script src="../js/chatbot.js"></script>
+</body>
+
+</html>

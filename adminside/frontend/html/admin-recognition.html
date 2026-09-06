@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recognition · CareSphere Admin</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+</head>
+<body class="admin" data-page="recognition" data-group="content">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="page-head">
+          <div class="page-head-text">
+            <a class="crumb" href="admin-home.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Admin Home
+            </a>
+            <h1>Recognition</h1>
+            <p>Volunteers you want to put on the Hall of Fame, and awards CareSphere has received.</p>
+          </div>
+          <button class="btn btn-primary" type="button" id="newEntry">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            New entry
+          </button>
+        </header>
+
+        <section class="summary-row" id="summaryRow"></section>
+
+        <section class="toolbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+            <input type="search" id="searchBox" placeholder="Search by name or award" aria-label="Search recognition entries">
+          </label>
+
+          <div class="filter-set" id="typeFilter" role="group" aria-label="Filter by type">
+            <button class="chip is-on" data-type="Recognition">Volunteers</button>
+            <button class="chip" data-type="Award">Awards</button>
+            <button class="chip" data-type="all">All</button>
+          </div>
+        </section>
+
+        <section class="table-wrap">
+          <div class="table-scroll">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>What they did</th>
+                  <th>Year</th>
+                  <th>Type</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="emptyState" hidden>
+            <span class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="m8.2 13.5-1.4 7 5.2-2.6 5.2 2.6-1.4-7"/></svg>
+            </span>
+            <h3 id="emptyTitle">Nothing listed yet</h3>
+            <p id="emptyBody">Add a volunteer to the Hall of Fame.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <div class="modal" id="formModal" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="formTitle">New entry</h2>
+          <p>Volunteers show on the recognition page. Awards show on the impact dashboard.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="rTitle">Volunteer's name, or the award title</label>
+            <input type="text" id="rTitle" data-autofocus placeholder="Rohan Verma">
+            <span class="error" id="rTitleError"></span>
+          </div>
+          <div class="field full">
+            <label for="rBody">What they did, or who gave the award</label>
+            <input type="text" id="rBody" placeholder="Led 12 tree plantation drives across Bengaluru.">
+            <span class="error" id="rBodyError"></span>
+          </div>
+          <div class="field">
+            <label for="rYear">Year</label>
+            <input type="number" id="rYear" min="1990" max="2100" placeholder="2025">
+            <span class="error" id="rYearError"></span>
+          </div>
+          <div class="field">
+            <label for="rType">Type</label>
+            <select id="rType">
+              <option value="Recognition">Volunteer &mdash; Hall of Fame</option>
+              <option value="Award">Award &mdash; impact dashboard</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="button" id="saveEntry">Save entry</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+    <div class="modal-box is-slim">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="deleteTitle">Delete this entry?</h2>
+          <p id="deleteBody">This cannot be undone.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Keep it</button>
+        <button class="btn btn-danger" type="button" id="confirmDelete">Delete entry</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-recognition.js"></script>
+</body>
+</html>

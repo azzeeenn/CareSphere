@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volunteer application · CareSphere</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+  <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body class="auth">
+
+  <div class="auth-shell is-single">
+    <main class="auth-main">
+
+      <div class="auth-head">
+        <span class="auth-eyebrow">Step 2 of 2</span>
+        <h1>Volunteer application</h1>
+        <p id="introLine">Tell us how you'd like to help. An organiser reads every application.</p>
+      </div>
+
+      <div class="notice" id="notice" hidden></div>
+
+      <!-- ============================= FORM ============================= -->
+      <div id="formWrap">
+
+        <p class="form-section">About you</p>
+        <div class="form-grid">
+          <div class="field">
+            <label for="fName">Full name</label>
+            <input type="text" id="fName" autocomplete="name">
+            <span class="error"></span>
+          </div>
+          <div class="field">
+            <label for="fPhone">Phone number</label>
+            <input type="tel" id="fPhone" autocomplete="tel" placeholder="98450 11223">
+            <span class="error"></span>
+          </div>
+          <div class="field">
+            <label for="fCity">Town or city</label>
+            <input type="text" id="fCity" placeholder="Bengaluru">
+            <span class="error"></span>
+          </div>
+          <div class="field">
+            <label for="fDistrict">District you can work in</label>
+            <select id="fDistrict"></select>
+            <span class="error"></span>
+          </div>
+        </div>
+
+        <p class="form-section">How you'd like to help</p>
+        <div class="form-grid">
+          <div class="field">
+            <label for="fInterest">Area of interest</label>
+            <select id="fInterest"></select>
+            <span class="error"></span>
+          </div>
+          <div class="field">
+            <label for="fAvailability">When you're free</label>
+            <select id="fAvailability">
+              <option value="Weekends">Weekends</option>
+              <option value="Weekdays">Weekdays</option>
+              <option value="Both">Both</option>
+            </select>
+            <span class="error"></span>
+          </div>
+          <div class="field full">
+            <label for="fHours">Hours you can give each week</label>
+            <input type="number" id="fHours" min="1" max="40" placeholder="6">
+            <span class="hint">A rough number is fine. It helps us plan rotas.</span>
+            <span class="error"></span>
+          </div>
+        </div>
+
+        <p class="form-section">Your background</p>
+        <div class="field full">
+          <label for="fSkills">Skills or languages</label>
+          <input type="text" id="fSkills" placeholder="Teaching, Kannada, first aid">
+          <span class="error"></span>
+        </div>
+        <div class="field full">
+          <label for="fExperience">Any previous volunteering</label>
+          <textarea id="fExperience" placeholder="It's completely fine if you have none — say so."></textarea>
+          <span class="error"></span>
+        </div>
+        <div class="field full">
+          <label for="fMotivation">Why you'd like to join</label>
+          <textarea id="fMotivation" placeholder="A few honest sentences."></textarea>
+          <span class="error"></span>
+        </div>
+
+        <p class="form-section">In case of emergency</p>
+        <div class="form-grid">
+          <div class="field">
+            <label for="fEmergencyName">Contact name</label>
+            <input type="text" id="fEmergencyName">
+            <span class="error"></span>
+          </div>
+          <div class="field">
+            <label for="fEmergencyPhone">Contact phone</label>
+            <input type="tel" id="fEmergencyPhone">
+            <span class="error"></span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="button" id="submit" style="margin-top:8px">
+          Submit application
+        </button>
+
+        <p class="auth-foot">
+          <a href="#" id="signOutLink">Sign out and come back later</a>
+        </p>
+      </div>
+
+      <!-- ============================ SUCCESS =========================== -->
+      <div id="doneWrap" hidden>
+        <div class="notice is-good" style="margin-bottom:22px">
+          <span class="notice-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.2 2.4 2.4 4.6-4.8"/></svg>
+          </span>
+          <span>
+            <strong>Application submitted</strong>
+            <span>An organiser will review it, usually within three working days.</span>
+          </span>
+        </div>
+
+        <p style="color:var(--cs-muted);font-size:13.5px;line-height:1.7;margin:0 0 22px">
+          You won't be able to sign in until it's approved. If you try, the sign-in page
+          will tell you where your application has got to.
+        </p>
+
+        <a class="btn btn-primary btn-block" href="login.html">Back to sign in</a>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+  (function () {
+    "use strict";
+
+    /* You have to be signed up to fill this in */
+    var user = CSAuth.current();
+    if (!user || user.role !== "volunteer") {
+      window.location.replace("register.html");
+      return;
+    }
+
+    var existingApp = null;
+
+    var F = {
+      fName:           document.getElementById("fName"),
+      fPhone:          document.getElementById("fPhone"),
+      fCity:           document.getElementById("fCity"),
+      fDistrict:       document.getElementById("fDistrict"),
+      fInterest:       document.getElementById("fInterest"),
+      fAvailability:   document.getElementById("fAvailability"),
+      fHours:          document.getElementById("fHours"),
+      fSkills:         document.getElementById("fSkills"),
+      fExperience:     document.getElementById("fExperience"),
+      fMotivation:     document.getElementById("fMotivation"),
+      fEmergencyName:  document.getElementById("fEmergencyName"),
+      fEmergencyPhone: document.getElementById("fEmergencyPhone")
+    };
+
+    /* Fill the dropdowns from the data layer */
+    function options(list) {
+      return list.map(function (v) {
+        return '<option value="' + CSAuth.esc(v) + '">' + CSAuth.esc(v) + '</option>';
+      }).join("");
+    }
+    F.fDistrict.innerHTML = options(CSStore.districts);
+    F.fInterest.innerHTML = options(CSStore.categories);
+
+    F.fName.value = user.name;
+
+    /* If an admin asked for more information, load what they wrote last time */
+    CSStore.find("applications", { userId: user._id }).then(function (apps) {
+      var app = apps[0];
+      if (!app) return;
+
+      if (app.status === "pending" || app.status === "approved") {
+        document.getElementById("formWrap").hidden = true;
+        document.getElementById("doneWrap").hidden = false;
+        return;
+      }
+
+      existingApp = app;
+
+      F.fName.value           = app.name;
+      F.fPhone.value          = app.phone;
+      F.fCity.value           = app.city;
+      F.fDistrict.value       = app.district;
+      F.fInterest.value       = app.interest;
+      F.fAvailability.value   = app.availability;
+      F.fHours.value          = app.hoursPerWeek;
+      F.fSkills.value         = app.skills;
+      F.fExperience.value     = app.experience;
+      F.fMotivation.value     = app.motivation;
+      F.fEmergencyName.value  = app.emergencyName;
+      F.fEmergencyPhone.value = app.emergencyPhone;
+
+      if (app.status === "more_info") {
+        document.getElementById("introLine").textContent =
+          "An organiser has asked for a few more details. Update your answers and send it back.";
+        CSAuth.notice("wait", "What we need from you", app.note);
+        document.getElementById("submit").textContent = "Resubmit application";
+      }
+    });
+
+    /* ---------------------------------------------------------------- */
+
+    function validate() {
+      CSAuth.clearErrors();
+      var ok = true, first = null;
+
+      function bad(key, msg) {
+        CSAuth.fail(F[key], msg);
+        first = first || F[key];
+        ok = false;
+      }
+
+      if (F.fName.value.trim().length < 2) bad("fName", "Tell us your name.");
+
+      if (!F.fPhone.value.trim())              bad("fPhone", "We need a number to reach you on.");
+      else if (!CSAuth.isPhone(F.fPhone.value)) bad("fPhone", "That doesn't look like a phone number.");
+
+      if (!F.fCity.value.trim()) bad("fCity", "Which town or city are you in?");
+
+      var hours = parseInt(F.fHours.value, 10);
+      if (!hours || hours < 1 || hours > 40) bad("fHours", "Enter a number between 1 and 40.");
+
+      if (F.fSkills.value.trim().length < 3) bad("fSkills", "List at least one skill or language.");
+
+      if (F.fExperience.value.trim().length < 10) {
+        bad("fExperience", "Write a line here — \u201Cnone yet\u201D is a perfectly good answer.");
+      }
+
+      if (F.fMotivation.value.trim().length < 25) {
+        bad("fMotivation", "Tell us a bit more. Two or three sentences is plenty.");
+      }
+
+      if (F.fEmergencyName.value.trim().length < 2) bad("fEmergencyName", "Who should we call in an emergency?");
+
+      if (!F.fEmergencyPhone.value.trim())               bad("fEmergencyPhone", "Add their phone number.");
+      else if (!CSAuth.isPhone(F.fEmergencyPhone.value)) bad("fEmergencyPhone", "That doesn't look like a phone number.");
+      else if (F.fEmergencyPhone.value.replace(/\D/g, "") === F.fPhone.value.replace(/\D/g, "")) {
+        bad("fEmergencyPhone", "This should be someone else's number, not your own.");
+      }
+
+      if (first) {
+        first.focus();
+        first.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+      return ok;
+    }
+
+    document.getElementById("submit").addEventListener("click", function () {
+      var btn = this;
+      CSAuth.hideNotice();
+      if (!validate()) return;
+
+      btn.disabled = true;
+      btn.textContent = "Sending\u2026";
+
+      var payload = {
+        userId:         user._id,
+        name:           F.fName.value.trim(),
+        email:          user.email,
+        phone:          F.fPhone.value.trim(),
+        city:           F.fCity.value.trim(),
+        district:       F.fDistrict.value,
+        interest:       F.fInterest.value,
+        availability:   F.fAvailability.value,
+        hoursPerWeek:   parseInt(F.fHours.value, 10),
+        skills:         F.fSkills.value.trim(),
+        experience:     F.fExperience.value.trim(),
+        motivation:     F.fMotivation.value.trim(),
+        emergencyName:  F.fEmergencyName.value.trim(),
+        emergencyPhone: F.fEmergencyPhone.value.trim(),
+        status:         "pending",
+        submittedAt:    CSAuth.today(),
+        reviewedAt:     null,
+        reviewedBy:     null,
+        note:           ""
+      };
+
+      var work = existingApp
+        ? CSStore.updateById("applications", existingApp._id, payload)
+        : CSStore.insert("applications", payload);
+
+      work.then(function () {
+        CSStore.session.set(Object.assign({}, user, { applicationStatus: "pending" }));
+        document.getElementById("formWrap").hidden = true;
+        document.getElementById("doneWrap").hidden = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+
+    document.getElementById("signOutLink").addEventListener("click", function (e) {
+      e.preventDefault();
+      CSAuth.signOut("login.html");
+    });
+
+  })();
+  </script>
+</body>
+</html>

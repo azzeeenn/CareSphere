@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hours Verification · CareSphere Admin</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+</head>
+<body class="admin" data-page="hours" data-group="people">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="page-head">
+          <div class="page-head-text">
+            <a class="crumb" href="admin-home.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Admin Home
+            </a>
+            <h1>Hours Verification</h1>
+            <p>Volunteers log their own hours. Only verified hours count towards their total.</p>
+          </div>
+        </header>
+
+        <section class="summary-row" id="summaryRow"></section>
+
+        <section class="toolbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+            <input type="search" id="searchBox" placeholder="Search by volunteer or event" aria-label="Search logged hours">
+          </label>
+
+          <div class="filter-set" id="statusFilter" role="group" aria-label="Filter by status">
+            <button class="chip is-on" data-status="pending">Pending</button>
+            <button class="chip" data-status="verified">Verified</button>
+            <button class="chip" data-status="rejected">Rejected</button>
+            <button class="chip" data-status="all">All</button>
+          </div>
+        </section>
+
+        <section class="table-wrap">
+          <div class="table-scroll">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Volunteer</th>
+                  <th>Event</th>
+                  <th>Hours claimed</th>
+                  <th>Logged</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="emptyState" hidden>
+            <span class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.9"/></svg>
+            </span>
+            <h3 id="emptyTitle">Nothing to verify</h3>
+            <p id="emptyBody">Hours appear here once volunteers log them against an event they attended.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Verify: confirm or correct the number -->
+  <div class="modal" id="verifyModal" role="dialog" aria-modal="true" aria-labelledby="verifyTitle">
+    <div class="modal-box is-slim">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="verifyTitle">Verify hours</h2>
+          <p id="verifySub">—</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="vHours">Hours to record</label>
+            <input type="number" id="vHours" step="0.5" min="0.5" max="24" data-autofocus>
+            <span class="hint">Change this if the claim does not match what you saw on the day.</span>
+            <span class="error" id="vHoursError"></span>
+          </div>
+          <div class="field full">
+            <label for="vNote">Note (optional)</label>
+            <textarea id="vNote" placeholder="Anything worth recording about this entry."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="button" id="confirmVerify">Verify hours</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reject -->
+  <div class="modal" id="rejectModal" role="dialog" aria-modal="true" aria-labelledby="rejectTitle">
+    <div class="modal-box is-slim">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="rejectTitle">Reject this entry</h2>
+          <p>The volunteer sees this on their hours page.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="field full">
+          <label for="rNote">Reason</label>
+          <textarea id="rNote" data-autofocus placeholder="For example: our attendance sheet does not show you at this event."></textarea>
+          <span class="error" id="rNoteError"></span>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-danger" type="button" id="confirmReject">Reject entry</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-hours.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create an account · CareSphere</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+</head>
+<body class="auth">
+
+  <div class="auth-shell">
+
+    <aside class="auth-aside">
+      <div class="auth-brand">
+<span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+        <b>CareSphere</b>
+      </div>
+      <h2>Two steps to<br>getting started.</h2>
+      <p>Create your account, then tell us a little about yourself. An organiser reviews every application.</p>
+      <ul class="auth-points">
+        <li><b>1</b> Create an account with your email</li>
+        <li><b>2</b> Fill in the volunteer application</li>
+        <li><b>3</b> We review it, usually within three days</li>
+      </ul>
+    </aside>
+
+    <main class="auth-main">
+
+      <div class="auth-head">
+        <span class="auth-eyebrow">Step 1 of 2</span>
+        <h1>Create your account</h1>
+        <p>You'll fill in the application form next.</p>
+      </div>
+
+      <div class="notice" id="notice" hidden></div>
+
+      <div class="field">
+        <label for="name">Full name</label>
+        <input type="text" id="name" autocomplete="name" placeholder="Priya Nayak">
+        <span class="error"></span>
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <input type="email" id="email" autocomplete="email" placeholder="you@example.com">
+        <span class="error"></span>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" autocomplete="new-password" placeholder="At least 8 characters">
+          <span class="error"></span>
+        </div>
+
+        <div class="field">
+          <label for="confirm">Confirm password</label>
+          <input type="password" id="confirm" autocomplete="new-password" placeholder="Type it again">
+          <span class="error"></span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-block" type="button" id="submit">Create account and continue</button>
+
+      <p class="auth-foot">
+        Already have an account? <a href="login.html">Sign in</a>
+      </p>
+
+    </main>
+  </div>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+  (function () {
+    "use strict";
+
+    var name     = document.getElementById("name");
+    var email    = document.getElementById("email");
+    var password = document.getElementById("password");
+    var confirm  = document.getElementById("confirm");
+    var submit   = document.getElementById("submit");
+
+    function validate() {
+      CSAuth.clearErrors();
+      var ok = true, first = null;
+
+      function bad(el, msg) {
+        CSAuth.fail(el, msg);
+        first = first || el;
+        ok = false;
+      }
+
+      if (name.value.trim().length < 2) bad(name, "Tell us your name.");
+
+      if (!email.value.trim())                     bad(email, "Enter your email address.");
+      else if (!CSAuth.isEmail(email.value.trim())) bad(email, "That doesn't look like an email address.");
+
+      if (password.value.length < 8) bad(password, "Use at least 8 characters.");
+      else if (!/[0-9]/.test(password.value)) bad(password, "Include at least one number.");
+
+      if (!confirm.value) bad(confirm, "Type your password again.");
+      else if (confirm.value !== password.value) bad(confirm, "These two don't match.");
+
+      if (first) first.focus();
+      return ok;
+    }
+
+    submit.addEventListener("click", function () {
+      CSAuth.hideNotice();
+      if (!validate()) return;
+
+      submit.disabled = true;
+      submit.textContent = "Creating your account\u2026";
+
+      CSAuth.register(name.value.trim(), email.value.trim(), password.value)
+        .then(function (result) {
+          if (result.ok) {
+            window.location.href = "volunteer-application.html";
+            return;
+          }
+
+          submit.disabled = false;
+          submit.textContent = "Create account and continue";
+          CSAuth.notice("stop", "That email is already registered", result.message);
+          CSAuth.fail(email, "Try signing in instead.");
+        });
+    });
+
+    [name, email, password, confirm].forEach(function (el) {
+      el.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") submit.click();
+      });
+    });
+
+  })();
+  </script>
+</body>
+</html>

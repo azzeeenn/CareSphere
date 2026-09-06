@@ -1,0 +1,590 @@
+/* ==========================================================================
+   CareSphere — Certificate document
+
+   Laid out for landscape A4. The screen version is a preview; the print
+   version is the real thing, which is what "Save as PDF" produces.
+
+   Layout notes
+   ------------
+   The sheet is a flex column. Two `margin-top: auto` rules — one on the
+   figures row, one on the footer — split whatever vertical space is left
+   evenly, so a short participation certificate and a long recommendation
+   both sit balanced rather than bunching at the top.
+
+   The masthead bleeds to the frame by cancelling the inner padding with
+   negative side margins, which is why .sheet-inner's padding and
+   .doc-brand's margin have to stay in step.
+   ========================================================================== */
+
+:root {
+  --cs-coral:       #E78F81;
+  --cs-coral-dark:  #D97A6C;
+  --cs-peach:       #FFCFB3;
+  --cs-cream:       #FFF5CD;
+  --cs-blue:        #B7E0FF;
+  --cs-navy:        #26415E;
+  --cs-navy-deep:   #1B3049;
+  --cs-ink:         #2d2d2d;
+  --cs-muted:       #6b7280;
+  --cs-white:       #FFFFFF;
+  --cs-page:        #F8FBFF;
+
+  --cs-line:        rgba(38, 65, 94, 0.13);
+  --cs-line-strong: rgba(38, 65, 94, 0.24);
+
+  --cs-radius-sm:   9px;
+  --cs-ease:        cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* kept in step with .doc-brand's negative margins */
+  --sheet-pad-x:    54px;
+  --frame-inset:    14px;
+}
+
+/* --------------------------------------------------------------------------
+   Page — same gradient field as the auth pages
+   -------------------------------------------------------------------------- */
+
+body.certificate {
+  margin: 0;
+  min-height: 100vh;
+  padding: 26px 20px 60px;
+  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+  color: var(--cs-ink);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(1100px 640px at 6% -8%,   rgba(183, 224, 255, 0.55), transparent 62%),
+    radial-gradient(900px  540px at 99% 2%,   rgba(255, 245, 205, 0.52), transparent 60%),
+    radial-gradient(860px  640px at 80% 104%, rgba(255, 207, 179, 0.40), transparent 63%),
+    var(--cs-page);
+  background-attachment: fixed;
+}
+
+/* --------------------------------------------------------------------------
+   Toolbar
+   -------------------------------------------------------------------------- */
+
+.doc-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto 18px;
+}
+
+.doc-bar[hidden] { display: none; }
+
+.doc-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--cs-navy);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.doc-back svg { width: 16px; height: 16px; }
+.doc-back:hover { color: var(--cs-coral-dark); }
+
+.doc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border: 1px solid transparent;
+  border-radius: var(--cs-radius-sm);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.17s var(--cs-ease), transform 0.17s var(--cs-ease);
+}
+
+.doc-btn-primary { background: var(--cs-coral); color: var(--cs-white); }
+.doc-btn-primary:hover { background: var(--cs-coral-dark); transform: translateY(-1px); }
+
+.doc-btn-quiet {
+  background: var(--cs-white);
+  border-color: var(--cs-line-strong);
+  color: var(--cs-navy);
+}
+
+.doc-btn-quiet:hover { border-color: var(--cs-coral); color: var(--cs-coral-dark); }
+.doc-btn:focus-visible { outline: 2px solid var(--cs-coral); outline-offset: 2px; }
+
+.doc-hint {
+  max-width: 1120px;
+  margin: 0 auto 20px;
+  padding: 13px 16px;
+  border: 1px solid var(--cs-line);
+  border-left: 3px solid var(--cs-blue);
+  border-radius: var(--cs-radius-sm);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--cs-muted);
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+.doc-hint[hidden] { display: none; }
+.doc-hint b { color: var(--cs-navy); font-weight: 600; }
+
+/* --------------------------------------------------------------------------
+   Sheet
+   -------------------------------------------------------------------------- */
+
+.sheet {
+  position: relative;
+  width: 100%;
+  max-width: 1120px;
+  aspect-ratio: 297 / 210;
+  margin: 0 auto;
+  background: var(--cs-white);
+  border-radius: 4px;
+  box-shadow:
+    0 2px 6px rgba(38, 65, 94, 0.07),
+    0 30px 70px rgba(38, 65, 94, 0.16);
+  overflow: hidden;
+}
+
+/* Two-line frame: navy hairline with a coral rule just inside it */
+.sheet::before {
+  content: "";
+  position: absolute;
+  inset: var(--frame-inset);
+  border: 1.5px solid var(--cs-navy);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.sheet::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--frame-inset) + 5px);
+  border: 1px solid rgba(231, 143, 129, 0.55);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* The CS watermark is gone — this keeps the markup harmless if it's still
+   in certificate.js. Delete the .watermark line there to drop it entirely. */
+.watermark { display: none; }
+
+/* Corner brackets ---------------------------------------------------------- */
+
+.corner {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.corner.tl, .corner.tr { border-color: var(--cs-coral); }
+.corner.bl, .corner.br { border-color: var(--cs-coral); }
+
+.corner.tl {
+  top: 26px; left: 26px;
+  border-top: 2px solid; border-left: 2px solid;
+}
+
+.corner.tr {
+  top: 26px; right: 26px;
+  border-top: 2px solid; border-right: 2px solid;
+}
+
+.corner.bl {
+  bottom: 26px; left: 26px;
+  border-bottom: 2px solid; border-left: 2px solid;
+}
+
+.corner.br {
+  bottom: 26px; right: 26px;
+  border-bottom: 2px solid; border-right: 2px solid;
+}
+
+/* --------------------------------------------------------------------------
+   Inner column
+   -------------------------------------------------------------------------- */
+
+.sheet-inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  box-sizing: border-box;
+  padding: calc(var(--frame-inset) + 2px) var(--sheet-pad-x) 34px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* Masthead ---------------------------------------------------------------- */
+
+.doc-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 0 0 28px;
+  padding: 24px 0 0;
+}
+
+.doc-mark {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+.doc-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.doc-org { text-align: left; }
+
+.doc-org b {
+  display: block;
+  color: var(--cs-navy);
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+.doc-org span {
+  display: block;
+  margin-top: 3px;
+  color: var(--cs-muted);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Title ------------------------------------------------------------------- */
+
+.doc-kind {
+  margin: 0;
+  color: var(--cs-navy);
+  font-size: 29px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.doc-rule {
+  display: block;
+  width: 132px;
+  height: 3px;
+  margin: 13px auto 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg,
+    transparent, var(--cs-coral) 22%, var(--cs-coral) 78%, transparent);
+}
+
+/* Recipient --------------------------------------------------------------- */
+
+.doc-lead {
+  margin: 22px 0 0;
+  color: var(--cs-muted);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.doc-name {
+  margin: 12px 0 0;
+  color: var(--cs-navy);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.doc-underline {
+  display: block;
+  width: 62%;
+  max-width: 560px;
+  height: 1px;
+  margin: 14px auto 0;
+  background: linear-gradient(90deg,
+    transparent, var(--cs-line-strong) 18%, var(--cs-line-strong) 82%, transparent);
+}
+
+.doc-body {
+  max-width: 72ch;
+  margin: 22px auto 0;
+  color: var(--cs-ink);
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+.doc-body b { color: var(--cs-navy); font-weight: 600; }
+
+/* Figures ----------------------------------------------------------------- */
+
+.doc-figures {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0;
+  /* first of the two auto margins that share out the leftover height */
+  margin: auto auto 0;
+  padding: 0;
+  border: 1px solid var(--cs-line);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(248, 251, 255, 0.9), rgba(255, 255, 255, 0.6));
+  overflow: hidden;
+}
+
+.doc-figure {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  min-width: 210px;
+  padding: 19px 32px;
+  border-left: 1px solid var(--cs-line);
+}
+
+.doc-figure:first-child { border-left: none; }
+
+.doc-figure b {
+  color: var(--cs-navy);
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.doc-figure > span {
+  color: var(--cs-muted);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Signatures -------------------------------------------------------------- */
+
+.doc-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  /* second auto margin — pins the row to the bottom and balances the gap */
+  margin-top: auto;
+  padding-top: 26px;
+}
+
+.doc-sign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 210px;
+}
+
+.doc-sign .line {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  margin-bottom: 9px;
+  background: var(--cs-navy);
+}
+
+.doc-sign b {
+  color: var(--cs-navy);
+  font-size: 16.5px;
+  font-weight: 600;
+}
+
+.doc-sign > span {
+  color: var(--cs-muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.doc-centre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.doc-seal {
+  width: 104px;
+  height: 104px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--cs-coral);
+  outline: 1px solid rgba(231, 143, 129, 0.45);
+  outline-offset: 4px;
+  background: radial-gradient(circle at 50% 40%,
+    rgba(255, 245, 205, 0.55), rgba(255, 255, 255, 0.9) 70%);
+}
+
+/* small type, wide circle — the org name has to fit inside the ring */
+.doc-seal b {
+  color: var(--cs-navy);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.06em;
+}
+
+.doc-seal span {
+  margin-top: 5px;
+  padding-top: 5px;
+  border-top: 1px solid rgba(231, 143, 129, 0.5);
+  color: var(--cs-coral-dark);
+  font-size: 7.5px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.2em;
+}
+
+.doc-ref b {
+  display: block;
+  color: var(--cs-navy);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.doc-ref span {
+  display: block;
+  margin-top: 2px;
+  color: var(--cs-muted);
+  font-size: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   Problem states
+   -------------------------------------------------------------------------- */
+
+.doc-problem {
+  max-width: 520px;
+  margin: 70px auto;
+  padding: 40px 34px;
+  border: 1px solid var(--cs-line);
+  border-radius: 18px;
+  background: var(--cs-white);
+  box-shadow: 0 20px 50px rgba(38, 65, 94, 0.12);
+  text-align: center;
+}
+
+.doc-problem h1 {
+  margin: 0 0 10px;
+  color: var(--cs-navy);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.doc-problem p {
+  margin: 0 0 22px;
+  color: var(--cs-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* --------------------------------------------------------------------------
+   Print — this is the version that becomes the PDF
+   -------------------------------------------------------------------------- */
+
+@page {
+  size: A4 landscape;
+  margin: 0;
+}
+
+@media print {
+
+  body.certificate {
+    padding: 0;
+    background: var(--cs-white);
+  }
+
+  .doc-bar,
+  .doc-hint { display: none !important; }
+
+  .sheet {
+    width: 297mm;
+    height: 210mm;
+    max-width: none;
+    aspect-ratio: auto;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    page-break-inside: avoid;
+  }
+
+  /* without this the browser drops the navy band, the coral rules and the
+     seal, and the page prints as bare text */
+  .sheet,
+  .sheet::before,
+  .sheet::after,
+  .corner,
+  .doc-brand,
+  .doc-mark,
+  .doc-rule,
+  .doc-underline,
+  .doc-figures,
+  .doc-seal,
+  .doc-sign .line {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+}
+
+/* --------------------------------------------------------------------------
+   Small screens — the sheet stays readable rather than shrinking to nothing
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+
+  :root { --sheet-pad-x: 26px; }
+
+  .sheet { aspect-ratio: auto; }
+  .sheet-inner { padding-bottom: 26px; }
+
+  .doc-brand { gap: 12px; padding: 16px 0 0; margin-bottom: 20px; }
+  .doc-mark { width: 44px; height: 44px; }
+  .doc-org b { font-size: 25px; }
+  .doc-org span { font-size: 9.5px; letter-spacing: 0.12em; }
+
+  .doc-kind { font-size: 19px; }
+  .doc-name { font-size: 27px; }
+  .doc-body { font-size: 14.5px; line-height: 1.8; }
+
+  .doc-figures { flex-direction: column; margin: 26px 0 0; }
+  .doc-figure { min-width: 0; border-left: none; border-top: 1px solid var(--cs-line); }
+  .doc-figure:first-child { border-top: none; }
+  .doc-figure b { font-size: 21px; }
+
+  .doc-foot { flex-direction: column; align-items: center; gap: 26px; margin-top: 30px; }
+  .doc-sign { width: 100%; max-width: 260px; }
+  .doc-seal { width: 88px; height: 88px; }
+  .corner { width: 22px; height: 22px; }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}

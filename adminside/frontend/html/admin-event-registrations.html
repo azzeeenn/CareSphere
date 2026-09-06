@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrations · CareSphere Admin</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+  <link rel="stylesheet" href="../css/admin-registrations.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+</head>
+<body class="admin" data-page="events" data-group="content">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="page-head">
+          <div class="page-head-text">
+            <a class="crumb" href="admin-events.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              All events
+            </a>
+            <h1>Who's coming</h1>
+            <p>Contact details for everyone signed up, and a sheet you can print for the day.</p>
+          </div>
+          <button class="btn btn-quiet no-print" type="button" id="printSheet">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="4" y="9" width="16" height="7" rx="2"/><path d="M8 16h8v5H8z"/></svg>
+            Print sheet
+          </button>
+        </header>
+
+        <!-- Event picker -->
+        <section class="toolbar no-print">
+          <div class="field" style="flex:1;min-width:240px;margin:0">
+            <label for="eventPicker" style="margin-bottom:6px;color:var(--cs-navy);font-size:12.5px;font-weight:500">Event</label>
+            <select id="eventPicker" aria-label="Choose an event"></select>
+          </div>
+        </section>
+
+        <!-- Event summary -->
+        <section class="roster-head" id="rosterHead" hidden></section>
+
+        <section class="summary-row" id="summaryRow"></section>
+
+        <section class="toolbar no-print">
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+            <input type="search" id="searchBox" placeholder="Search this roster by name" aria-label="Search roster">
+          </label>
+
+          <div class="filter-set" id="statusFilter" role="group" aria-label="Filter by status">
+            <button class="chip is-on" data-status="active">Going</button>
+            <button class="chip" data-status="waitlisted">Waiting list</button>
+            <button class="chip" data-status="cancelled">Cancelled</button>
+            <button class="chip" data-status="all">All</button>
+          </div>
+
+          <button class="btn btn-quiet" type="button" id="addPerson">Add someone</button>
+          <button class="btn btn-quiet" type="button" id="exportCsv">Export CSV</button>
+        </section>
+
+        <section class="table-wrap">
+          <div class="table-scroll">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th class="row-num">#</th>
+                  <th>Volunteer</th>
+                  <th>Phone</th>
+                  <th>District</th>
+                  <th>Signed up</th>
+                  <th>Status</th>
+                  <th class="sign-cell">Signature</th>
+                  <th class="no-print"></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="emptyState" hidden>
+            <span class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3.2"/><path d="M22 20v-2a4 4 0 0 0-3-3.8"/></svg>
+            </span>
+            <h3 id="emptyTitle">Nobody signed up yet</h3>
+            <p id="emptyBody">Volunteers who join this event will appear here.</p>
+          </div>
+        </section>
+
+        <p class="print-foot" id="printFoot"></p>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Add someone manually -->
+  <div class="modal" id="addModal" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+    <div class="modal-box is-slim">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="addTitle">Add someone to this event</h2>
+          <p>For volunteers who signed up by phone or in person.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="field full">
+          <label for="addPicker">Volunteer</label>
+          <select id="addPicker" data-autofocus></select>
+          <span class="hint" id="addHint"></span>
+          <span class="error" id="addError"></span>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="button" id="confirmAdd">Add to event</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Remove -->
+  <div class="modal" id="removeModal" role="dialog" aria-modal="true" aria-labelledby="removeTitle">
+    <div class="modal-box is-slim">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="removeTitle">Take them off this event?</h2>
+          <p id="removeBody">—</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Keep them on</button>
+        <button class="btn btn-danger" type="button" id="confirmRemove">Take them off</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-registrations.js"></script>
+</body>
+</html>

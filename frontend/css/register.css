@@ -1,0 +1,515 @@
+/* ==========================================================
+   CareSphere - register.css
+   ----------------------------------------------------------
+   Matches contact.html and the new login.css: soft pastel
+   sweep, glass panel, navy type, hairline borders.
+
+   Load order on the page is:
+       register.css  ->  base.css  ->  theme.css
+========================================================== */
+
+:root{
+    --blue:#B7E0FF;
+    --cream:#FFF5CD;
+    --peach:#FFCFB3;
+    --coral:#E78F81;
+    --coral-dark:#D97A6C;
+    --navy:#26415E;
+    --text:#4B5563;
+    --page:#F8FBFF;
+    --line:#E6EFF8;
+    --field:#F8FBFF;
+    --white:#fff;
+
+    --radius-lg:32px;
+    --radius-md:24px;
+    --radius-sm:14px;
+
+    --shadow-sm:0 4px 18px rgba(38,65,94,.06);
+    --shadow-md:0 14px 40px rgba(38,65,94,.09);
+    --shadow-lg:0 26px 70px rgba(38,65,94,.14);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* `html body` so this survives theme.css, which loads later */
+html body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:32px 20px;
+    color:var(--text);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+background:linear-gradient(115deg,
+        var(--blue) 0%,
+        #D6E9F3 30%,
+        var(--cream) 66%,
+        var(--peach) 100%);
+}
+
+a{ text-decoration:none; }
+
+/* ==========================================================
+   SHELL
+========================================================== */
+
+.container{
+    width:1120px;
+    max-width:100%;
+    min-height:640px;
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    box-shadow:var(--shadow-lg);
+}
+
+/* ==========================================================
+   LEFT - BRAND PANEL
+   Replaces the 72% navy scrim over register-bg.jpg.
+========================================================== */
+
+.left{
+    position:relative;
+    display:flex;
+    align-items:center;
+    padding:40px 32px;
+    background:linear-gradient(115deg,
+        var(--blue) 0%,
+        #D6E9F3 30%,
+        var(--cream) 66%,
+        var(--peach) 100%);
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 80% 14%,
+        rgba(255,255,255,.55), transparent 58%);
+}
+
+.content{
+    position:relative;
+    z-index:2;
+    width:100%;
+    padding:32px 26px;
+    border-radius:var(--radius-lg);
+    /* Solid white with a navy hairline. A translucent card with a
+       WHITE border disappears wherever the gradient behind it is
+       pale (the cream/peach half), because both the fill and the
+       border match the background there. The edge has to be darker
+       than the lightest part of the gradient to stay visible. */
+    background:#fff;
+    border:1px solid rgba(38,65,94,.12);
+    box-shadow:0 18px 44px rgba(38,65,94,.18),
+                0 3px 10px rgba(38,65,94,.08);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:16px;
+}
+
+.logo i{
+    font-size:30px;
+    color:var(--coral);
+}
+
+.logo h1{
+    font-size:26px;
+    font-weight:800;
+    color:var(--coral);
+    line-height:1;
+}
+
+.content h2{
+    font-size:26px;
+    font-weight:800;
+    line-height:1.25;
+    color:var(--navy);
+    margin-bottom:10px;
+}
+
+.content p{
+    font-size:14.5px;
+    line-height:1.8;
+    color:var(--text);
+    margin-bottom:20px;
+}
+
+/* ---- stat chips ---- */
+
+.cards{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:11px 14px;
+    border-radius:var(--radius-sm);
+    background:var(--page);
+    border:1px solid var(--line);
+    transition:transform .3s ease, background .3s ease;
+}
+
+.card:hover{
+    transform:translateX(5px);
+    background:#EEF6FF;
+}
+
+.card i{
+    width:42px;
+    height:42px;
+    flex-shrink:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:50%;
+    background:var(--white);
+    color:var(--coral);
+    font-size:16px;
+}
+
+.card h3{
+    font-size:17px;
+    font-weight:700;
+    color:var(--navy);
+    line-height:1.2;
+}
+
+.card span{
+    font-size:12.5px;
+    color:var(--text);
+}
+
+/* ==========================================================
+   RIGHT - FORM PANEL
+========================================================== */
+
+.right{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:36px 40px;
+    background:var(--white);
+}
+
+.form-box{
+    width:100%;
+    max-width:400px;
+    animation:slideIn .55s ease;
+}
+
+@keyframes slideIn{
+    from{ opacity:0; transform:translateX(28px); }
+    to{ opacity:1; transform:translateX(0); }
+}
+
+.tag{
+    display:inline-block;
+    padding:7px 16px;
+    margin-bottom:4px;
+    border-radius:40px;
+    background:rgba(231,143,129,.12);
+    border:1px solid rgba(231,143,129,.25);
+    color:var(--coral);
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.4px;
+}
+
+.form-box h2{
+    font-size:27px;
+    font-weight:800;
+    color:var(--navy);
+    line-height:1.2;
+    margin-bottom:6px;
+}
+
+.subtitle{
+    color:var(--text);
+    font-size:14.5px;
+    margin-bottom:14px;
+}
+
+/* ==========================================================
+   FIELDS
+========================================================== */
+
+.input-box{
+    position:relative;
+    margin-bottom:10px;
+}
+
+.input-box i{
+    position:absolute;
+    left:18px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--coral);
+    font-size:15px;
+    pointer-events:none;
+}
+
+.input-box input{
+    width:100%;
+    height:48px;
+    padding:0 52px 0 48px;
+    font-size:15px;
+    color:var(--navy);
+    background:var(--field);
+    border:2px solid var(--line);
+    border-radius:var(--radius-sm);
+    outline:none;
+    transition:border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.input-box input::placeholder{
+    color:#9AA6B4;
+}
+
+.input-box input:hover{
+    border-color:#D8E7F5;
+}
+
+.input-box input:focus{
+    background:var(--white);
+    border-color:var(--coral);
+    box-shadow:0 0 0 4px rgba(231,143,129,.14);
+}
+
+/* ==========================================================
+   TERMS
+========================================================== */
+
+.remember{
+    margin:8px 0 14px;
+}
+
+.remember label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+    color:var(--text);
+    cursor:pointer;
+}
+
+.remember input[type="checkbox"]{
+    width:17px;
+    height:17px;
+    flex-shrink:0;
+    accent-color:var(--coral);
+    cursor:pointer;
+}
+
+.remember a{
+    color:var(--coral);
+    font-weight:600;
+}
+
+.remember a:hover{
+    text-decoration:underline;
+}
+
+/* ==========================================================
+   BUTTONS
+   Scoped to .form-box so #togglePassword is never caught.
+========================================================== */
+
+.form-box button[type="submit"],
+.form-box .google{
+    width:100%;
+    height:48px;
+    border-radius:var(--radius-sm);
+    font-size:15.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .25s ease, transform .25s ease,
+               box-shadow .25s ease, border-color .25s ease;
+}
+
+.form-box button[type="submit"]{
+    border:none;
+    background:var(--coral);
+    color:var(--white);
+    box-shadow:0 10px 24px rgba(231,143,129,.35);
+}
+
+.form-box button[type="submit"]:hover{
+    background:var(--coral-dark);
+    transform:translateY(-2px);
+    box-shadow:0 16px 30px rgba(231,143,129,.42);
+}
+
+.form-box button[type="submit"]:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+    transform:none;
+}
+
+.form-box .google{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    background:var(--white);
+    border:2px solid var(--line);
+    color:var(--navy);
+}
+
+.form-box .google:hover{
+    border-color:var(--coral);
+    transform:translateY(-2px);
+    box-shadow:var(--shadow-sm);
+}
+
+.form-box .google i{
+    color:#EA4335;
+    font-size:17px;
+}
+
+/* ==========================================================
+   DIVIDER
+========================================================== */
+
+.divider{
+    display:flex;
+    align-items:center;
+    margin:12px 0;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--line);
+}
+
+.divider span{
+    padding:0 16px;
+    color:#9AA6B4;
+    font-size:13px;
+}
+
+/* ==========================================================
+   FOOTER LINK
+========================================================== */
+
+.bottom{
+    margin-top:12px;
+    text-align:center;
+    font-size:14.5px;
+    color:var(--text);
+}
+
+.bottom a{
+    color:var(--coral);
+    font-weight:600;
+}
+
+.bottom a:hover{
+    text-decoration:underline;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:960px){
+
+    .container{
+        grid-template-columns:1fr;
+        min-height:0;
+    }
+
+    .left{ padding:40px 24px; }
+
+    .content{ padding:32px 24px; }
+
+    .content h2{ font-size:26px; }
+
+    .cards{
+        flex-direction:row;
+        flex-wrap:wrap;
+    }
+
+    .card{
+        flex:1 1 180px;
+    }
+
+    .right{ padding:40px 26px 48px; }
+
+}
+
+@media(max-width:520px){
+
+    html body{ padding:16px 12px; }
+
+    .container{ border-radius:var(--radius-md); }
+
+    .form-box h2{ font-size:27px; }
+
+    .cards{ flex-direction:column; }
+
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    .form-box{ animation:none; }
+
+    .form-box button[type="submit"]:hover,
+    .form-box .google:hover,
+    .card:hover{ transform:none; }
+
+}
+
+
+
+/* ==========================================================
+   FIT-TO-VIEWPORT
+   An auth screen shouldn't scroll. These values keep the card
+   inside a 768px-tall viewport, which covers most laptops.
+========================================================== */
+
+/* the status line only reserves space once it has something
+   to say - empty, it was costing 36px of dead height */
+.form-message:empty{
+    min-height:0;
+    margin:0;
+}
+
+@media(max-height:820px) and (min-width:961px){
+
+    html body{ padding:18px 20px; }
+
+    .left,
+    .left-section{ padding:32px 30px; }
+
+    .right,
+    .right-section{ padding:32px 38px; }
+
+    .content{ padding:28px 24px; }
+
+    .input-box{ margin-bottom:10px; }
+
+    .input-box input{ height:46px; padding-top:0; padding-bottom:0; }
+
+    .divider{ margin:14px 0; }
+
+}

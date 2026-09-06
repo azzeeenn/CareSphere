@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Programs | CareSphere</title>
+
+    <link rel="stylesheet" href="../css/programs.css">
+    <link rel="stylesheet" href="../css/chatbot.css">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+    <link rel="stylesheet"
+    href="../css/icons.css">
+
+    <link rel="stylesheet" href="../css/base.css">
+        <link rel="stylesheet" href="../css/auth.css">
+
+    <link rel="stylesheet" href="../css/theme.css">
+        <link rel="stylesheet" href="../css/auth.css">
+
+
+</head>
+
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- ==========================
+     NAVBAR
+========================== -->
+
+<header class="site-header">
+
+    <nav class="navbar" aria-label="Main navigation">
+
+        <a href="index.html" class="logo" aria-label="CareSphere home">
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+
+            <span>CareSphere</span>
+
+        </a>
+
+        <ul class="nav-links">
+
+            <li><a href="index.html">Home</a></li>
+
+            <li><a href="about.html">About</a></li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Our Work</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="programs.html">
+                            <span class="dd-title">Programs</span>
+                            <span class="dd-sub">Education, health and environment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="events.html">
+                            <span class="dd-title">Events</span>
+                            <span class="dd-sub">What&rsquo;s coming up</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="impact-dashboard.html">
+                            <span class="dd-title">Impact Dashboard</span>
+                            <span class="dd-sub">The numbers so far</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Get Involved</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="volunteer.html">
+                            <span class="dd-title">Volunteer</span>
+                            <span class="dd-sub">Roles, process and benefits</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="volunteer-application.html">
+                            <span class="dd-title">Apply Now</span>
+                            <span class="dd-sub">Start your application</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="institutions.html">
+                            <span class="dd-title">Partner With Us</span>
+                            <span class="dd-sub">For schools and companies</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Stories</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="news.html">
+                            <span class="dd-title">News</span>
+                            <span class="dd-sub">Articles and updates</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="testimonials.html">
+                            <span class="dd-title">Testimonials</span>
+                            <span class="dd-sub">Words from our community</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="recognition.html">
+                            <span class="dd-title">Recognition</span>
+                            <span class="dd-sub">Certificates, badges, rewards</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Contact</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="contact.html">
+                            <span class="dd-title">Contact Us</span>
+                            <span class="dd-sub">Reach the team</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="faq.html">
+                            <span class="dd-title">FAQ</span>
+                            <span class="dd-sub">Common questions answered</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+        </ul>
+
+        <div class="nav-buttons">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+        <button class="nav-toggle"
+                id="navToggle"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="mobileMenu">
+
+            <span></span><span></span><span></span>
+
+        </button>
+
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <a href="index.html">Home</a>
+
+        <a href="about.html">About</a>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Our Work</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="programs.html">Programs</a>
+                <a href="events.html">Events</a>
+                <a href="impact-dashboard.html">Impact Dashboard</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Get Involved</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="volunteer.html">Volunteer</a>
+                <a href="volunteer-application.html">Apply Now</a>
+                <a href="institutions.html">Partner With Us</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Stories</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="news.html">News</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="recognition.html">Recognition</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Contact</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="contact.html">Contact Us</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-actions">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main id="main">
+
+<!-- ==========================
+     HERO
+========================== -->
+
+<section class="program-hero cs-hero-offset">
+
+    <div class="overlay"></div>
+
+    <div class="hero-content">
+
+        <h1>Our Programs</h1>
+
+        <p>
+
+            Every initiative at CareSphere is designed to create
+            meaningful and sustainable change. Together with our
+            volunteers and partners, we empower communities through
+            education, healthcare, environmental conservation, and
+            humanitarian support.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     INTRODUCTION
+========================== -->
+
+<section class="program-intro">
+
+    <div class="section-title">
+
+        <span>WHAT WE DO</span>
+
+        <h2>Creating Lasting Impact</h2>
+
+    </div>
+
+    <p class="intro-text">
+
+        Our programs focus on addressing real community needs through
+        long-term, sustainable solutions. Whether it's improving
+        education, promoting health, protecting the environment,
+        or supporting families during emergencies, every project is
+        driven by compassion and collaboration.
+
+    </p>
+
+</section>
+
+<!-- ==========================
+     FEATURED PROGRAMS
+========================== -->
+
+<section class="featured-programs">
+
+    <div class="program-grid">
+
+        <div class="program-card">
+
+            <img src="../images/education.jpg" alt="Education">
+
+            <div class="program-content">
+
+                <i class="fa-solid fa-graduation-cap"></i>
+
+                <h3>Education Support</h3>
+
+                <p>
+
+                    Providing school supplies, scholarships,
+                    digital learning resources, and tutoring
+                    opportunities for children.
+
+                </p>
+
+                <a href="volunteer.html">Get Involved</a>
+
+            </div>
+
+        </div>
+
+        <div class="program-card">
+
+            <img src="../images/healthcare.jpg" alt="Healthcare">
+
+            <div class="program-content">
+
+                <i class="fa-solid fa-heart-pulse"></i>
+
+                <h3>Healthcare Outreach</h3>
+
+                <p>
+
+                    Organizing free health camps, awareness
+                    drives, blood donation events, and medical
+                    assistance for underserved communities.
+
+                </p>
+
+                <a href="volunteer.html">Get Involved</a>
+
+            </div>
+
+        </div>
+
+        <div class="program-card">
+
+            <img src="../images/environment.jpg" alt="Environment">
+
+            <div class="program-content">
+
+                <i class="fa-solid fa-seedling"></i>
+
+                <h3>Green Earth Initiative</h3>
+
+                <p>
+
+                    Tree plantation campaigns, clean-up drives,
+                    recycling awareness, and sustainable
+                    environmental practices.
+
+                </p>
+
+                <a href="volunteer.html">Get Involved</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ==========================
+     MORE PROGRAMS
+========================== -->
+
+<section class="more-programs">
+
+    <div class="section-title">
+
+        <span>OUR INITIATIVES</span>
+
+        <h2>Programs That Transform Lives</h2>
+
+    </div>
+
+    <div class="program-grid">
+
+        <div class="program-card">
+
+            <img src="../images/food.jpg" alt="Food Distribution">
+
+            <div class="program-content">
+
+                <i class="fa-solid fa-bowl-food"></i>
+
+                <h3>Food Distribution</h3>
+
+                <p>
+
+                    Delivering nutritious meals, grocery kits,
+                    and emergency food supplies to families
+                    facing food insecurity.
+
+                </p>
+
+                <a href="volunteer.html">Get Involved</a>
+
+            </div>
+
+        </div>
+
+        <div class="program-card">
+
+            <img src="../images/women.jpg" alt="Women Empowerment">
+
+            <div class="program-content">
+
+                <i class="fa-solid fa-people-group"></i>
+
+                <h3>Women Empowerment</h3>
+
+                <p>
+
+                    Supporting women through skill development,
+                    entrepreneurship, financial literacy, and
+                    leadership training.
+
+                </p>
+
+                <a href="volunteer.html">Get Involved</a>
+
+            </div>
+
+        </div>
+
+        <div class="program-card">
+
+            <img src="../images/disaster.jpg" alt="Disaster Relief">
+
+            <div class="program-content">
+
+                <i class="fa-solid fa-house-circle-check"></i>
+
+                <h3>Disaster Relief</h3>
+
+                <p>
+
+                    Providing emergency relief materials,
+                    temporary shelter, medical aid, and
+                    rehabilitation support during disasters.
+
+                </p>
+
+                <a href="volunteer.html">Get Involved</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     IMPACT
+========================== -->
+
+<section class="impact">
+
+    <div class="section-title">
+
+        <span>OUR IMPACT</span>
+
+        <h2>Making A Difference Together</h2>
+
+    </div>
+
+    <div class="impact-container">
+
+        <div class="impact-card">
+
+            <i class="fa-solid fa-users"></i>
+
+            <h2>15K+</h2>
+
+            <p>People Supported</p>
+
+        </div>
+
+        <div class="impact-card">
+
+            <i class="fa-solid fa-hand-holding-heart"></i>
+
+            <h2>850+</h2>
+
+            <p>Active Volunteers</p>
+
+        </div>
+
+        <div class="impact-card">
+
+            <i class="fa-solid fa-tree"></i>
+
+            <h2>12K+</h2>
+
+            <p>Trees Planted</p>
+
+        </div>
+
+        <div class="impact-card">
+
+            <i class="fa-solid fa-school"></i>
+
+            <h2>250+</h2>
+
+            <p>Schools Supported</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     PROGRAM CATEGORIES
+========================== -->
+
+<section class="categories">
+
+    <div class="section-title">
+
+        <span>OUR FOCUS AREAS</span>
+
+        <h2>Where We Create Change</h2>
+
+    </div>
+
+    <div class="category-grid">
+
+        <div class="category-card">
+
+            <i class="fa-solid fa-book-open"></i>
+
+            <h3>Education</h3>
+
+            <p>
+                Scholarships, tutoring,
+                digital literacy, and
+                school development.
+            </p>
+
+        </div>
+
+        <div class="category-card">
+
+            <i class="fa-solid fa-heart-circle-plus"></i>
+
+            <h3>Healthcare</h3>
+
+            <p>
+                Medical camps,
+                health awareness,
+                and preventive care.
+            </p>
+
+        </div>
+
+        <div class="category-card">
+
+            <i class="fa-solid fa-leaf"></i>
+
+            <h3>Environment</h3>
+
+            <p>
+                Sustainability,
+                recycling,
+                and plantation drives.
+            </p>
+
+        </div>
+
+        <div class="category-card">
+
+            <i class="fa-solid fa-house-user"></i>
+
+            <h3>Community</h3>
+
+            <p>
+                Food support,
+                disaster relief,
+                and social welfare.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ==========================
+     SUCCESS STORIES
+========================== -->
+
+<section class="success-stories">
+
+    <div class="section-title">
+
+        <span>SUCCESS STORIES</span>
+
+        <h2>Real Stories, Real Impact</h2>
+
+    </div>
+
+    <div class="story-container">
+
+        <div class="story-card">
+
+            <img src="../images/story1.jpg" alt="Education Success">
+
+            <div class="story-content">
+
+                <h3>Education Changed A Future</h3>
+
+                <p>
+
+                    Through CareSphere's scholarship initiative,
+                    dozens of children returned to school with
+                    access to books, uniforms, and digital learning.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="story-card">
+
+            <img src="../images/story2.jpg" alt="Healthcare Success">
+
+            <div class="story-content">
+
+                <h3>Healthcare Within Reach</h3>
+
+                <p>
+
+                    Community health camps provided free medical
+                    consultations and medicines to families who
+                    otherwise lacked access to healthcare.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="story-card">
+
+            <img src="../images/story3.jpg" alt="Environment Success">
+
+            <div class="story-content">
+
+                <h3>Greener Communities</h3>
+
+                <p>
+
+                    Thousands of trees planted by volunteers have
+                    transformed neighborhoods into cleaner and
+                    healthier environments.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     HOW YOU CAN HELP
+========================== -->
+
+<section class="help-section">
+
+    <div class="section-title">
+
+        <span>GET INVOLVED</span>
+
+        <h2>How You Can Help</h2>
+
+    </div>
+
+    <div class="help-grid">
+
+        <div class="help-card">
+
+            <i class="fa-solid fa-hand-holding-heart"></i>
+
+            <h3>Volunteer</h3>
+
+            <p>
+
+                Join our community of volunteers and participate
+                in meaningful outreach programs.
+
+            </p>
+
+        </div>
+
+        <div class="help-card">
+
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+
+            <h3>Donate</h3>
+
+            <p>
+
+                Support our programs with financial contributions
+                that directly benefit communities.
+
+            </p>
+
+        </div>
+
+        <div class="help-card">
+
+            <i class="fa-solid fa-building"></i>
+
+            <h3>Partner</h3>
+
+            <p>
+
+                Collaborate with CareSphere through corporate
+                partnerships and CSR initiatives.
+
+            </p>
+
+        </div>
+
+        <div class="help-card">
+
+            <i class="fa-solid fa-bullhorn"></i>
+
+            <h3>Spread Awareness</h3>
+
+            <p>
+
+                Help us inspire more people by sharing our mission
+                and community programs.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     CALL TO ACTION
+========================== -->
+
+<section class="cta-section">
+
+    <div class="cta-content">
+
+        <h2>Together, We Can Change Lives</h2>
+
+        <p>
+
+            Every contribution, whether it's your time, skills,
+            or support, helps build stronger communities and a
+            brighter future.
+
+        </p>
+
+        <div class="cta-buttons">
+
+            <a href="volunteer.html" class="primary-btn">Become a Volunteer</a>
+
+            <a href="contact.html" class="secondary-btn">Donate Now</a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     FOOTER
+========================== -->
+
+</main>
+
+<footer class="site-footer">
+
+    <div class="footer-container">
+
+        <div class="footer-column">
+
+            <h2>
+                
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+
+                CareSphere
+            </h2>
+
+            <p>
+                A volunteer-run foundation working in education, healthcare
+                and green cover across Karnataka. Every hour given goes
+                straight back into the community.
+            </p>
+
+            <div class="footer-socials">
+
+                <a href="#" aria-label="CareSphere on Facebook">
+                    <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                </a>
+
+                <a href="#" aria-label="CareSphere on Instagram">
+                    <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+                </a>
+
+                <a href="#" aria-label="CareSphere on LinkedIn">
+                    <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Explore</h3>
+
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="programs.html">Programs</a>
+            <a href="events.html">Events</a>
+            <a href="news.html">News</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="recognition.html">Recognition</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Get Involved</h3>
+
+            <a href="volunteer.html">Volunteer</a>
+            <a href="volunteer-application.html">Apply Now</a>
+            <a href="institutions.html">Partner With Us</a>
+            <a href="register.html">Create Account</a>
+            <a href="contact.html">Contact Us</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>Reach Us</h3>
+
+            <p>
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                <a href="mailto:info@caresphere.org"
+                   style="display:inline">info@caresphere.org</a>
+            </p>
+
+            <p>
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <a href="tel:+919876543210"
+                   style="display:inline">+91 98765 43210</a>
+            </p>
+
+            <p>
+                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                Bengaluru, Karnataka, India
+            </p>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <p class="copyright">
+        &copy; 2026 CareSphere Foundation. All rights reserved.
+    </p>
+
+</footer>
+
+<div id="cs-chat-root">
+
+    <button id="cs-chat-launcher" aria-label="Open chat">
+
+        <i class="fa-solid fa-comment-dots"></i>
+        <span class="cs-badge"></span>
+
+    </button>
+
+    <div id="cs-chat-window">
+
+        <div id="cs-chat-header">
+
+            <div class="cs-avatar">
+
+                <i class="fa-solid fa-hand-holding-heart"></i>
+
+            </div>
+
+            <div class="cs-header-text">
+
+                <h4>CareSphere Assistant</h4>
+                <span>Online now</span>
+
+            </div>
+
+            <button id="cs-chat-close" aria-label="Close chat">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <div id="cs-chat-messages"></div>
+
+        <div id="cs-quick-replies"></div>
+
+        <div id="cs-chat-input-row">
+
+            <label for="cs-chat-input" class="visually-hidden">Type your question...</label>
+<input type="text" id="cs-chat-input" placeholder="Type your question..." autocomplete="off">
+
+            <button id="cs-chat-send" aria-label="Send">
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+            </button>
+
+        </div>
+
+        <div id="cs-chat-footer-note">
+
+            Answers are automated and may not always be exact.
+
+        </div>
+
+    </div>
+
+</div>
+<script src="../js/site.js"></script>
+<script src="../js/chatbot.js"></script>
+<script src="../js/programs.js"></script>
+
+</body>
+
+</html>

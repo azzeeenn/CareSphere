@@ -1,0 +1,193 @@
+/* ==========================================================================
+   CareSphere — Event registrations
+   Roster header, capacity meter, and a print layout for taking to the event.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Event header
+   -------------------------------------------------------------------------- */
+
+.roster-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 22px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--cs-line);
+  border-left: 3px solid var(--cs-peach);
+  border-radius: var(--cs-radius);
+  background: var(--cs-white);
+  box-shadow: var(--cs-shadow);
+}
+
+.roster-date {
+  width: 74px;
+  flex-shrink: 0;
+  padding: 12px 0;
+  border-radius: var(--cs-radius-sm);
+  background: linear-gradient(150deg, var(--cs-blue), var(--cs-cream));
+  color: var(--cs-navy);
+  text-align: center;
+  line-height: 1.15;
+}
+
+.roster-date b { display: block; font-size: 24px; font-weight: 600; }
+.roster-date span { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.roster-info { flex: 1; min-width: 240px; }
+
+.roster-info h2 {
+  margin: 0 0 5px;
+  color: var(--cs-navy);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.roster-info p { margin: 0 0 10px; color: var(--cs-muted); font-size: 13px; }
+
+.roster-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+
+/* Capacity meter ---------------------------------------------------------- */
+
+.capacity {
+  width: 210px;
+  flex-shrink: 0;
+}
+
+.capacity-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+.capacity-top b {
+  color: var(--cs-navy);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.capacity-top span { color: var(--cs-muted); font-size: 12px; }
+
+.capacity-bar {
+  height: 7px;
+  border-radius: 4px;
+  background: rgba(38, 65, 94, 0.1);
+  overflow: hidden;
+}
+
+.capacity-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--cs-blue), var(--cs-coral));
+  transition: width 0.3s var(--cs-ease);
+}
+
+.capacity-fill.is-full { background: var(--cs-coral); }
+
+.capacity-note {
+  display: block;
+  margin-top: 7px;
+  color: var(--cs-muted);
+  font-size: 12px;
+}
+
+.capacity-note.is-hot { color: var(--cs-coral-dark); }
+
+/* --------------------------------------------------------------------------
+   Roster rows
+   -------------------------------------------------------------------------- */
+
+.contact-line {
+  display: block;
+  margin-top: 2px;
+  color: var(--cs-muted);
+  font-size: 12px;
+}
+
+.contact-line a { color: var(--cs-muted); text-decoration: none; }
+.contact-line a:hover { color: var(--cs-coral-dark); text-decoration: underline; }
+
+.row-num {
+  width: 30px;
+  color: var(--cs-muted);
+  font-size: 12.5px;
+  text-align: right;
+}
+
+/* Signature column, only meaningful on paper */
+.sign-cell { display: none; }
+
+/* --------------------------------------------------------------------------
+   Print — an attendance sheet to carry to the event
+   -------------------------------------------------------------------------- */
+
+@media print {
+  @page { margin: 14mm; }
+
+  body.admin {
+    background: #fff !important;
+    color: #000;
+  }
+
+  .sidebar,
+  .menu-toggle,
+  .scrim,
+  .toolbar,
+  .page-head .btn,
+  .crumb,
+  .modal,
+  .toast-host,
+  .cell-actions,
+  .no-print { display: none !important; }
+
+  .admin-main { margin-left: 0 !important; padding: 0 !important; }
+  .admin-container { max-width: none; }
+
+  .roster-head {
+    box-shadow: none;
+    border: 1px solid #999;
+    border-left-width: 1px;
+    padding: 12px 14px;
+    page-break-inside: avoid;
+  }
+
+  .roster-date { background: #eee !important; }
+  .capacity-bar, .capacity-fill { display: none; }
+
+  .table-wrap { border: 1px solid #999; box-shadow: none; }
+
+  table.data th {
+    background: #eee !important;
+    color: #000;
+    border-bottom: 1px solid #999;
+  }
+
+  table.data td { border-bottom: 1px solid #ddd; }
+  table.data tbody tr { page-break-inside: avoid; }
+
+  .avatar-sm { display: none; }
+
+  /* A ruled box for people to sign in on the day */
+  .sign-cell {
+    display: table-cell !important;
+    width: 150px;
+    border-bottom: 1px solid #999 !important;
+  }
+
+  .summary-row { gap: 8px; }
+  .summary-chip { box-shadow: none; border: 1px solid #999; padding: 6px 10px; }
+
+  .print-foot {
+    display: block !important;
+    margin-top: 18px;
+    padding-top: 10px;
+    border-top: 1px solid #999;
+    font-size: 11px;
+    color: #333;
+  }
+}
+
+.print-foot { display: none; }

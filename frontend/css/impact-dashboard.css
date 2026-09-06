@@ -1,0 +1,482 @@
+/* ==========================================================
+   CareSphere - impact-dashboard.css
+   ----------------------------------------------------------
+   Standalone: no longer built on top of index.css. Matches
+   contact.html, news.css, testimonials.css and theme.css.
+
+   Every selector, id and class from the original file is kept,
+   so an existing impact-dashboard.js still works.
+
+   Load order:  impact-dashboard.css -> base.css -> theme.css
+========================================================== */
+
+:root{
+    --blue:#B7E0FF;
+    --cream:#FFF5CD;
+    --peach:#FFCFB3;
+    --coral:#E78F81;
+    --coral-dark:#D97A6C;
+    --navy:#26415E;
+    --text:#4B5563;
+    --gray:#6B7280;
+    --page:#F8FBFF;
+    --line:#E6EFF8;
+
+    --radius-lg:32px;
+    --radius-md:24px;
+    --radius-sm:14px;
+
+    --shadow-sm:0 4px 18px rgba(38,65,94,.06);
+    --shadow-md:0 14px 40px rgba(38,65,94,.09);
+    --shadow-lg:0 26px 70px rgba(38,65,94,.14);
+
+    --success:#4F9D77;
+    --success-bg:#E4F3EB;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+    background:var(--page);
+    color:var(--text);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+}
+
+a{ text-decoration:none; }
+button{ border:none; cursor:pointer; font:inherit; }
+
+section{ padding:80px 8%; }
+
+h1,h2,h3,h4{ color:var(--navy); line-height:1.25; }
+
+.section-heading{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.section-heading span{
+    color:var(--coral);
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+}
+
+.section-heading h2{
+    margin-top:10px;
+    font-size:34px;
+    font-weight:700;
+}
+
+/* ==========================================================
+   PAGE BANNER
+========================================================== */
+
+.page-banner{
+    padding:0 8% 90px;
+    text-align:center;
+    background:linear-gradient(115deg,
+        var(--blue) 0%,
+        #D6E9F3 30%,
+        var(--cream) 66%,
+        var(--peach) 100%);
+}
+
+.page-banner-content{
+    max-width:820px;
+    margin:0 auto;
+    padding:52px 44px 46px;
+    border-radius:var(--radius-lg);
+    background:#fff;
+    border:1px solid rgba(38,65,94,.12);
+    box-shadow:0 18px 44px rgba(38,65,94,.18),
+                0 3px 10px rgba(38,65,94,.08);
+}
+
+.page-banner .section-tag{
+    display:inline-block;
+    padding:7px 18px;
+    border-radius:30px;
+    background:rgba(231,143,129,.12);
+    border:1px solid rgba(231,143,129,.25);
+    color:var(--coral);
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:1.5px;
+}
+
+.page-banner h1{
+    font-size:42px;
+    font-weight:800;
+    color:var(--navy);
+    margin:18px 0 14px;
+}
+
+.page-banner p{
+    line-height:1.8;
+    font-size:16.5px;
+    color:var(--text);
+    margin-bottom:22px;
+}
+
+/* ---------- live indicator ---------- */
+
+.live-indicator{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    /* was translucent white on a coral gradient; now a tinted
+       pill that reads on the white card */
+    background:var(--page);
+    border:1px solid var(--line);
+    padding:10px 22px;
+    border-radius:40px;
+    font-size:14px;
+    color:var(--text);
+    margin-bottom:24px;
+}
+
+.live-indicator strong{ color:var(--navy); }
+
+.pulse-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--success);
+    box-shadow:0 0 0 rgba(79,157,119,.6);
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(79,157,119,.55); }
+    70%{ box-shadow:0 0 0 8px rgba(79,157,119,0); }
+    100%{ box-shadow:0 0 0 0 rgba(79,157,119,0); }
+}
+
+.live-indicator .divider{ color:#B9C6D4; }
+
+/* ---------- breadcrumb ---------- */
+
+.breadcrumb{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    font-size:14px;
+    color:var(--gray);
+}
+
+.breadcrumb a{ color:var(--coral); font-weight:600; }
+.breadcrumb a:hover{ text-decoration:underline; }
+.breadcrumb i{ font-size:10px; color:var(--gray); }
+
+/* ==========================================================
+   STATS GRID
+========================================================== */
+
+.dashboard-stats{ background:var(--page); }
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:26px;
+}
+
+.stat-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:32px 26px;
+    text-align:center;
+    box-shadow:var(--shadow-sm);
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.stat-card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--shadow-md);
+    border-color:#DCEAF7;
+}
+
+.stat-icon{
+    width:58px;
+    height:58px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    background:linear-gradient(140deg,var(--blue),var(--cream));
+    border:1px solid rgba(255,255,255,.8);
+    color:var(--coral);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+}
+
+.stat-card h3.counter{
+    font-size:36px;
+    font-weight:800;
+    color:var(--navy);
+    margin-bottom:8px;
+    font-variant-numeric:tabular-nums;
+}
+
+.stat-label{
+    color:var(--gray);
+    font-size:14.5px;
+    margin-bottom:14px;
+}
+
+.trend{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:12.5px;
+    font-weight:600;
+    padding:5px 14px;
+    border-radius:30px;
+}
+
+.trend.up{
+    background:var(--success-bg);
+    color:var(--success);
+}
+
+.trend.flat{
+    background:var(--page);
+    border:1px solid var(--line);
+    color:var(--gray);
+}
+
+/* ==========================================================
+   CHARTS
+========================================================== */
+
+.dashboard-charts{ background:#fff; }
+
+.charts-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:26px;
+}
+
+.chart-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:28px;
+    box-shadow:var(--shadow-sm);
+    transition:box-shadow .3s ease, border-color .3s ease;
+}
+
+.chart-card:hover{
+    box-shadow:var(--shadow-md);
+    border-color:#DCEAF7;
+}
+
+.chart-card.wide{ grid-column:span 1; }
+
+.chart-card-head{ margin-bottom:20px; }
+
+.chart-card-head h3{
+    font-size:16.5px;
+    font-weight:700;
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:4px;
+}
+
+.chart-card-head h3 i{
+    color:var(--coral);
+    font-size:15px;
+}
+
+.chart-sub{
+    font-size:13px;
+    color:var(--gray);
+}
+
+.chart-canvas-wrap{
+    position:relative;
+    height:260px;
+}
+
+.refresh-btn{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:40px auto 0;
+    background:var(--navy);
+    color:#fff;
+    padding:13px 30px;
+    border-radius:40px;
+    font-weight:600;
+    font-size:14px;
+    transition:.25s;
+}
+
+.refresh-btn:hover{
+    background:#1C3149;
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px rgba(38,65,94,.24);
+}
+
+.refresh-btn:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+    transform:none;
+}
+
+.refresh-btn i{ transition:transform .6s ease; }
+
+.refresh-btn.spinning i{ transform:rotate(360deg); }
+
+.chart-note{
+    text-align:center;
+    min-height:22px;
+    margin-top:16px;
+    font-size:14px;
+    font-weight:500;
+    color:var(--gray);
+}
+
+/* ==========================================================
+   NEWSLETTER
+========================================================== */
+
+.newsletter{
+    background:linear-gradient(115deg,
+        var(--coral) 0%,
+        var(--peach) 62%,
+        var(--cream) 100%);
+    text-align:center;
+}
+
+.newsletter-inner{ max-width:640px; margin:0 auto; }
+
+.newsletter h2{
+    font-size:36px;
+    font-weight:800;
+    color:var(--navy);
+    margin-bottom:14px;
+}
+
+.newsletter p{
+    color:var(--navy);
+    opacity:.85;
+    margin-bottom:28px;
+}
+
+.newsletter-box{
+    display:flex;
+    gap:10px;
+    background:#fff;
+    padding:8px;
+    border-radius:50px;
+    box-shadow:var(--shadow-md);
+}
+
+.newsletter-box input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding:14px 22px;
+    font-size:15px;
+    color:var(--navy);
+    background:transparent;
+    border-radius:50px;
+}
+
+.newsletter-box input::placeholder{ color:#9AA6B4; }
+
+.newsletter-box button{
+    padding:14px 32px;
+    border-radius:50px;
+    background:var(--navy);
+    color:#fff;
+    font-weight:600;
+    font-size:15px;
+    transition:.25s;
+}
+
+.newsletter-box button:hover{ background:#1C3149; }
+
+.newsletter-note{
+    min-height:22px;
+    margin-top:14px;
+    font-weight:500;
+    font-size:14.5px;
+    color:var(--navy);
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:1200px){
+
+    .stats-grid{ grid-template-columns:repeat(3,1fr); }
+
+    .charts-grid{ grid-template-columns:1fr 1fr; }
+
+    .chart-card.wide{ grid-column:span 2; }
+
+}
+
+@media(max-width:992px){
+    .stats-grid{ grid-template-columns:repeat(2,1fr); }
+}
+
+@media(max-width:768px){
+
+    section{ padding:60px 6%; }
+
+    .page-banner{ padding:0 6% 60px; }
+
+    .page-banner-content{ padding:36px 26px 32px; }
+
+    .page-banner h1{ font-size:30px; }
+
+    .stats-grid{ grid-template-columns:1fr 1fr; }
+
+    .charts-grid{ grid-template-columns:1fr; }
+
+    .chart-card.wide{ grid-column:span 1; }
+
+    .newsletter-box{
+        flex-direction:column;
+        border-radius:var(--radius-md);
+    }
+
+    .newsletter-box button{ width:100%; }
+
+}
+
+@media(max-width:576px){
+
+    .stats-grid{ grid-template-columns:1fr; }
+
+    .page-banner h1{ font-size:26px; }
+
+    .live-indicator{
+        flex-wrap:wrap;
+        justify-content:center;
+        text-align:center;
+    }
+
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    .pulse-dot{ animation:none; }
+
+    .stat-card:hover,
+    .refresh-btn:hover{ transform:none; }
+
+    .refresh-btn i{ transition:none; }
+
+}

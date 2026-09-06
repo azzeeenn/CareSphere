@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact — CareSphere</title>
+<meta name="description" content="Reach the CareSphere team about volunteering, donations, partnerships or programs." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet"
+href="../css/icons.css">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --blue:#B7E0FF;
+  --cream:#FFF5CD;
+  --peach:#FFCFB3;
+  --coral:#E78F81;
+  --coral-dark:#D97A6C;
+  --navy:#26415E;
+  --text:#4B5563;
+  --white:#FFFFFF;
+  --page:#F8FBFF;
+
+  --line:#E6EFF8;
+  --field:#F8FBFF;
+  --error:#D3675A;
+  --ok:#3FA37A;
+
+  --radius-lg:32px;
+  --radius-md:24px;
+  --radius-sm:14px;
+
+  --shadow-sm:0 4px 18px rgba(38,65,94,.06);
+  --shadow-md:0 14px 40px rgba(38,65,94,.09);
+  --shadow-lg:0 26px 70px rgba(38,65,94,.14);
+
+  --container:1200px;
+}
+
+/* ============ BASE ============ */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Poppins',sans-serif;
+  font-weight:400;
+  background:var(--page);
+  color:var(--text);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{color:var(--navy);line-height:1.2}
+h1{font-weight:800}
+h2,h3,h4{font-weight:700}
+a{text-decoration:none;color:inherit}
+img,svg{display:block}
+ul{list-style:none}
+input,select,textarea,button{font-family:inherit;font-size:inherit;color:inherit}
+
+.container{width:100%;max-width:var(--container);margin:0 auto;padding:0 24px}
+.section{padding:86px 0}
+.section-tight{padding:0 0 86px}
+
+.eyebrow{
+  color:var(--coral);
+  font-weight:700;
+  font-size:.82rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.lead{font-size:1.02rem;font-weight:300;max-width:60ch}
+
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:6px}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-weight:600;border-radius:999px;border:2px solid transparent;
+  padding:13px 30px;cursor:pointer;transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+}
+.btn-solid{background:var(--coral);color:var(--white);box-shadow:0 10px 24px rgba(231,143,129,.35)}
+.btn-solid:hover{background:var(--coral-dark);transform:translateY(-2px);box-shadow:0 16px 30px rgba(231,143,129,.42)}
+.btn-outline{border-color:var(--coral);color:var(--coral);background:transparent}
+.btn-outline:hover{background:var(--coral);color:var(--white);transform:translateY(-2px)}
+.btn-navy{border-color:var(--navy);color:var(--navy);background:transparent}
+.btn-navy:hover{background:var(--navy);color:var(--white);transform:translateY(-2px)}
+.btn-block{width:100%}
+
+/* ============ NAVBAR ============ */
+/* Navbar + mobile menu now come from base.css */
+
+/* ============ HERO ============ */
+.hero{
+  background:linear-gradient(115deg,var(--blue) 0%,#D6E9F3 30%,var(--cream) 66%,var(--peach) 100%);
+  padding:80px 0 96px;
+}
+.hero-card{
+  max-width:1120px;margin:0 auto;text-align:center;
+  background:linear-gradient(150deg,rgba(255,255,255,.72),rgba(255,255,255,.42));
+  border:1px solid rgba(255,255,255,.7);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-radius:var(--radius-lg);
+  padding:64px 48px 58px;
+  box-shadow:var(--shadow-lg);
+}
+.hero-card h1{font-size:clamp(2.1rem,4.6vw,3.5rem);margin:16px auto 22px;max-width:16ch}
+.hero-card .lead{margin:0 auto;max-width:62ch;color:var(--text)}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:34px}
+.chip{
+  display:inline-flex;align-items:center;gap:9px;background:var(--white);
+  border-radius:999px;padding:11px 22px;font-weight:500;font-size:.92rem;color:var(--navy);
+  box-shadow:var(--shadow-sm);
+}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--ok)}
+
+/* ============ INFO CARDS ============ */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:-56px;position:relative;z-index:2}
+.info-card{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius-md);
+  padding:34px 28px;box-shadow:var(--shadow-sm);
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.info-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-md)}
+.info-icon{
+  width:56px;height:56px;border-radius:18px;display:grid;place-items:center;margin-bottom:20px;
+  background:linear-gradient(140deg,var(--peach),var(--cream));color:var(--coral);
+}
+.info-icon svg{width:26px;height:26px}
+.info-card h3{font-size:1.06rem;margin-bottom:8px}
+.info-card p{font-size:.94rem;font-weight:300}
+.info-card a{color:var(--navy);font-weight:500}
+.info-card a:hover{color:var(--coral)}
+
+/* ============ CONTACT LAYOUT ============ */
+.contact-head{text-align:center;max-width:640px;margin:0 auto 52px}
+.contact-head h2{font-size:clamp(1.8rem,3.4vw,2.5rem);margin:14px 0 14px}
+.contact-head .lead{margin:0 auto}
+
+.contact-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:32px;align-items:start}
+
+.form-card{
+  background:var(--white);border:1px solid var(--line);border-radius:28px;
+  padding:44px;box-shadow:var(--shadow-md);
+}
+.form-card h3{font-size:1.35rem;margin-bottom:6px}
+.form-card .form-sub{font-size:.93rem;font-weight:300;margin-bottom:30px}
+
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.field{margin-bottom:20px}
+.field label{display:block;font-weight:500;font-size:.9rem;color:var(--navy);margin-bottom:8px}
+.field label .req{color:var(--coral)}
+.field input,.field select,.field textarea{
+  width:100%;background:var(--field);border:1.5px solid var(--line);border-radius:var(--radius-sm);
+  padding:14px 16px;font-size:.95rem;font-weight:400;transition:border-color .22s ease, box-shadow .22s ease, background .22s ease;
+}
+.field textarea{min-height:150px;resize:vertical}
+.field input::placeholder,.field textarea::placeholder{color:#9AA6B2;font-weight:300}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;background:var(--white);border-color:var(--coral);box-shadow:0 0 0 4px rgba(231,143,129,.16);
+}
+.field select{appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2326415E' stroke-width='2.2' stroke-linecap='round'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat:no-repeat;background-position:right 16px center;background-size:18px;padding-right:46px;
+}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--error);box-shadow:0 0 0 4px rgba(211,103,90,.12)}
+.error-msg{display:none;color:var(--error);font-size:.8rem;font-weight:400;margin-top:7px}
+.field.invalid .error-msg{display:block}
+
+.field-meta{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.counter{font-size:.78rem;color:#93A2B1;font-weight:400}
+
+.check{display:flex;align-items:flex-start;gap:11px;margin:4px 0 26px;font-size:.88rem;font-weight:300;cursor:pointer}
+.check input{width:19px;height:19px;accent-color:var(--coral);margin-top:3px;flex:none}
+
+.form-note{font-size:.8rem;font-weight:300;text-align:center;margin-top:16px;color:#8A98A6}
+
+/* success state */
+.form-success{display:none;text-align:center;padding:34px 10px}
+.form-success.show{display:block}
+.success-badge{
+  width:78px;height:78px;border-radius:50%;margin:0 auto 22px;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--blue),var(--cream));color:var(--ok);
+}
+.success-badge svg{width:36px;height:36px}
+.form-success h3{font-size:1.4rem;margin-bottom:10px}
+.form-success p{font-weight:300;max-width:44ch;margin:0 auto 26px}
+
+/* ============ SIDEBAR ============ */
+.side-stack{display:grid;gap:24px}
+.side-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-md);padding:32px;box-shadow:var(--shadow-sm)}
+.side-card h4{font-size:1.06rem;margin-bottom:16px}
+.side-list li{display:flex;gap:13px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:.92rem;font-weight:300}
+.side-list li:last-child{border-bottom:0;padding-bottom:0}
+.side-list strong{display:block;font-weight:500;color:var(--navy);font-size:.93rem}
+.side-list .tick{color:var(--coral);flex:none;margin-top:4px}
+.side-list .tick svg{width:17px;height:17px}
+
+.map-card{overflow:hidden;padding:0;border-radius:var(--radius-md);background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.map-card iframe{width:100%;height:260px;border:0;display:block;filter:saturate(.9)}
+.map-foot{padding:20px 26px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.map-foot p{font-size:.88rem;font-weight:300}
+.map-foot a{color:var(--coral);font-weight:600;font-size:.88rem}
+
+.socials{display:flex;gap:12px}
+.socials a{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+  background:var(--page);border:1px solid var(--line);color:var(--navy);
+  transition:transform .25s ease, background .25s ease, color .25s ease;
+}
+.socials a:hover{background:var(--coral);color:var(--white);transform:translateY(-4px);border-color:var(--coral)}
+.socials svg{width:19px;height:19px}
+
+/* ============ FAQ ============ */
+.faq{max-width:840px;margin:0 auto}
+.faq-item{background:var(--white);border:1px solid var(--line);border-radius:18px;margin-bottom:14px;box-shadow:var(--shadow-sm);overflow:hidden}
+.faq-q{
+  width:100%;background:none;border:0;cursor:pointer;text-align:left;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  padding:22px 26px;font-weight:600;font-size:1rem;color:var(--navy);
+}
+.faq-q:hover{color:var(--coral)}
+.faq-sign{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--page);color:var(--coral);transition:transform .3s ease, background .3s ease}
+.faq-item.open .faq-sign{transform:rotate(45deg);background:var(--coral);color:var(--white)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-a p{padding:0 26px 24px;font-weight:300;font-size:.95rem;max-width:70ch}
+
+/* ============ CTA ============ */
+.cta{
+  background:linear-gradient(115deg,var(--coral) 0%,var(--peach) 62%,var(--cream) 100%);
+  border-radius:var(--radius-lg);padding:60px 48px;text-align:center;box-shadow:var(--shadow-md);
+}
+.cta h2{font-size:clamp(1.7rem,3.2vw,2.4rem);margin-bottom:14px;color:var(--navy)}
+.cta p{color:var(--navy);font-weight:300;max-width:56ch;margin:0 auto 30px}
+.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.cta .btn-solid{background:var(--navy);box-shadow:0 12px 26px rgba(38,65,94,.28)}
+.cta .btn-solid:hover{background:#1C3149}
+
+/* ============ FOOTER ============ */
+.footer{background:var(--navy);color:#C6D3E0;padding:70px 0 0;margin-top:86px}
+.footer h4{color:var(--white);font-size:1rem;margin-bottom:18px}
+.footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.3fr;gap:40px;padding-bottom:50px}
+.footer .brand{color:var(--white);margin-bottom:16px}
+.footer p{font-size:.92rem;font-weight:300;max-width:38ch}
+.footer-links li{margin-bottom:11px}
+.footer-links a{font-size:.92rem;font-weight:300;transition:color .2s ease,padding-left .2s ease}
+.footer-links a:hover{color:var(--peach);padding-left:5px}
+.footer .socials a{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:var(--white)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.12);padding:22px 0;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.85rem;font-weight:300}
+
+/* ============ CHAT WIDGET ============ */
+.chat-launch{
+  position:fixed;right:28px;bottom:28px;z-index:80;
+  width:62px;height:62px;border-radius:50%;border:0;cursor:pointer;
+  background:var(--coral);color:var(--white);display:grid;place-items:center;
+  box-shadow:0 14px 32px rgba(231,143,129,.45);transition:transform .25s ease;
+}
+.chat-launch:hover{transform:scale(1.07)}
+.chat-launch svg{width:26px;height:26px}
+.chat-launch .status{position:absolute;top:4px;right:4px;width:13px;height:13px;border-radius:50%;background:#22C55E;border:2.5px solid var(--white)}
+
+.chat-panel{
+  position:fixed;right:28px;bottom:104px;z-index:81;width:320px;max-width:calc(100vw - 40px);
+  background:var(--white);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow-lg);
+  padding:24px;opacity:0;transform:translateY(14px) scale(.96);pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+}
+.chat-panel.open{opacity:1;transform:none;pointer-events:auto}
+.chat-panel h4{font-size:1.02rem;margin-bottom:4px}
+.chat-panel .chat-sub{font-size:.85rem;font-weight:300;margin-bottom:18px}
+.chat-options{display:grid;gap:9px}
+.chat-options button{
+  text-align:left;background:var(--page);border:1px solid var(--line);border-radius:12px;
+  padding:12px 15px;font-size:.88rem;font-weight:500;color:var(--navy);cursor:pointer;
+  transition:background .22s ease,color .22s ease,transform .22s ease;
+}
+.chat-options button:hover{background:var(--coral);color:var(--white);transform:translateX(4px);border-color:var(--coral)}
+
+/* ============ TOAST ============ */
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);z-index:120;
+  background:var(--navy);color:var(--white);padding:15px 26px;border-radius:999px;
+  font-size:.9rem;font-weight:500;box-shadow:var(--shadow-lg);
+  opacity:0;pointer-events:none;transition:opacity .3s ease, transform .3s ease;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1000px){
+  .contact-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:34px}
+}
+@media (max-width:760px){
+  .section{padding:64px 0}
+  .hero{padding:56px 0 76px}
+  .hero-card{padding:44px 26px 40px;border-radius:26px}
+  .info-grid{margin-top:-40px}
+  .form-card{padding:30px 22px}
+  .field-row{grid-template-columns:1fr;gap:0}
+  .cta{padding:44px 24px}
+  .footer-grid{grid-template-columns:1fr}
+  .chat-launch{right:18px;bottom:18px}
+  .chat-panel{right:18px;bottom:92px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+
+<link rel="stylesheet" href="../css/base.css">
+        <link rel="stylesheet" href="../css/auth.css">
+
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- ================= NAVBAR ================= -->
+<header class="site-header">
+
+    <nav class="navbar" aria-label="Main navigation">
+
+        <a href="index.html" class="logo" aria-label="CareSphere home">
+
+                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+            <span>CareSphere</span>
+
+        </a>
+
+        <ul class="nav-links">
+
+            <li><a href="index.html">Home</a></li>
+
+            <li><a href="about.html">About</a></li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Our Work</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="programs.html">
+                            <span class="dd-title">Programs</span>
+                            <span class="dd-sub">Education, health and environment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="events.html">
+                            <span class="dd-title">Events</span>
+                            <span class="dd-sub">What&rsquo;s coming up</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="impact-dashboard.html">
+                            <span class="dd-title">Impact Dashboard</span>
+                            <span class="dd-sub">The numbers so far</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Get Involved</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="volunteer.html">
+                            <span class="dd-title">Volunteer</span>
+                            <span class="dd-sub">Roles, process and benefits</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="volunteer-application.html">
+                            <span class="dd-title">Apply Now</span>
+                            <span class="dd-sub">Start your application</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="institutions.html">
+                            <span class="dd-title">Partner With Us</span>
+                            <span class="dd-sub">For schools and companies</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Stories</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="news.html">
+                            <span class="dd-title">News</span>
+                            <span class="dd-sub">Articles and updates</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="testimonials.html">
+                            <span class="dd-title">Testimonials</span>
+                            <span class="dd-sub">Words from our community</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="recognition.html">
+                            <span class="dd-title">Recognition</span>
+                            <span class="dd-sub">Certificates, badges, rewards</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+            <li class="has-dropdown">
+
+                <button class="dropdown-toggle"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span>Contact</span>
+                    <span class="caret" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown">
+                    <li>
+                        <a href="contact.html">
+                            <span class="dd-title">Contact Us</span>
+                            <span class="dd-sub">Reach the team</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="faq.html">
+                            <span class="dd-title">FAQ</span>
+                            <span class="dd-sub">Common questions answered</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+
+        </ul>
+
+        <div class="nav-buttons">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+        <button class="nav-toggle"
+                id="navToggle"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="mobileMenu">
+
+            <span></span><span></span><span></span>
+
+        </button>
+
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <a href="index.html">Home</a>
+
+        <a href="about.html">About</a>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Our Work</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="programs.html">Programs</a>
+                <a href="events.html">Events</a>
+                <a href="impact-dashboard.html">Impact Dashboard</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Get Involved</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="volunteer.html">Volunteer</a>
+                <a href="volunteer-application.html">Apply Now</a>
+                <a href="institutions.html">Partner With Us</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Stories</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="news.html">News</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="recognition.html">Recognition</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-group">
+
+            <button class="mobile-group-toggle" aria-expanded="false">
+                <span>Contact</span>
+                <span class="caret" aria-hidden="true"></span>
+            </button>
+
+            <div class="mobile-group-panel">
+                <a href="contact.html">Contact Us</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+
+        </div>
+
+        <div class="mobile-actions">
+
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Join Us</a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main id="main">
+
+<!-- ================= HERO ================= -->
+<section class="hero cs-hero-offset">
+  <div class="container">
+    <div class="hero-card">
+      <p class="eyebrow">Get In Touch</p>
+      <h1>Every Change Starts With a Conversation</h1>
+      <p class="lead">Whether you want to volunteer, fund a program, partner with us, or simply understand where your donation goes — write to us. A real person from the CareSphere team reads every message.</p>
+      <div class="hero-chips">
+        <span class="chip"><span class="dot"></span> Replies within 24 hours</span>
+        <span class="chip">📍 Field offices in 6 districts</span>
+        <span class="chip">🤝 1,200+ active volunteers</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INFO CARDS ================= -->
+<section class="section-tight" style="padding-top:0">
+  <div class="container">
+    <div class="info-grid">
+      <div class="info-card reveal">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3>Visit the office</h3>
+        <p>24 Nandi Street, Jayanagar<br>Bengaluru 560041, Karnataka</p>
+      </div>
+
+      <div class="info-card reveal">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+        </div>
+        <h3>Call the helpline</h3>
+        <p><a href="tel:+918045678900">+91 80 4567 8900</a><br>Mon–Sat, 9:00 AM – 6:00 PM</p>
+      </div>
+
+      <div class="info-card reveal">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m3 6 9 6 9-6"/></svg>
+        </div>
+        <h3>Email the team</h3>
+        <p><a href="mailto:hello@caresphere.org">hello@caresphere.org</a><br><a href="mailto:volunteer@caresphere.org">volunteer@caresphere.org</a></p>
+      </div>
+
+      <div class="info-card reveal">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.9"/></svg>
+        </div>
+        <h3>Volunteer desk</h3>
+        <p>Walk-in orientation<br>Every Saturday, 11:00 AM</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FORM + SIDEBAR ================= -->
+<section class="section" id="message">
+  <div class="container">
+    <div class="contact-head reveal">
+      <p class="eyebrow">Write To Us</p>
+      <h2>Tell us how you'd like to help</h2>
+      <p class="lead">Pick the reason for your message so it reaches the right coordinator instead of a shared inbox.</p>
+    </div>
+
+    <div class="contact-grid">
+      <!-- FORM -->
+      <div class="form-card reveal">
+        <div id="formWrap">
+          <h3>Send us a message</h3>
+          <p class="form-sub">Fields marked with <span style="color:var(--coral)">*</span> are required.</p>
+
+          <form id="contactForm" novalidate>
+            <div class="field-row">
+              <div class="field" data-field>
+                <label for="name">Full name <span class="req">*</span></label>
+                <input type="text" id="name" name="name" placeholder="Ananya Sharma" autocomplete="name" />
+                <p class="error-msg">Enter your name (at least 2 characters).</p>
+              </div>
+              <div class="field" data-field>
+                <label for="email">Email address <span class="req">*</span></label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" />
+                <p class="error-msg">Enter a valid email so we can reply.</p>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field" data-field>
+                <label for="phone">Phone number</label>
+                <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" autocomplete="tel" />
+                <p class="error-msg">Enter a valid phone number, or leave it blank.</p>
+              </div>
+              <div class="field" data-field>
+                <label for="topic">I'm reaching out about <span class="req">*</span></label>
+                <select id="topic" name="topic">
+                  <option value="">Choose a topic</option>
+                  <option>Volunteering with a program</option>
+                  <option>Making a donation</option>
+                  <option>Corporate or NGO partnership</option>
+                  <option>Sponsoring an event</option>
+                  <option>Media or press enquiry</option>
+                  <option>Something else</option>
+                </select>
+                <p class="error-msg">Choose a topic so we can route your message.</p>
+              </div>
+            </div>
+
+            <div class="field" data-field>
+              <div class="field-meta">
+                <label for="message">Your message <span class="req">*</span></label>
+                <span class="counter" id="counter">0 / 600</span>
+              </div>
+              <textarea id="message" name="message" maxlength="600" placeholder="Tell us what you have in mind — the program you're interested in, the hours you can give, or the question you'd like answered."></textarea>
+              <p class="error-msg">Write at least 15 characters so we can help properly.</p>
+            </div>
+
+            <label class="check" for="updates">
+              <input type="checkbox" id="updates" name="updates" />
+              <span>Send me the monthly CareSphere impact update. No more than one email a month.</span>
+            </label>
+
+            <button type="submit" class="btn btn-solid btn-block" id="submitBtn">Send message</button>
+            <p class="form-note">Your details stay with CareSphere and are never sold or shared.</p>
+          </form>
+        </div>
+
+        <!-- SUCCESS STATE -->
+        <div class="form-success" id="formSuccess" role="status">
+          <div class="success-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5 5L20 6.5"/></svg>
+          </div>
+          <h3>Message received</h3>
+          <p id="successText">Thanks — your message is with the right coordinator now. Expect a reply at your email within one working day.</p>
+          <button class="btn btn-navy" id="resetBtn">Send another message</button>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="side-stack">
+        <div class="side-card reveal">
+          <h4>What happens next</h4>
+          <ul class="side-list">
+            <li>
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5 5L20 6.5"/></svg></span>
+              <span><strong>We read it the same day</strong>Messages land with the coordinator for the topic you picked.</span>
+            </li>
+            <li>
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5 5L20 6.5"/></svg></span>
+              <span><strong>You get a reply in 24 hours</strong>Working days, from a named person — not a no-reply address.</span>
+            </li>
+            <li>
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5 5L20 6.5"/></svg></span>
+              <span><strong>Volunteers get a call</strong>A short chat about your skills, availability and nearest centre.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="map-card reveal">
+          <iframe title="CareSphere office location on map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Jayanagar%2C%20Bengaluru&output=embed"></iframe>
+          <div class="map-foot">
+            <p>Head office · Jayanagar, Bengaluru</p>
+            <a href="https://www.google.com/maps?q=Jayanagar,Bengaluru" target="_blank" rel="noopener">Get directions →</a>
+          </div>
+        </div>
+
+        <div class="side-card reveal">
+          <h4>Follow the work</h4>
+          <p style="font-size:.9rem;font-weight:300;margin-bottom:18px">Field photos, event dates and volunteer stories go up every week.</p>
+          <div class="socials">
+            <a href="#" aria-label="CareSphere on Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5H16.7V3.6c-.3 0-1.3-.1-2.45-.1-2.42 0-4.08 1.48-4.08 4.2v2.2H7.45V13h2.72v8h3.33Z"/></svg></a>
+            <a href="#" aria-label="CareSphere on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+            <a href="#" aria-label="CareSphere on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3l-6.6 7.6L21.8 21h-5.9l-4.3-5.6L6.6 21H3.5l7-8-6.8-10h6l3.9 5.2L17.5 3Zm-1 16h1.6L8.1 4.7H6.3L16.5 19Z"/></svg></a>
+            <a href="#" aria-label="CareSphere on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.9 20V9.4H3.5V20h3.4ZM5.2 7.9a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM20.5 20v-6c0-3.2-1.7-4.7-4-4.7-1.8 0-2.6 1-3.1 1.7V9.4H10c.05.95 0 10.6 0 10.6h3.4v-5.9c0-.3 0-.6.1-.85.3-.6.8-1.25 1.8-1.25 1.3 0 1.8 1 1.8 2.4V20h3.4Z"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="contact-head reveal">
+      <p class="eyebrow">Before You Write</p>
+      <h2>Quick answers</h2>
+    </div>
+
+    <div class="faq">
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false">Do I need experience to volunteer?<span class="faq-sign">+</span></button>
+        <div class="faq-a"><p>No. Most of our programs — tree drives, community events, distribution days — need willingness more than skills. Teaching and healthcare roles have a short orientation, and we run one every Saturday at the head office.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false">How little time can I give?<span class="faq-sign">+</span></button>
+        <div class="faq-a"><p>Four hours a month is enough to be useful. Tell us your availability in the message and the coordinator will match you to a program that fits, rather than the other way round.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false">Where does my donation go?<span class="faq-sign">+</span></button>
+        <div class="faq-a"><p>Every donation is tagged to one program and reported in the monthly update. Our audited accounts and 80G certificate are on the About page, and we'll send the receipt within 48 hours.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false">Can my company partner with CareSphere?<span class="faq-sign">+</span></button>
+        <div class="faq-a"><p>Yes. We run CSR partnerships, employee volunteering days and event sponsorships. Choose "Corporate or NGO partnership" above and our partnerships lead will send you the program deck.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="cta reveal">
+      <h2>Ready to give a few hours?</h2>
+      <p>Volunteer applications open the first week of every month. Fill the form once and we'll keep you on the list for the programs you choose.</p>
+      <div class="cta-actions">
+        <a href="volunteer-application.html" class="btn btn-solid">Apply to volunteer</a>
+        <a href="programs.html" class="btn btn-navy">Browse programs</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="brand" style="font-size:1.4rem">
+          <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <path d="M24 19c-2-4-8-4.5-10-1-2.2 3.8 2.2 8.4 10 13 7.8-4.6 12.2-9.2 10-13-2-3.5-8-3-10 1Z" fill="#FFCFB3"/>
+            <path d="M6 33c3.5-2.5 7-2.5 10.5 0h9c2.5 0 2.5 3.5 0 3.5h-7" stroke="#FFCFB3" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 33v6" stroke="#FFCFB3" stroke-width="3.2" stroke-linecap="round"/>
+          </svg>
+          CareSphere
+        </a>
+        <p>A volunteer-run foundation working in education, healthcare and green cover across six districts of Karnataka.</p>
+      </div>
+
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About us</a></li>
+          <li><a href="programs.html">Programs</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="institutions.html">Partner With Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Get involved</h4>
+        <ul class="footer-links">
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="volunteer-application.html">Apply now</a></li>
+          <li><a href="#message">Donate</a></li>
+          <li><a href="#message">Partner with us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Reach us</h4>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@caresphere.org">hello@caresphere.org</a></li>
+          <li><a href="tel:+918045678900">+91 80 4567 8900</a></li>
+          <li>24 Nandi Street, Jayanagar, Bengaluru 560041</li>
+        </ul>
+        <div class="socials" style="margin-top:16px">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5H16.7V3.6c-.3 0-1.3-.1-2.45-.1-2.42 0-4.08 1.48-4.08 4.2v2.2H7.45V13h2.72v8h3.33Z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 CareSphere Foundation. All rights reserved.</span>
+      <span>Registered under Section 8 · 80G approved</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= CHAT WIDGET ================= -->
+<div class="chat-panel" id="chatPanel" role="dialog" aria-label="Quick help">
+  <h4>Hi, we're here</h4>
+  <p class="chat-sub">Pick a topic and we'll start your message for you.</p>
+  <div class="chat-options">
+    <button data-topic="Volunteering with a program">I want to volunteer</button>
+    <button data-topic="Making a donation">I want to donate</button>
+    <button data-topic="Corporate or NGO partnership">Partner with CareSphere</button>
+    <button data-topic="Something else">Something else</button>
+  </div>
+</div>
+
+<button class="chat-launch" id="chatLaunch" aria-label="Open quick help" aria-expanded="false" aria-controls="chatPanel">
+  <span class="status"></span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.4-.7L3 21l1.9-5.1A8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4Z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/></svg>
+</button>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Mobile navigation ---------- */
+  var navToggle = document.getElementById("navToggle");
+  var mobileMenu = document.getElementById("mobileMenu");
+
+  navToggle.addEventListener("click", function () {
+    var open = mobileMenu.classList.toggle("open");
+    navToggle.classList.toggle("open", open);
+    navToggle.setAttribute("aria-expanded", String(open));
+    navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  });
+
+  /* ---------- Navbar shadow on scroll ---------- */
+  var nav = document.getElementById("nav");
+  window.addEventListener("scroll", function () {
+    nav.classList.toggle("is-stuck", window.scrollY > 10);
+  }, { passive: true });
+
+  /* ---------- Scroll reveal ---------- */
+  var revealables = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px" });
+    revealables.forEach(function (el) { io.observe(el); });
+  } else {
+    revealables.forEach(function (el) { el.classList.add("in"); });
+  }
+
+  /* ---------- Toast ---------- */
+  var toast = document.getElementById("toast");
+  var toastTimer;
+  function showToast(text) {
+    toast.textContent = text;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 3600);
+  }
+
+  /* ---------- Form validation ---------- */
+  var form = document.getElementById("contactForm");
+  var formWrap = document.getElementById("formWrap");
+  var success = document.getElementById("formSuccess");
+  var successText = document.getElementById("successText");
+  var submitBtn = document.getElementById("submitBtn");
+  var messageEl = document.getElementById("message");
+  var counter = document.getElementById("counter");
+
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+  var PHONE_RE = /^[+]?[\d][\d\s\-()]{7,17}$/;
+
+  function fieldOf(input) { return input.closest("[data-field]"); }
+
+  function setInvalid(input, invalid) {
+    var wrap = fieldOf(input);
+    if (!wrap) return;
+    wrap.classList.toggle("invalid", invalid);
+    input.setAttribute("aria-invalid", String(invalid));
+  }
+
+  var rules = {
+    name: function (v) { return v.trim().length >= 2; },
+    email: function (v) { return EMAIL_RE.test(v.trim()); },
+    phone: function (v) { return v.trim() === "" || PHONE_RE.test(v.trim()); },
+    topic: function (v) { return v !== ""; },
+    message: function (v) { return v.trim().length >= 15; }
+  };
+
+  function validateField(input) {
+    var rule = rules[input.id];
+    if (!rule) return true;
+    var valid = rule(input.value);
+    setInvalid(input, !valid);
+    return valid;
+  }
+
+  Object.keys(rules).forEach(function (id) {
+    var input = document.getElementById(id);
+    input.addEventListener("blur", function () { validateField(input); });
+    input.addEventListener("input", function () {
+      if (fieldOf(input).classList.contains("invalid")) validateField(input);
+    });
+    if (input.tagName === "SELECT") {
+      input.addEventListener("change", function () { validateField(input); });
+    }
+  });
+
+  /* character counter */
+  messageEl.addEventListener("input", function () {
+    counter.textContent = messageEl.value.length + " / 600";
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var firstBad = null;
+    Object.keys(rules).forEach(function (id) {
+      var input = document.getElementById(id);
+      if (!validateField(input) && !firstBad) firstBad = input;
+    });
+
+    if (firstBad) {
+      firstBad.focus();
+      showToast("Check the highlighted fields and try again.");
+      return;
+    }
+
+    /* Fake submit — swap this block for your fetch() to the backend */
+    var original = submitBtn.textContent;
+    submitBtn.textContent = "Sending…";
+    submitBtn.disabled = true;
+
+    setTimeout(function () {
+      var name = document.getElementById("name").value.trim().split(" ")[0];
+      var topic = document.getElementById("topic").value;
+      successText.textContent =
+        "Thanks " + name + " — your note about \u201C" + topic.toLowerCase() +
+        "\u201D is with the right coordinator. Expect a reply at your email within one working day.";
+
+      formWrap.style.display = "none";
+      success.classList.add("show");
+      success.scrollIntoView({ block: "center", behavior: "smooth" });
+      showToast("Message sent. We'll be in touch soon.");
+
+      submitBtn.textContent = original;
+      submitBtn.disabled = false;
+    }, 900);
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", function () {
+    form.reset();
+    counter.textContent = "0 / 600";
+    document.querySelectorAll("[data-field]").forEach(function (f) { f.classList.remove("invalid"); });
+    success.classList.remove("show");
+    formWrap.style.display = "block";
+    document.getElementById("name").focus();
+  });
+
+  /* ---------- FAQ accordion ---------- */
+  var faqItems = document.querySelectorAll(".faq-item");
+  faqItems.forEach(function (item) {
+    var btn = item.querySelector(".faq-q");
+    var panel = item.querySelector(".faq-a");
+
+    btn.addEventListener("click", function () {
+      var isOpen = item.classList.contains("open");
+
+      faqItems.forEach(function (other) {
+        other.classList.remove("open");
+        other.querySelector(".faq-a").style.maxHeight = null;
+        other.querySelector(".faq-q").setAttribute("aria-expanded", "false");
+      });
+
+      if (!isOpen) {
+        item.classList.add("open");
+        panel.style.maxHeight = panel.scrollHeight + "px";
+        btn.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+
+  /* ---------- Chat widget ---------- */
+  var chatLaunch = document.getElementById("chatLaunch");
+  var chatPanel = document.getElementById("chatPanel");
+
+  function setChat(open) {
+    chatPanel.classList.toggle("open", open);
+    chatLaunch.setAttribute("aria-expanded", String(open));
+  }
+
+  chatLaunch.addEventListener("click", function () {
+    setChat(!chatPanel.classList.contains("open"));
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!chatPanel.contains(e.target) && !chatLaunch.contains(e.target)) setChat(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") setChat(false);
+  });
+
+  chatPanel.querySelectorAll("[data-topic]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var topic = btn.getAttribute("data-topic");
+      var select = document.getElementById("topic");
+
+      if (success.classList.contains("show")) {
+        success.classList.remove("show");
+        formWrap.style.display = "block";
+      }
+
+      Array.prototype.forEach.call(select.options, function (opt) {
+        if (opt.value === topic) select.value = topic;
+      });
+      validateField(select);
+
+      setChat(false);
+      document.getElementById("message").scrollIntoView({ block: "center", behavior: "smooth" });
+      setTimeout(function () { document.getElementById("name").focus(); }, 500);
+    });
+  });
+})();
+</script>
+</body>
+</html>
