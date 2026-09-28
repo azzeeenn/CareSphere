@@ -24,6 +24,7 @@ from .routers import (
     content,
     events,
     lookups,
+    newsletter,
     participation,
     promotion,
     stats,
@@ -67,7 +68,6 @@ app.include_router(lookups.router)
 
 # Public content
 app.include_router(content.news_router)
-app.include_router(content.gallery_router)
 app.include_router(content.testimonial_router)
 app.include_router(content.recognition_router)
 app.include_router(content.faq_router)
@@ -77,6 +77,9 @@ app.include_router(stats.stats_router)
 
 # Volunteers applying to become admins
 app.include_router(promotion.router)
+
+# Newsletter sign-ups from the public site
+app.include_router(newsletter.router)
 
 # Operations and administration
 app.include_router(admin.donation_router)

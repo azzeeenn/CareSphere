@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscribers · CareSphere Admin</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+  <style>
+    .sub-pill { display:inline-flex; align-items:center; gap:6px; padding:3px 11px; border-radius:20px; font-size:12px; font-weight:500; }
+    .sub-pill::before { content:""; width:6px; height:6px; border-radius:50%; background:currentColor; }
+    .sub-pill.is-on  { background:rgba(79,157,119,.16); color:#2F7552; }
+    .sub-pill.is-off { background:#FFCFB3; color:#B85F51; }
+  </style>
+</head>
+<body class="admin" data-page="subscribers" data-group="ops">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="page-head">
+          <div class="page-head-text">
+            <a class="crumb" href="admin-home.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Admin Home
+            </a>
+            <h1>Subscribers</h1>
+            <p>People who signed up to the newsletter from the public site.</p>
+          </div>
+          <button class="btn btn-primary" type="button" id="copyEmails">Copy active emails</button>
+        </header>
+
+        <section class="summary-row" id="summaryRow"></section>
+
+        <section class="toolbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+            <input type="search" id="searchBox" placeholder="Search by email" aria-label="Search subscribers">
+          </label>
+        </section>
+
+        <section class="table-wrap">
+          <div class="table-scroll">
+            <table class="data">
+              <thead>
+                <tr><th>Email</th><th>Signed up</th><th>Status</th><th></th></tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="emptyState" hidden>
+            <h3 id="emptyTitle">No subscribers yet</h3>
+            <p id="emptyBody">Sign-ups from the "Stay Updated" box on the site appear here.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-subscribers.js"></script>
+</body>
+</html>

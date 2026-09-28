@@ -374,46 +374,13 @@ class NewsUpdate(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Gallery
-# ---------------------------------------------------------------------------
-
-class GalleryOut(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int = Field(serialization_alias="_id")
-    caption: Optional[str] = None
-    album: Optional[str] = None
-    district: Optional[str] = None
-    imagePath: str
-    uploadedAt: Optional[datetime] = None
-
-    @field_serializer("id")
-    def id_as_string(self, v: int) -> str:
-        return str(v)
-
-
-class GalleryCreate(BaseModel):
-    caption: Optional[str] = Field(default=None, max_length=250)
-    album: Optional[str] = None
-    district: Optional[str] = None
-    imagePath: str = Field(min_length=1, max_length=400)
-
-
-class GalleryUpdate(BaseModel):
-    caption: Optional[str] = None
-    album: Optional[str] = None
-    district: Optional[str] = None
-    imagePath: Optional[str] = None
-
-
-# ---------------------------------------------------------------------------
 # Testimonials
 # ---------------------------------------------------------------------------
 
 class TestimonialOut(BaseModel):
     # populate_by_name lets the field be filled from the column name
     # submitted_at while still going out to the browser as submittedAt,
-    # matching NewsOut.publishedAt and GalleryOut.uploadedAt.
+    # matching NewsOut.publishedAt.
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
     id: int = Field(serialization_alias="_id")

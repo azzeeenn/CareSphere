@@ -50,7 +50,7 @@ var CSStore = (function () {
     partnerships:  "/api/partnerships",
     testimonials:  "/api/testimonials",
     news:          "/api/news",
-    gallery:       "/api/gallery",
+    subscribers:   "/api/newsletter",
     recognition:   "/api/recognition",
     faq:           "/api/faq",
     impact:        "/api/impact",
@@ -73,7 +73,6 @@ var CSStore = (function () {
     partnerships:  ["status"],
     testimonials:  ["featured"],
     news:          ["status", "category"],
-    gallery:       ["album", "district"],
     recognition:   ["type"],
     faq:           ["category"],
     users:         ["role"]
@@ -336,7 +335,7 @@ var CSStore = (function () {
       return request("PATCH", endpointFor(collection) + "/" + id, changes);
     },
 
-    /** removeById("gallery", "1") -> Promise<Boolean> */
+    /** removeById("news", "1") -> Promise<Boolean> */
     removeById: function (collection, id) {
       return request("DELETE", endpointFor(collection) + "/" + id)
         .then(function () { return true; })
@@ -485,11 +484,11 @@ var CSStore = (function () {
       return API_BASE + (path.charAt(0) === "/" ? path : "/" + path);
     },
 
-    /** Upload a gallery or news image. Admins only.
+    /** Upload a news image. Admins only.
      *  Returns { path, url, originalName } — send path as imagePath. */
     uploadImage: function (file, folder, filename) {
       return upload(
-        "/api/uploads/image?folder=" + encodeURIComponent(folder || "gallery"),
+        "/api/uploads/image?folder=" + encodeURIComponent(folder || "news"),
         file,
         filename
       );
@@ -504,6 +503,13 @@ var CSStore = (function () {
     /** { verified, pending, entries } for the signed-in volunteer. */
     myHoursSummary: function () {
       return request("GET", "/api/hours/summary/me");
+    },
+
+    /** Newsletter sign-up from the public site. Saved in the database;
+     *  signing up twice is fine and never makes a duplicate.
+     *  Resolves with { status: "subscribed" | "already" }. */
+    subscribe: function (email) {
+      return request("POST", "/api/newsletter", { email: email });
     },
 
     /** Sign up for an event. */

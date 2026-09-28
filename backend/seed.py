@@ -44,7 +44,7 @@ def wipe(db):
     order = [
         m.AdminEndorsement, m.AdminRequest, m.PromotionRules,
         m.CertificateProof, m.Certificate, m.VolunteerHours, m.Registration,
-        m.Application, m.Event, m.GalleryItem, m.Message, m.Partnership,
+        m.Application, m.Event, m.Message, m.Partnership, m.Subscriber,
         m.Testimonial, m.News, m.Recognition, m.Faq, m.ImpactStat,
         m.Donation, m.Settings, m.User, m.Category, m.District,
     ]
@@ -357,24 +357,6 @@ def run():
                           published_at=d(pub), status=status, pinned=pinned,
                           created_at=dt(created + "T00:00")))
 
-        # --- Gallery ---------------------------------------------------------
-        # image_path points at files you will upload later. These are
-        # placeholders so the table is not empty.
-        print("Gallery...")
-        for caption, album, dist, path, when in [
-            ("Sapling planting at Kukkarahalli Lake", "Green Cover", "Mysuru",
-             "uploads/gallery/placeholder-1.jpg", "2026-07-30"),
-            ("Eye screening, Malavalli", "Healthcare", "Mandya",
-             "uploads/gallery/placeholder-2.jpg", "2026-07-18"),
-            ("Reading circle, Jayanagar", "Education", "Bengaluru Urban",
-             "uploads/gallery/placeholder-3.jpg", "2026-07-11"),
-            ("Supplies handover, Tumakuru", "Education", "Tumakuru",
-             "uploads/gallery/placeholder-4.jpg", "2026-07-12"),
-        ]:
-            db.add(m.GalleryItem(caption=caption, album=album,
-                                 district_id=districts[dist].id, image_path=path,
-                                 uploaded_at=dt(when + "T00:00")))
-
         # --- Recognition -------------------------------------------------------
         print("Recognition...")
         for title, body, year, typ in [
@@ -432,7 +414,7 @@ def run():
         for table in [m.District, m.Category, m.User, m.Application, m.Event,
                       m.Registration, m.VolunteerHours, m.Certificate, m.Donation,
                       m.Message, m.Partnership, m.Testimonial, m.News,
-                      m.GalleryItem, m.Recognition, m.Faq, m.ImpactStat, m.Settings]:
+                      m.Subscriber, m.Recognition, m.Faq, m.ImpactStat, m.Settings]:
             print(f"  {table.__tablename__:<22} {db.query(table).count()}")
 
     except Exception:

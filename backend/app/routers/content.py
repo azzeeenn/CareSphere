@@ -2,7 +2,7 @@
 CareSphere — public content
 ============================
 
-News, gallery, testimonials, recognition and FAQ. Everything the public
+News, testimonials, recognition and FAQ. Everything the public
 site displays and the admin panel manages.
 
 One rule runs through all of them: the public sees only finished content.
@@ -24,16 +24,13 @@ from sqlalchemy.orm import Session
 from ..auth import require_admin, require_super_admin
 from ..database import get_db
 from ..models import (
-    Application, District, Faq, GalleryItem, News, Recognition, Testimonial, User,
+    Application, Faq, News, Recognition, Testimonial, User,
     VolunteerHours,
 )
 from ..schemas import (
     FaqCreate,
     FaqOut,
     FaqUpdate,
-    GalleryCreate,
-    GalleryOut,
-    GalleryUpdate,
     NewsCreate,
     NewsOut,
     NewsUpdate,
@@ -44,10 +41,9 @@ from ..schemas import (
     TestimonialOut,
     TestimonialReview,
 )
-from .common import district_id_for, not_found, parse_id
+from .common import not_found, parse_id
 
 news_router = APIRouter(prefix="/api/news", tags=["news"])
-gallery_router = APIRouter(prefix="/api/gallery", tags=["gallery"])
 testimonial_router = APIRouter(prefix="/api/testimonials", tags=["testimonials"])
 recognition_router = APIRouter(prefix="/api/recognition", tags=["recognition"])
 faq_router = APIRouter(prefix="/api/faq", tags=["faq"])
@@ -205,93 +201,6 @@ def delete_news(
     row = db.query(News).filter(News.id == parse_id(news_id, "article")).first()
     if row is None:
         raise not_found("article")
-    db.delete(row)
-    db.commit()
-    return Response(status_code=204)
-
-
-# ===========================================================================
-#  GALLERY
-# ===========================================================================
-
-
-def _shape_gallery(g: GalleryItem) -> GalleryOut:
-    return GalleryOut(
-        id=g.id, caption=g.caption, album=g.album,
-        district=g.district.name if g.district else None,
-        imagePath=g.image_path, uploadedAt=g.uploaded_at,
-    )
-
-
-@gallery_router.get("", response_model=List[GalleryOut])
-def list_gallery(
-    db: Session = Depends(get_db),
-    album: Optional[str] = None,
-    district: Optional[str] = None,
-):
-    q = db.query(GalleryItem)
-    if album:
-        q = q.filter(GalleryItem.album == album)
-    if district:
-        q = q.join(District).filter(District.name == district)
-    return [_shape_gallery(g) for g in q.order_by(GalleryItem.uploaded_at.desc()).all()]
-
-
-@gallery_router.post("", response_model=GalleryOut, status_code=201)
-def add_gallery_item(
-    body: GalleryCreate,
-    db: Session = Depends(get_db),
-    _: User = Depends(require_admin),
-):
-    row = GalleryItem(
-        caption=body.caption,
-        album=body.album,
-        district_id=district_id_for(db, body.district),
-        image_path=body.imagePath,
-    )
-    db.add(row)
-    db.commit()
-    db.refresh(row)
-    return _shape_gallery(row)
-
-
-@gallery_router.patch("/{item_id}", response_model=GalleryOut)
-def update_gallery_item(
-    item_id: str,
-    body: GalleryUpdate,
-    db: Session = Depends(get_db),
-    _: User = Depends(require_admin),
-):
-    row = db.query(GalleryItem).filter(
-        GalleryItem.id == parse_id(item_id, "image")
-    ).first()
-    if row is None:
-        raise not_found("image")
-
-    changes = body.model_dump(exclude_unset=True)
-    if "district" in changes:
-        row.district_id = district_id_for(db, changes.pop("district"))
-    if "imagePath" in changes:
-        row.image_path = changes.pop("imagePath")
-    for field, value in changes.items():
-        setattr(row, field, value)
-
-    db.commit()
-    db.refresh(row)
-    return _shape_gallery(row)
-
-
-@gallery_router.delete("/{item_id}", status_code=204)
-def delete_gallery_item(
-    item_id: str,
-    db: Session = Depends(get_db),
-    _: User = Depends(require_super_admin),
-):
-    row = db.query(GalleryItem).filter(
-        GalleryItem.id == parse_id(item_id, "image")
-    ).first()
-    if row is None:
-        raise not_found("image")
     db.delete(row)
     db.commit()
     return Response(status_code=204)

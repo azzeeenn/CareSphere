@@ -1,143 +1,93 @@
 /* ==========================================================================
-   CareSphere — Partnerships
+   CareSphere: Partnerships
 
-   Requests from the public "Partner With Us" form.
+   Requests from the "Partner With Us" form on institutions.html.
+   An admin opens one, assigns it, keeps internal notes, and moves it
+   along: new -> contacted -> active partner (or declined).
 
-   Three things worth knowing before you read on:
-
-   1. Saving used to make a row look like it had been deleted. The list
-      only draws rows matching the selected chip, so changing a request
-      from New to Contacted dropped it out of a New-filtered list. It now
-      moves the chip to follow the record.
-
-   2. Accept and Decline are explicit buttons, matching how applications,
-      hours, certificates and testimonials are reviewed. The dropdown is
-      still there for the in-between step.
-
-   3. Draft in Gmail opens Gmail's compose window in a new tab with the
-      address, subject and body already filled in, worded for wherever
-      the request has got to. Nothing is sent by the server — a person
-      still reads it and presses send.
-
-      This used to be a mailto: link, which needs a mail app registered
-      on the machine. On a laptop with no default mail client Windows
-      just asks which app to use and then opens an empty browser tab, so
-      the draft never appeared. A plain https URL has no such problem.
+   "Draft in Gmail" opens a reply to the contact, worded to match the
+   status, the same way the Messages page replies to enquiries.
    ========================================================================== */
 
 (function () {
   "use strict";
 
-  CSAdmin.init();
+  if (!CSAdmin.init()) return;
 
+  var esc    = CSAdmin.esc;
   var all    = [];
-  var admins = [];
+  var staff  = [];
   var status = "new";
   var term   = "";
   var openId = null;
 
-  var rowsEl    = document.getElementById("rows");
-  var emptyEl   = document.getElementById("emptyState");
-  var summaryEl = document.getElementById("summaryRow");
+  var rowsEl  = document.getElementById("rows");
+  var emptyEl = document.getElementById("emptyState");
 
-  var LABEL = {
-    new:       { text: "New",       cls: "is-new"      },
-    contacted: { text: "Contacted", cls: "is-progress" },
-    active:    { text: "Active",    cls: "is-resolved" },
-    declined:  { text: "Declined",  cls: "is-off"      }
+  var TYPES = {
+    "school": "School",
+    "college": "College",
+    "community-center": "Community centre",
+    "ngo": "NGO",
+    "corporate": "Company"
   };
 
-  /* These are the five the database CheckConstraint allows. "other" was
-     listed here before and is not one of them, so anything picking it was
-     rejected by Postgres. */
-  var TYPE = {
-    "school":           "School",
-    "college":          "College / University",
-    "community-center": "Community / Care Centre",
-    "ngo":              "NGO / Other",
-    "corporate":        "Corporate"
+  var STATUS_LABEL = {
+    "new": "New",
+    "contacted": "Contacted",
+    "active": "Active partner",
+    "declined": "Declined"
   };
-
-  /* Who is signed in, for the sign-off on drafted emails. */
-  function myName() {
-    try {
-      var me = CSAuth.current();
-      return (me && me.name) || "The CareSphere team";
-    } catch (e) {
-      return "The CareSphere team";
-    }
-  }
 
   /* ------------------------------------------------------------------ */
 
   function load() {
-    return Promise.all([
-      CSStore.find("partnerships"),
-      CSStore.find("users")
-    ]).then(function (r) {
-
-      all = r[0].sort(function (a, b) {
+    return CSStore.find("partnerships").then(function (rows) {
+      all = rows.sort(function (a, b) {
         return new Date(b.receivedAt) - new Date(a.receivedAt);
       });
-
-      admins = r[1].filter(function (u) {
-        return (u.role === "admin" || u.role === "super_admin") && u.active;
-      });
-
-      document.getElementById("pAssign").innerHTML =
-        '<option value="">Nobody yet</option>' +
-        admins.map(function (u) {
-          return '<option value="' + CSAdmin.esc(u.name) + '">' + CSAdmin.esc(u.name) + '</option>';
-        }).join("");
-
       render();
-      CSAdmin.refreshBadges();
+    }).catch(function (err) {
+      CSAdmin.toast((err && err.detail) || "Couldn't load partnership requests", "warn");
     });
+  }
+
+  function loadStaff() {
+    return CSStore.staff().then(function (rows) {
+      staff = rows || [];
+    }).catch(function () { staff = []; });
+  }
+
+  function byId(id) {
+    return all.filter(function (p) { return p._id === id; })[0];
   }
 
   function visible() {
     return all.filter(function (p) {
       if (status !== "all" && p.status !== status) return false;
       if (!term) return true;
-      return (p.institutionName + " " + p.contactName + " " +
-              p.location + " " + p.email).toLowerCase().indexOf(term) !== -1;
+      return [p.institutionName, p.contactName, p.location, p.email]
+        .join(" ").toLowerCase().indexOf(term) !== -1;
     });
   }
 
-  /* Move the chip to wherever the record just went, so saving never looks
-     like deleting. Nothing to do if the list already shows everything. */
-  function followFilter(newStatus) {
-    if (status === "all" || status === newStatus) return;
-
-    var bar  = document.getElementById("statusFilter");
-    var chip = bar.querySelector('[data-status="' + newStatus + '"]');
-    if (!chip) return;
-
-    bar.querySelectorAll(".chip").forEach(function (c) { c.classList.remove("is-on"); });
-    chip.classList.add("is-on");
-    status = newStatus;
+  function statusTag(s) {
+    var cls = s === "active" ? "is-green" : s === "declined" ? "is-healthcare" : "is-education";
+    return '<span class="tag ' + cls + '">' + esc(STATUS_LABEL[s] || s) + '</span>';
   }
 
   /* ------------------------------------------------------------------ */
 
-  function renderSummary() {
-    function n(s) { return all.filter(function (p) { return p.status === s; }).length; }
-    var unassigned = all.filter(function (p) {
-      return p.status !== "declined" && p.status !== "active" && !p.assignedTo;
-    }).length;
-
-    summaryEl.innerHTML =
-      '<div class="summary-chip is-hot"><b>' + n("new") + '</b><span>new</span></div>' +
-      '<div class="summary-chip"><b>' + n("contacted") + '</b><span>contacted</span></div>' +
-      '<div class="summary-chip"><b>' + unassigned + '</b><span>unassigned</span></div>' +
-      '<div class="summary-chip"><b>' + n("active") + '</b><span>active partners</span></div>';
-  }
-
   function render() {
-    renderSummary();
+    function count(s) { return all.filter(function (p) { return p.status === s; }).length; }
+
+    document.getElementById("summaryRow").innerHTML =
+      '<div class="summary-chip"><b>' + count("new") + '</b><span>new</span></div>' +
+      '<div class="summary-chip"><b>' + count("contacted") + '</b><span>contacted</span></div>' +
+      '<div class="summary-chip"><b>' + count("active") + '</b><span>active partners</span></div>' +
+      '<div class="summary-chip"><b>' + count("declined") + '</b><span>declined</span></div>';
 
     var list = visible();
-    var esc  = CSAdmin.esc;
 
     if (!list.length) {
       rowsEl.innerHTML = "";
@@ -145,245 +95,180 @@
       document.getElementById("emptyTitle").textContent = term ? "No matches" : "Nothing here";
       document.getElementById("emptyBody").textContent = term
         ? "Try a different search."
-        : "No requests with this status. Try another chip, or All.";
+        : (status === "new"
+            ? "No new partnership requests from the institutions page."
+            : "No requests with this status.");
       return;
     }
 
     emptyEl.hidden = true;
 
     rowsEl.innerHTML = list.map(function (p) {
-      var badge = LABEL[p.status] || LABEL.new;
-
       return '' +
         '<tr>' +
-          '<td>' +
-            '<span class="avatar-cell">' +
-              '<span class="avatar-sm">' + esc(p.institutionName.charAt(0)) + '</span>' +
-              '<span>' +
-                '<span class="cell-primary">' + esc(p.institutionName) + '</span>' +
-                '<span class="cell-sub">' + esc(TYPE[p.type] || p.type) + ' &middot; ' + esc(p.location) + '</span>' +
-              '</span>' +
-            '</span>' +
-          '</td>' +
-          '<td>' +
-            '<span class="cell-primary">' + esc(p.contactName) + '</span>' +
-            '<span class="cell-sub">' + esc(p.contactRole || p.email) + '</span>' +
-          '</td>' +
-          '<td>' + CSAdmin.fmtDate(p.receivedAt) +
-            '<span class="cell-sub">' + CSAdmin.daysAgo(p.receivedAt) + '</span></td>' +
-          '<td>' + (p.childCount ? esc(String(p.childCount)) : '<span style="color:var(--cs-muted)">Not given</span>') + '</td>' +
-          '<td>' + (p.assignedTo ? esc(p.assignedTo) : '<span style="color:var(--cs-muted)">Nobody</span>') + '</td>' +
-          '<td><span class="status-badge ' + badge.cls + '">' + badge.text + '</span></td>' +
-          '<td class="cell-actions">' +
-            '<button class="btn btn-quiet btn-sm" data-open="' + p._id + '">Open</button>' +
-          '</td>' +
+          '<td><span class="cell-primary">' + esc(p.institutionName) + '</span><br>' +
+              '<span class="cell-secondary">' + esc(TYPES[p.type] || p.type) +
+              (p.location ? ' · ' + esc(p.location) : '') + '</span></td>' +
+          '<td>' + esc(p.contactName || "") +
+              (p.contactRole ? '<br><span class="cell-secondary">' + esc(p.contactRole) + '</span>' : '') + '</td>' +
+          '<td>' + esc(CSAdmin.fmtDate(p.receivedAt)) + '</td>' +
+          '<td>' + (p.childCount != null ? esc(p.childCount) : "Not given") + '</td>' +
+          '<td>' + (p.assignedTo ? esc(p.assignedTo) : "Nobody yet") + '</td>' +
+          '<td>' + statusTag(p.status) + '</td>' +
+          '<td class="cell-actions"><button class="btn btn-quiet btn-sm" data-open="' + esc(p._id) + '">Open</button></td>' +
         '</tr>';
     }).join("");
   }
 
   /* ------------------------------------------------------------------
-     Email drafts
-
-     There is no mail server behind CareSphere, so this builds a mailto
-     link with the subject and body filled in. The admin's own mail app
-     opens, they read the draft, edit anything they want and send it.
+     Detail modal
      ------------------------------------------------------------------ */
 
-  function draftFor(p, forStatus) {
-    var who  = p.contactName || "Sir or Madam";
-    var inst = p.institutionName;
-    var sign = "Warm regards,\n" + myName() + "\nCareSphere Foundation";
+  function set(id, text) {
+    document.getElementById(id).textContent = (text === null || text === undefined || text === "")
+      ? "Not given" : text;
+  }
 
-    if (forStatus === "active") {
-      return {
-        subject: "CareSphere partnership with " + inst + " — confirmed",
-        body:
-          "Dear " + who + ",\n\n" +
-          "I'm glad to confirm that CareSphere Foundation would like to go " +
-          "ahead with a partnership with " + inst + ".\n\n" +
-          "Our suggested next steps:\n\n" +
-          "1. A short planning call to agree which programmes suit your students " +
-          "and what the schedule looks like.\n" +
-          "2. We share the volunteers assigned to you and their availability.\n" +
-          "3. We sign a simple memorandum of understanding covering safeguarding " +
-          "and who to contact on each side.\n\n" +
-          "Could you let me know two or three times that suit you over the next " +
-          "week and I'll set up the call?\n\n" + sign
-      };
+  function fillAssign(current) {
+    var sel = document.getElementById("pAssign");
+    sel.innerHTML = '<option value="">Nobody yet</option>' + staff.map(function (s) {
+      return '<option value="' + esc(s._id) + '">' + esc(s.name) + '</option>';
+    }).join("");
+
+    /* The API sends back the assignee's name, so match on that. */
+    var match = staff.filter(function (s) { return s.name === current; })[0];
+    sel.value = match ? match._id : "";
+  }
+
+  function draft(p, statusValue) {
+    var me = CSStore.session.get() || {};
+    var hello = "Dear " + (p.contactName || "Sir/Madam") + ",\n\n";
+    var sign = "\n\nWarm regards,\n" + (me.name || "The CareSphere team") + "\nCareSphere Foundation";
+    var body;
+
+    if (statusValue === "active") {
+      body = "Thank you for reaching out on behalf of " + p.institutionName + ". We're glad to confirm " +
+             "that we'd like to work with you. We'll be in touch shortly to agree on the next steps " +
+             "and a start date.";
+    } else if (statusValue === "declined") {
+      body = "Thank you for your interest in partnering with CareSphere on behalf of " + p.institutionName +
+             ". Unfortunately we aren't able to take this forward at the moment. We'll keep your details " +
+             "and would be happy to talk again in future.";
+    } else {
+      body = "Thank you for your partnership request on behalf of " + p.institutionName + ". " +
+             "We'd like to learn a little more about what you have in mind. Could you let us know a " +
+             "good time for a short call?";
     }
 
-    if (forStatus === "declined") {
-      return {
-        subject: "CareSphere partnership — " + inst,
-        body:
-          "Dear " + who + ",\n\n" +
-          "Thank you for your interest in working with CareSphere Foundation, " +
-          "and for the time you took to write to us about " + inst + ".\n\n" +
-          "After looking at your request we aren't able to take it forward at " +
-          "the moment. This is almost always about how many volunteers we have " +
-          "available in a particular district rather than anything to do with " +
-          "your institution.\n\n" +
-          "We'll keep your details on file and will get in touch if that " +
-          "changes. Please do write to us again next term.\n\n" + sign
-      };
-    }
-
-    /* new or contacted — the first approach */
     return {
-      subject: "CareSphere partnership — " + inst,
-      body:
-        "Dear " + who + ",\n\n" +
-        "Thank you for getting in touch about a partnership between " + inst +
-        " and CareSphere Foundation.\n\n" +
-        "We've received your request and would like to arrange a short call to " +
-        "understand what you're hoping for and where we can be useful.\n\n" +
-        "Could you let me know a couple of times that suit you this week?\n\n" +
-        sign
+      subject: "Your partnership request with CareSphere",
+      body: hello + body + sign
     };
   }
 
-  function refreshReplyLink() {
-    var p = all.filter(function (x) { return x._id === openId; })[0];
+  function updateReplyLink() {
+    var p = byId(openId);
     if (!p) return;
+    var d = draft(p, document.getElementById("pStatus").value);
+    var link = document.getElementById("pReply");
 
-    var draft = draftFor(p, document.getElementById("pStatus").value);
-
-    document.getElementById("pReply").href =
-      "https://mail.google.com/mail/?view=cm&fs=1" +
-      "&to="   + encodeURIComponent(p.email || "") +
-      "&su="   + encodeURIComponent(draft.subject) +
-      "&body=" + encodeURIComponent(draft.body);
-
-    /* Kept as a fallback for anyone who does have a mail app set up, and
-       so the draft can be pasted somewhere else if Gmail isn't the tool. */
-    lastDraft = draft;
-    lastEmail = p.email || "";
-  }
-
-  var lastDraft = null;
-  var lastEmail = "";
-
-  /* Copies the whole draft, address included, for pasting into whatever
-     mail client the office actually uses. */
-  function copyDraft() {
-    if (!lastDraft) return;
-
-    var text = "To: " + lastEmail + "\n" +
-               "Subject: " + lastDraft.subject + "\n\n" +
-               lastDraft.body;
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () {
-        CSAdmin.toast("Draft copied", "good");
-      }).catch(function () {
-        CSAdmin.toast("Couldn't copy. Select the text manually.", "warn");
-      });
-      return;
+    if (p.email) {
+      link.href = "https://mail.google.com/mail/?view=cm&fs=1" +
+        "&to=" + encodeURIComponent(p.email) +
+        "&su=" + encodeURIComponent(d.subject) +
+        "&body=" + encodeURIComponent(d.body);
+      link.removeAttribute("aria-disabled");
+      link.style.pointerEvents = "";
+      link.style.opacity = "";
+    } else {
+      link.removeAttribute("href");
+      link.setAttribute("aria-disabled", "true");
+      link.style.pointerEvents = "none";
+      link.style.opacity = "0.5";
     }
-
-    CSAdmin.toast("Copying isn't available in this browser.", "warn");
   }
 
-  document.getElementById("pCopyDraft").addEventListener("click", copyDraft);
-
-  /* ------------------------------------------------------------------
-     Modal
-     ------------------------------------------------------------------ */
-
-  function openPartner(id) {
-    var p = all.filter(function (x) { return x._id === id; })[0];
+  function open(id) {
+    var p = byId(id);
     if (!p) return;
     openId = id;
 
-    function set(elId, value) {
-      document.getElementById(elId).textContent = value || "\u2014";
-    }
-
     document.getElementById("pName").textContent = p.institutionName;
     document.getElementById("pMeta").textContent =
-      (TYPE[p.type] || p.type) + " \u00b7 " + p.location + " \u00b7 " + CSAdmin.fmtDate(p.receivedAt);
+      (STATUS_LABEL[p.status] || p.status) + " · received " + CSAdmin.fmtDate(p.receivedAt);
 
-    set("pType",     TYPE[p.type] || p.type);
+    set("pType", TYPES[p.type] || p.type);
     set("pLocation", p.location);
-    set("pContact",  p.contactName);
-    set("pRole",     p.contactRole);
-    set("pEmail",    p.email);
-    set("pPhone",    p.phone);
-    set("pChildren", p.childCount ? String(p.childCount) : "");
+    set("pContact", p.contactName);
+    set("pRole", p.contactRole);
+    set("pEmail", p.email);
+    set("pPhone", p.phone);
+    set("pChildren", p.childCount);
     set("pReceived", CSAdmin.fmtDate(p.receivedAt));
-    set("pMessage",  p.message || "They didn't leave a message.");
+    set("pMessage", p.message);
 
-    document.getElementById("pAssign").value = p.assignedTo || "";
-    document.getElementById("pStatus").value = p.status === "new" ? "contacted" : p.status;
-    document.getElementById("pNotes").value  = p.notes || "";
+    fillAssign(p.assignedTo);
+    document.getElementById("pStatus").value = p.status;
+    document.getElementById("pNotes").value = p.notes || "";
 
-    /* Accepting something already active, or declining something already
-       declined, is just noise. */
-    document.getElementById("acceptPartner").hidden  = p.status === "active";
-    document.getElementById("declinePartner").hidden = p.status === "declined";
-
-    refreshReplyLink();
+    updateReplyLink();
     CSAdmin.openModal("partnerModal");
   }
 
-  /* ------------------------------------------------------------------
-     Saving
-     ------------------------------------------------------------------ */
+  function save(newStatus, message) {
+    var p = byId(openId);
+    if (!p) return;
 
-  var footButtons = ["savePartner", "acceptPartner", "declinePartner"];
+    var changes = {
+      status: newStatus || document.getElementById("pStatus").value,
+      assignedTo: document.getElementById("pAssign").value || null,
+      notes: document.getElementById("pNotes").value.trim()
+    };
 
-  function busy(on) {
-    footButtons.forEach(function (id) {
-      document.getElementById(id).disabled = on;
-    });
-  }
-
-  function commit(newStatus, message) {
-    busy(true);
-
-    CSStore.updateById("partnerships", openId, {
-      assignedTo: document.getElementById("pAssign").value,
-      status:     newStatus,
-      notes:      document.getElementById("pNotes").value.trim()
-    }).then(function () {
+    CSStore.updateById("partnerships", p._id, changes).then(function () {
       CSAdmin.closeModal("partnerModal");
-      CSAdmin.toast(message, newStatus === "declined" ? "warn" : "good");
-      followFilter(newStatus);
-      return load();
+      CSAdmin.toast(message || "Saved", "good");
+      CSAdmin.refreshBadges();
+      load();
     }).catch(function (err) {
-      CSAdmin.toast((err && err.message) || "That didn't save. Try again.", "warn");
-    }).then(function () {
-      busy(false);
+      CSAdmin.toast((err && err.detail) || "That didn't save. Try again.", "warn");
     });
   }
 
-  function nameOf(id) {
-    var p = all.filter(function (x) { return x._id === id; })[0];
-    return p ? p.institutionName : "This request";
-  }
-
-  document.getElementById("savePartner").addEventListener("click", function () {
-    var next = document.getElementById("pStatus").value;
-    commit(next, "Saved \u00b7 now showing " + (LABEL[next] || LABEL.new).text);
-  });
+  document.getElementById("savePartner").addEventListener("click", function () { save(null, "Saved"); });
 
   document.getElementById("acceptPartner").addEventListener("click", function () {
-    commit("active", nameOf(openId) + " is now an active partner");
+    var p = byId(openId);
+    save("active", p.institutionName + " is now an active partner");
   });
 
   document.getElementById("declinePartner").addEventListener("click", function () {
-    if (!confirm("Decline the request from " + nameOf(openId) + "?")) return;
-    commit("declined", "Request declined");
+    var p = byId(openId);
+    if (!window.confirm("Decline the request from " + p.institutionName + "?")) return;
+    save("declined", "Request declined");
   });
 
-  /* The draft has to match whatever the admin has just chosen. */
-  document.getElementById("pStatus").addEventListener("change", refreshReplyLink);
+  document.getElementById("pStatus").addEventListener("change", updateReplyLink);
+
+  document.getElementById("pCopyDraft").addEventListener("click", function () {
+    var p = byId(openId);
+    var d = draft(p, document.getElementById("pStatus").value);
+    var text = "Subject: " + d.subject + "\n\n" + d.body;
+
+    function done() { CSAdmin.toast("Draft copied", "good"); }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { window.prompt("Copy this:", text); });
+    } else {
+      window.prompt("Copy this:", text);
+    }
+  });
 
   /* ------------------------------------------------------------------ */
 
   rowsEl.addEventListener("click", function (e) {
-    var btn = e.target.closest("[data-open]");
-    if (btn) openPartner(btn.getAttribute("data-open"));
+    var b = e.target.closest("[data-open]");
+    if (b) open(b.getAttribute("data-open"));
   });
 
   document.getElementById("statusFilter").addEventListener("click", function (e) {
@@ -402,6 +287,6 @@
     typing = setTimeout(function () { term = v; render(); }, 160);
   });
 
-  load();
+  loadStaff().then(load);
 
 })();

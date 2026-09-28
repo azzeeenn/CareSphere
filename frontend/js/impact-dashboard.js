@@ -502,9 +502,24 @@
                 return;
             }
 
-            note.textContent = "You're subscribed. Watch your inbox for our next update.";
-            note.style.color = "#1C3149";
-            form.reset();
+            var btn = form.querySelector("button");
+            btn.disabled = true;
+
+            /* Saved in the database now, not just a message. */
+            CSStore.subscribe(input.value.trim()).then(function (r) {
+                note.textContent = r && r.status === "already"
+                    ? "You're already on the list. Thanks for staying with us."
+                    : "You're subscribed. Watch your inbox for our next update.";
+                note.style.color = "#1C3149";
+                form.reset();
+            }).catch(function (err) {
+                note.textContent = err && err.status === 422
+                    ? "That email address doesn't look right."
+                    : "That didn't go through. Please try again in a moment.";
+                note.style.color = "#8C3B2E";
+            }).then(function () {
+                btn.disabled = false;
+            });
 
         });
 

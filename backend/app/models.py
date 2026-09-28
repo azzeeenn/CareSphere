@@ -530,29 +530,6 @@ class News(Base):
 
 
 # ===========================================================================
-#  GALLERY
-# ===========================================================================
-
-
-class GalleryItem(Base):
-    """
-    image_path is new. store.js had no image field at all, so the gallery
-    could not actually show pictures. Files go on disk, path goes here.
-    """
-
-    __tablename__ = "gallery"
-
-    id = Column(Integer, primary_key=True)
-    caption = Column(String(250))
-    album = Column(String(60))
-    district_id = Column(Integer, ForeignKey("districts.id"))
-    image_path = Column(String(400), nullable=False)
-    uploaded_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-
-    district = relationship("District")
-
-
-# ===========================================================================
 #  RECOGNITION
 # ===========================================================================
 
@@ -756,3 +733,25 @@ class AdminEndorsement(Base):
 
     request = relationship("AdminRequest", back_populates="endorsements")
     admin = relationship("User")
+
+
+# ===========================================================================
+#  NEWSLETTER
+# ===========================================================================
+
+
+class Subscriber(Base):
+    """
+    Someone who signed up to the newsletter from the public site.
+
+    The email is stored lower-cased and must be unique, so signing up
+    twice never creates a duplicate. 'active' lets an admin switch
+    someone off without losing the record of when they joined.
+    """
+
+    __tablename__ = "subscribers"
+
+    id = Column(Integer, primary_key=True)
+    email = Column(String(180), nullable=False, unique=True, index=True)
+    subscribed_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    active = Column(Boolean, nullable=False, default=True)

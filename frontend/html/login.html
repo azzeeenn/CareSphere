@@ -19,11 +19,10 @@
       </div>
       <h2>Six districts.<br>One foundation.</h2>
       <p>Education, healthcare and green cover work across Karnataka, run by people who live there.</p>
-      <ul class="auth-points">
-        <li><b>128</b> volunteers active this month</li>
-        <li><b>24,500</b> people reached so far</li>
-        <li><b>12,800</b> trees planted and counting</li>
-      </ul>
+      <!-- Filled from the database (same figures as the Impact Dashboard).
+           Stays empty rather than showing made-up numbers if the backend
+           can't be reached. -->
+      <ul class="auth-points" id="authPoints"></ul>
     </aside>
 
     <main class="auth-main">
@@ -32,7 +31,7 @@
            Shown when somebody is already signed in.
 
            The page used to redirect straight to the dashboard, which
-           meant a signed-in person could never reach this form — they had
+           meant a signed-in person could never reach this form: they had
            to find "sign out" somewhere else first. Now they get the
            choice, one click either way.
            =============================================================== -->
@@ -95,16 +94,6 @@
           New here? <a href="register.html">Create a volunteer account</a>
         </p>
 
-        <!-- REMOVE THIS BLOCK BEFORE SUBMISSION -->
-        <div class="demo-box">
-          <b>Test accounts</b><br>
-          Super Admin — <code>azeen@caresphere.org</code> / <code>admin123</code><br>
-          Admin — <code>saija@caresphere.org</code> / <code>admin123</code><br>
-          Volunteer, approved — <code>lakshmi.d@example.com</code> / <code>vol123</code><br>
-          Volunteer, still pending — <code>priya.n@example.com</code> / <code>vol123</code>
-        </div>
-        <!-- END REMOVE -->
-
       </div>
 
     </main>
@@ -122,6 +111,48 @@
     var submit   = document.getElementById("submit");
 
     var signinPanel  = document.getElementById("signin");
+
+    /* ----------------------------------------------------------------
+       Side panel figures, from the database
+
+       Active volunteers is counted live. The other two are the figures
+       an admin keeps on the Impact Numbers page, found by name, so a
+       figure that doesn't exist is simply left out.
+       ---------------------------------------------------------------- */
+
+    (function loadPoints() {
+      var host = document.getElementById("authPoints");
+      if (!host) return;
+
+      function fmt(n) { return Number(n || 0).toLocaleString("en-IN"); }
+
+      function find(list, word) {
+        return list.filter(function (f) {
+          return String(f.label).toLowerCase().indexOf(word) !== -1;
+        })[0];
+      }
+
+      Promise.all([
+        fetch(CSStore.fileUrl("/api/stats")).then(function (r) {
+          if (!r.ok) throw new Error("stats");
+          return r.json();
+        }),
+        CSStore.find("impact").catch(function () { return []; })
+      ]).then(function (res) {
+        var live = res[0].figures, typed = res[1], items = [];
+
+        var vols = find(live, "volunteer");
+        if (vols) items.push("<b>" + fmt(vols.value) + "</b> active volunteers");
+
+        var people = find(typed, "beneficiar") || find(typed, "people");
+        if (people) items.push("<b>" + fmt(people.value) + "</b> people reached so far");
+
+        var trees = find(typed, "tree");
+        if (trees) items.push("<b>" + fmt(trees.value) + "</b> trees planted and counting");
+
+        host.innerHTML = items.map(function (t) { return "<li>" + t + "</li>"; }).join("");
+      }).catch(function () { /* leave it empty */ });
+    })();
     var alreadyPanel = document.getElementById("already");
 
     /* ----------------------------------------------------------------
@@ -139,7 +170,7 @@
       return CSStore.myApplication().then(function (app) {
         /* Record the real state in the session before sending them on.
            The destination page's guard reads applicationStatus, and if
-           it is missing or stale that page bounces straight back here —
+           it is missing or stale that page bounces straight back here,
            which looks like the Continue button doing nothing. */
         var stored = CSStore.session.get() || {};
         stored.applicationStatus = app ? app.status : "not_submitted";
@@ -149,7 +180,7 @@
         if (!app) return "volunteer-application.html";
         if (app.status === "more_info") return "volunteer-application.html";
         if (app.status === "approved") return "volunteer-dashboard.html";
-        /* pending or rejected — they should not be signed in at all. */
+        /* pending or rejected: they should not be signed in at all. */
         return null;
       }).catch(function () {
         return "volunteer-dashboard.html";

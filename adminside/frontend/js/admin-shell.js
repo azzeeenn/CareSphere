@@ -72,6 +72,7 @@ var CSAdmin = (function () {
     { group: "Operations", accent: "ops", items: [
       { page: "donations",    label: "Donations",      href: "admin-donations.html",       icon: "heart", superOnly: true },
       { page: "messages",     label: "Messages",       href: "admin-messages.html",        icon: "mail",  badge: ["messages", { status: "new" }] },
+      { page: "subscribers",  label: "Subscribers",    href: "admin-subscribers.html",     icon: "news" },
       { page: "partnerships", label: "Partnerships",   href: "admin-partnerships.html",    icon: "building", badge: ["partnerships", { status: "new" }] },
       { page: "impact",       label: "Impact Numbers", href: "admin-impact-numbers.html",  icon: "bars", superOnly: true  },
       { page: "users",        label: "Admin Users",    href: "admin-users.html",           icon: "lock", superOnly: true },
