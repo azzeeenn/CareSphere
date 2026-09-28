@@ -15,10 +15,13 @@
   var part = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
   document.getElementById("greetingLine").textContent = part + ", " + user.name;
+  /* "Admin Home" at the top is the page name, the same for everyone.
+     The line under the greeting says which role this person actually
+     has, so it is obvious straight away. */
   document.getElementById("todayLine").textContent =
     new Date().toLocaleDateString("en-IN", {
       weekday: "long", day: "numeric", month: "long", year: "numeric"
-    });
+    }) + " \u00B7 Signed in as " + (user.role === "super_admin" ? "Super Admin" : "Admin");
 
   /* ---- Counts ---------------------------------------------------------- */
 
@@ -35,7 +38,6 @@
     CSStore.find("users"),
     CSStore.find("hours"),
     CSStore.find("news"),
-    CSStore.find("gallery"),
     CSStore.find("testimonials"),
     CSStore.find("recognition"),
     CSStore.find("faq"),
@@ -45,9 +47,9 @@
   ]).then(function (r) {
 
     var apps = r[0], events = r[1], messages = r[2], users = r[3],
-        hours = r[4], news = r[5], gallery = r[6], testimonials = r[7],
-        recognition = r[8], faq = r[9], donations = r[10], impact = r[11],
-        certificates = r[12];
+        hours = r[4], news = r[5], testimonials = r[6],
+        recognition = r[7], faq = r[8], donations = r[9], impact = r[10],
+        certificates = r[11];
 
     function by(list, key, value) {
       return list.filter(function (d) { return d[key] === value; });
@@ -65,7 +67,6 @@
     paint("volunteers",       users.filter(function (u) { return u.role === "volunteer" && u.active; }).length);
     paint("hours",            by(hours, "status", "pending").length);
     paint("newsDrafts",       by(news, "status", "draft").length);
-    paint("gallery",          gallery.length);
     paint("testimonials",     by(testimonials, "status", "pending").length);
     paint("recognition",      recognition.length);
     paint("faq",              faq.length);

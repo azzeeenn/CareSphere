@@ -1,14 +1,27 @@
 /* ==========================================================
    CareSphere - impact-dashboard.js
    ----------------------------------------------------------
-   You didn't send an impact-dashboard.js, so this is one built
-   against the markup in impact-dashboard.html: animated
-   counters, three Chart.js charts, and the refresh button.
-   If you already have one, keep yours - every id and class in
-   the HTML is unchanged from what you sent.
+   Every number on this page now comes from the database.
 
-   Figures are sample data. Swap fetchData() for a real API
-   call when the backend is ready.
+   Two sources:
+
+     1. /api/stats      counted live from the records
+                        (active volunteers, events held,
+                        verified hours, verified donations)
+                        plus the data for all three charts
+
+     2. Impact Numbers  the figures the system cannot count
+                        for itself (trees planted,
+                        beneficiaries reached ...), kept by
+                        an admin on the Impact Numbers page
+
+   If a typed figure has the same name as a live one (for
+   example an old "Active volunteers" row), the live count
+   wins and the typed one is skipped, so the page never shows
+   two different answers to the same question.
+
+   If the backend cannot be reached, the page says so. It
+   never falls back to made-up numbers.
 ========================================================== */
 
 (function () {
@@ -30,18 +43,102 @@
     var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     /* ======================================================
+       HELPERS
+    ====================================================== */
+
+    function esc(v) {
+        return String(v == null ? "" : v)
+            .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+
+    function fmtDate(iso) {
+        var d = new Date(iso);
+        if (isNaN(d)) return "";
+        return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+    }
+
+    /* Live figures have a fixed icon; typed ones get one from their name. */
+    var LIVE_ICONS = {
+        volunteers: "fa-users",
+        events:     "fa-calendar-check",
+        hours:      "fa-hand-holding-heart",
+        funds:      "fa-hand-holding-dollar"
+    };
+
+    function iconFor(label) {
+        var l = label.toLowerCase();
+        if (l.indexOf("tree") !== -1 || l.indexOf("plant") !== -1)   return "fa-tree";
+        if (l.indexOf("camp") !== -1 || l.indexOf("health") !== -1)  return "fa-heart-pulse";
+        if (l.indexOf("blood") !== -1)                                return "fa-droplet";
+        if (l.indexOf("district") !== -1 || l.indexOf("communit") !== -1 ||
+            l.indexOf("village") !== -1)                              return "fa-earth-asia";
+        if (l.indexOf("student") !== -1 || l.indexOf("child") !== -1 ||
+            l.indexOf("school") !== -1)                               return "fa-graduation-cap";
+        if (l.indexOf("volunteer") !== -1 || l.indexOf("beneficiar") !== -1 ||
+            l.indexOf("people") !== -1 || l.indexOf("lives") !== -1)  return "fa-users";
+        return "fa-diagram-project";
+    }
+
+    /* Plain fetch for /api/stats. It isn't a collection, so it doesn't
+       go through CSStore.find — but fileUrl() gives us the API address,
+       so the port lives in one place (store.js) as before. */
+    function getStats() {
+        return fetch(CSStore.fileUrl("/api/stats")).then(function (res) {
+            if (!res.ok) throw new Error("Stats request failed");
+            return res.json();
+        });
+    }
+
+    /* ======================================================
+       STAT CARDS
+    ====================================================== */
+
+    function cardHtml(icon, label, value, prefix, note) {
+        return '' +
+            '<div class="stat-card">' +
+                '<div class="stat-icon"><i class="fa-solid ' + icon + '" aria-hidden="true"></i></div>' +
+                '<h3 class="counter" data-target="' + (Number(value) || 0) + '"' +
+                    (prefix ? ' data-prefix="' + esc(prefix) + '"' : '') + '>0</h3>' +
+                '<p class="stat-label">' + esc(label) + '</p>' +
+                '<span class="trend flat">' + esc(note) + '</span>' +
+            '</div>';
+    }
+
+    function buildCards(stats, typed) {
+        var grid = document.getElementById("statsGrid");
+        if (!grid) return;
+
+        var liveLabels = stats.figures.map(function (f) { return f.label.toLowerCase(); });
+
+        var html = stats.figures.map(function (f) {
+            return cardHtml(LIVE_ICONS[f.key] || "fa-diagram-project",
+                            f.label, f.value, f.prefix, "Counted live from our records");
+        }).join("");
+
+        typed
+            .slice()
+            .sort(function (a, b) { return (a.order || 0) - (b.order || 0); })
+            .filter(function (t) { return liveLabels.indexOf(String(t.label).toLowerCase()) === -1; })
+            .forEach(function (t) {
+                var when = fmtDate(t.updatedAt);
+                html += cardHtml(iconFor(t.label), t.label, t.value, "",
+                                 when ? "Updated " + when : "From our records");
+            });
+
+        grid.innerHTML = html;
+        runCounters();
+    }
+
+    /* ======================================================
        COUNTERS
        Honours data-prefix and data-suffix, so the funds card
-       renders as "₹182 L" rather than a bare number.
+       renders as "₹35,000".
     ====================================================== */
 
     function runCounters() {
 
         var counters = document.querySelectorAll(".counter");
-
-        if (!counters.length) {
-            return;
-        }
 
         counters.forEach(function (el) {
 
@@ -135,44 +232,27 @@
                     beginAtZero: true,
                     grid: { color: PALETTE.grid },
                     border: { display: false },
-                    ticks: { color: PALETTE.text, font: { family: "Poppins", size: 12 } }
+                    ticks: {
+                        color: PALETTE.text,
+                        font: { family: "Poppins", size: 12 },
+                        precision: 0
+                    }
                 }
             }
         };
     }
 
-    function fetchData() {
-
-        /* Replace with a real fetch() when the API exists. */
-        return {
-            funds: {
-                labels: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-                values: [96, 112, 128, 141, 165, 182]
-            },
-            volunteers: {
-                labels: ["Q3 '25", "Q4 '25", "Q1 '26", "Q2 '26"],
-                values: [3820, 4310, 5060, 5482]
-            },
-            projects: {
-                labels: ["Education", "Healthcare", "Environment", "Community"],
-                values: [14, 11, 13, 8]
-            }
-        };
-    }
-
-    function buildCharts() {
+    function buildCharts(data) {
 
         if (typeof Chart === "undefined") {
             var note = document.getElementById("chartNote");
             if (note) {
-                note.textContent = "Charts couldn't load - check your connection to the Chart.js CDN.";
+                note.textContent = "Charts couldn't load - chart.umd.min.js is missing from the js folder.";
             }
             return;
         }
 
         Chart.defaults.font.family = "Poppins, sans-serif";
-
-        var data = fetchData();
 
         var fundsEl = document.getElementById("fundsChart");
         var volEl = document.getElementById("volunteersChart");
@@ -184,6 +264,14 @@
             var fill = ctx.createLinearGradient(0, 0, 0, 260);
             fill.addColorStop(0, "rgba(231,143,129,.30)");
             fill.addColorStop(1, "rgba(231,143,129,.02)");
+
+            var fundsOptions = baseOptions();
+            fundsOptions.plugins.tooltip.callbacks = {
+                label: function (c) { return "₹" + Number(c.raw).toLocaleString("en-IN"); }
+            };
+            fundsOptions.scales.y.ticks.callback = function (v) {
+                return "₹" + Number(v).toLocaleString("en-IN");
+            };
 
             charts.funds = new Chart(fundsEl, {
                 type: "line",
@@ -203,7 +291,7 @@
                         pointHoverRadius: 6
                     }]
                 },
-                options: baseOptions()
+                options: fundsOptions
             });
 
         }
@@ -250,14 +338,15 @@
             charts.projects = new Chart(projEl, {
                 type: "doughnut",
                 data: {
-                    labels: data.projects.labels,
+                    labels: data.areas.labels,
                     datasets: [{
-                        data: data.projects.values,
+                        data: data.areas.values,
                         backgroundColor: [
                             PALETTE.coral,
                             PALETTE.blue,
                             PALETTE.green,
-                            PALETTE.peach
+                            PALETTE.peach,
+                            PALETTE.navy
                         ],
                         borderColor: "#fff",
                         borderWidth: 3,
@@ -271,11 +360,33 @@
 
     }
 
+    function updateCharts(data) {
+
+        if (charts.funds) {
+            charts.funds.data.labels = data.funds.labels;
+            charts.funds.data.datasets[0].data = data.funds.values;
+            charts.funds.update();
+        }
+
+        if (charts.volunteers) {
+            charts.volunteers.data.labels = data.volunteers.labels;
+            charts.volunteers.data.datasets[0].data = data.volunteers.values;
+            charts.volunteers.update();
+        }
+
+        if (charts.projects) {
+            charts.projects.data.labels = data.areas.labels;
+            charts.projects.data.datasets[0].data = data.areas.values;
+            charts.projects.update();
+        }
+
+    }
+
     /* ======================================================
-       LAST UPDATED + REFRESH
+       LOAD + REFRESH
     ====================================================== */
 
-    function stamp() {
+    function stamp(iso) {
 
         var el = document.getElementById("lastUpdated");
 
@@ -283,9 +394,50 @@
             return;
         }
 
-        el.textContent = new Date().toLocaleTimeString("en-IN", {
+        var d = iso ? new Date(iso + (String(iso).indexOf("Z") === -1 ? "Z" : "")) : new Date();
+        if (isNaN(d)) d = new Date();
+
+        el.textContent = d.toLocaleTimeString("en-IN", {
             hour: "2-digit",
             minute: "2-digit"
+        });
+
+    }
+
+    function load() {
+
+        var statsNote = document.getElementById("statsNote");
+
+        return Promise.all([
+            getStats(),
+            CSStore.find("impact").catch(function () { return []; })
+        ]).then(function (r) {
+
+            var stats = r[0], typed = r[1];
+
+            if (statsNote) statsNote.textContent = "";
+
+            buildCards(stats, typed);
+
+            if (Object.keys(charts).length) {
+                updateCharts(stats.charts);
+            } else {
+                buildCharts(stats.charts);
+            }
+
+            stamp(stats.updatedAt);
+
+            if (window.CareSphere) {
+                window.CareSphere.reveal(".stat-card, .chart-card", { threshold: 0.1 });
+            }
+
+        }).catch(function () {
+
+            if (statsNote) {
+                statsNote.textContent =
+                    "The live figures couldn't be loaded right now. Please try again in a moment.";
+            }
+
         });
 
     }
@@ -308,26 +460,7 @@
                 note.textContent = "Refreshing...";
             }
 
-            window.setTimeout(function () {
-
-                var data = fetchData();
-
-                if (charts.funds) {
-                    charts.funds.data.datasets[0].data = data.funds.values;
-                    charts.funds.update();
-                }
-
-                if (charts.volunteers) {
-                    charts.volunteers.data.datasets[0].data = data.volunteers.values;
-                    charts.volunteers.update();
-                }
-
-                if (charts.projects) {
-                    charts.projects.data.datasets[0].data = data.projects.values;
-                    charts.projects.update();
-                }
-
-                stamp();
+            load().then(function () {
 
                 btn.classList.remove("spinning");
                 btn.disabled = false;
@@ -336,7 +469,7 @@
                     note.textContent = "Up to date.";
                 }
 
-            }, 900);
+            });
 
         });
 
@@ -383,15 +516,9 @@
 
     document.addEventListener("DOMContentLoaded", function () {
 
-        runCounters();
-        buildCharts();
-        stamp();
+        load();
         initRefresh();
         initNewsletter();
-
-        if (window.CareSphere) {
-            window.CareSphere.reveal(".stat-card, .chart-card", { threshold: 0.1 });
-        }
 
     });
 

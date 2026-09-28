@@ -25,6 +25,8 @@ from .routers import (
     events,
     lookups,
     participation,
+    promotion,
+    stats,
     uploads,
 )
 
@@ -69,6 +71,12 @@ app.include_router(content.gallery_router)
 app.include_router(content.testimonial_router)
 app.include_router(content.recognition_router)
 app.include_router(content.faq_router)
+
+# Live impact figures, counted from the records (public)
+app.include_router(stats.stats_router)
+
+# Volunteers applying to become admins
+app.include_router(promotion.router)
 
 # Operations and administration
 app.include_router(admin.donation_router)

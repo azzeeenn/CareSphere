@@ -3,6 +3,11 @@
 
    Opening a message moves it off "new" automatically, which keeps the
    unread count on the home page honest.
+
+   Reply opens Gmail's compose window in a new tab with the address,
+   subject and a draft already in place. It used to be a mailto: link,
+   which needs a mail app registered on the machine — on a laptop with
+   none, Windows shows an app picker and then nothing happens.
    ========================================================================== */
 
 (function () {
@@ -129,6 +134,88 @@
      Modal
      ------------------------------------------------------------------ */
 
+  /* ------------------------------------------------------------------
+     Reply drafts
+
+     No mail server sits behind CareSphere, so this fills in Gmail's
+     compose window and a person presses send. The original message is
+     quoted underneath so the sender has the context.
+     ------------------------------------------------------------------ */
+
+  var lastDraft = null;
+  var lastEmail = "";
+
+  function myName() {
+    try {
+      var me = CSAuth.current();
+      return (me && me.name) || "The CareSphere team";
+    } catch (e) {
+      return "The CareSphere team";
+    }
+  }
+
+  function buildReply(m) {
+    var subject = "Re: " + (m.subject || "Your message to CareSphere");
+
+    var body =
+      "Dear " + (m.name || "there") + ",\n\n" +
+      "Thank you for getting in touch with CareSphere Foundation.\n\n" +
+      "[ write your reply here ]\n\n" +
+      "Warm regards,\n" + myName() + "\nCareSphere Foundation\n\n" +
+      "-- your original message --\n" + (m.body || "");
+
+    lastDraft = { subject: subject, body: body };
+    lastEmail = m.email || "";
+
+    var link = document.getElementById("mReply");
+    link.textContent = "Reply in Gmail";
+    link.target = "_blank";
+    link.rel    = "noopener";
+    link.href =
+      "https://mail.google.com/mail/?view=cm&fs=1" +
+      "&to="   + encodeURIComponent(lastEmail) +
+      "&su="   + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(body);
+
+    ensureCopyButton();
+  }
+
+  /* Added from here rather than the HTML so this is a one-file change.
+     Useful on a machine that isn't signed into Gmail — paste it into
+     whatever mail client is actually in front of you. */
+  function ensureCopyButton() {
+    if (document.getElementById("mCopyDraft")) return;
+
+    var link = document.getElementById("mReply");
+    var btn  = document.createElement("button");
+
+    btn.id        = "mCopyDraft";
+    btn.type      = "button";
+    btn.className = link.className;
+    btn.textContent = "Copy draft";
+
+    btn.addEventListener("click", function () {
+      if (!lastDraft) return;
+
+      var text = "To: " + lastEmail + "\n" +
+                 "Subject: " + lastDraft.subject + "\n\n" +
+                 lastDraft.body;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          CSAdmin.toast("Draft copied", "good");
+        }).catch(function () {
+          CSAdmin.toast("Couldn't copy. Select the text manually.", "warn");
+        });
+        return;
+      }
+
+      CSAdmin.toast("Copying isn't available in this browser.", "warn");
+    });
+
+    link.parentNode.insertBefore(btn, link.nextSibling);
+  }
+
   function openMessage(id) {
     var m = all.filter(function (x) { return x._id === id; })[0];
     if (!m) return;
@@ -143,22 +230,36 @@
     document.getElementById("mStatus").value = m.status === "new" ? "in_progress" : m.status;
     document.getElementById("mNotes").value  = m.notes || "";
 
-    document.getElementById("mReply").href =
-      "mailto:" + encodeURIComponent(m.email) +
-      "?subject=" + encodeURIComponent("Re: " + m.subject);
+    buildReply(m);
 
     CSAdmin.openModal("messageModal");
   }
 
   document.getElementById("saveMessage").addEventListener("click", function () {
+    var next = document.getElementById("mStatus").value;
+
     CSStore.updateById("messages", openId, {
       assignedTo: document.getElementById("mAssign").value,
-      status:     document.getElementById("mStatus").value,
+      status:     next,
       notes:      document.getElementById("mNotes").value.trim()
     }).then(function () {
       CSAdmin.closeModal("messageModal");
-      CSAdmin.toast("Message updated", "good");
+      CSAdmin.toast("Saved \u00b7 now showing " + (LABEL[next] || LABEL.new).text, "good");
+
+      /* Without this the row leaves a New-filtered list and looks deleted. */
+      if (status !== "all" && status !== next) {
+        var bar  = document.getElementById("statusFilter");
+        var chip = bar.querySelector('[data-status="' + next + '"]');
+        if (chip) {
+          bar.querySelectorAll(".chip").forEach(function (c) { c.classList.remove("is-on"); });
+          chip.classList.add("is-on");
+          status = next;
+        }
+      }
+
       load();
+    }).catch(function (err) {
+      CSAdmin.toast((err && err.message) || "That didn't save. Try again.", "warn");
     });
   });
 

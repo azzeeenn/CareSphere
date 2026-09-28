@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Requests · CareSphere Admin</title>
+  <link rel="stylesheet" href="../css/admin-base.css">
+  <link rel="stylesheet" href="../css/admin-ui.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../frontend/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../frontend/favicon-16.png?v=2">
+  <style>
+    /* Only what this page adds on top of admin-ui.css */
+
+    .ar-pill { display:inline-flex; align-items:center; gap:6px; padding:3px 11px; border-radius:20px; font-size:12px; font-weight:500; }
+    .ar-pill::before { content:""; width:6px; height:6px; border-radius:50%; background:currentColor; }
+    .ar-pill.is-pending  { background:#FFF5CD; color:#26415E; }
+    .ar-pill.is-approved { background:rgba(79,157,119,.16); color:#2F7552; }
+    .ar-pill.is-rejected { background:#FFCFB3; color:#B85F51; }
+
+    .ar-score { font-weight:600; color:#26415E; }
+    .ar-score.is-fail { color:#B85F51; }
+
+    .modal-box.is-wide { max-width: 860px; }
+
+    .ar-section { margin-bottom: 24px; }
+    .ar-section h3 { margin:0 0 10px; color:#26415E; font-size:13px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; }
+
+    .ar-checks { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    .ar-check { display:flex; gap:10px; padding:10px 12px; border:1px solid rgba(38,65,94,.12); border-radius:10px; font-size:13px; }
+    .ar-check b { display:block; color:#26415E; font-weight:600; }
+    .ar-check span { color:#6B7280; font-size:12.5px; }
+    .ar-check i { font-style:normal; font-weight:700; }
+    .ar-check.is-pass { border-left:3px solid #4F9D77; }
+    .ar-check.is-pass i { color:#2F7552; }
+    .ar-check.is-fail { border-left:3px solid #E78F81; }
+    .ar-check.is-fail i { color:#B85F51; }
+
+    .ar-answer { margin:0 0 12px; }
+    .ar-answer dt { color:#6B7280; font-size:11.5px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; margin-bottom:4px; }
+    .ar-answer dd { margin:0; padding:10px 12px; border-left:3px solid #B7E0FF; border-radius:8px; background:#F8FBFF; font-size:13.5px; line-height:1.6; white-space:pre-wrap; }
+
+    .ar-endorse { padding:10px 12px; border:1px solid rgba(38,65,94,.12); border-radius:10px; margin-bottom:8px; font-size:13px; }
+    .ar-endorse b { color:#26415E; }
+    .ar-endorse p { margin:4px 0 0; color:#374151; }
+
+    .ar-ready { list-style:none; margin:0 0 12px; padding:0; font-size:13px; }
+    .ar-ready li { padding:3px 0; }
+    .ar-ready li.ok  { color:#2F7552; }
+    .ar-ready li.no  { color:#B85F51; }
+
+    .ar-box { padding:14px; border:1px dashed rgba(38,65,94,.24); border-radius:12px; background:rgba(255,255,255,.7); }
+    .ar-box textarea { width:100%; box-sizing:border-box; min-height:84px; padding:10px 12px; border:1px solid rgba(38,65,94,.24); border-radius:9px; font:inherit; font-size:13.5px; }
+    .ar-box .ar-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:10px; flex-wrap:wrap; }
+    .ar-muted { color:#6B7280; font-size:13px; }
+
+    .btn[disabled] { opacity:.5; cursor:not-allowed; }
+
+    @media (max-width: 720px) { .ar-checks { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body class="admin" data-page="adminrequests" data-group="people">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+    <i></i><i></i><i></i>
+  </button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-container">
+
+        <header class="page-head">
+          <div class="page-head-text">
+            <a class="crumb" href="admin-home.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Admin Home
+            </a>
+            <h1>Admin Requests</h1>
+            <p>Volunteers asking to become admins. Their record is checked automatically, two admins endorse, and a Super Admin interviews and decides.</p>
+          </div>
+          <button class="btn btn-quiet" type="button" id="openRules" data-superadmin>Eligibility rules</button>
+        </header>
+
+        <section class="summary-row" id="summaryRow"></section>
+
+        <section class="toolbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+            <input type="search" id="searchBox" placeholder="Search by name or email" aria-label="Search requests">
+          </label>
+          <div class="filter-set" id="statusFilter" role="group" aria-label="Filter by status">
+            <button class="chip is-on" data-status="pending">Pending</button>
+            <button class="chip" data-status="approved">Approved</button>
+            <button class="chip" data-status="rejected">Rejected</button>
+            <button class="chip" data-status="all">All</button>
+          </div>
+        </section>
+
+        <section class="table-wrap">
+          <div class="table-scroll">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Volunteer</th>
+                  <th>Record</th>
+                  <th>Endorsements</th>
+                  <th>Interview</th>
+                  <th>Sent</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="emptyState" hidden>
+            <h3 id="emptyTitle">Nothing waiting</h3>
+            <p id="emptyBody">When a volunteer applies to become an admin, it appears here.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- One request, in full -->
+  <div class="modal" id="reqModal" role="dialog" aria-modal="true" aria-labelledby="reqTitle">
+    <div class="modal-box is-wide">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="reqTitle">Request</h2>
+          <p id="reqSub"></p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="reqBody"></div>
+    </div>
+  </div>
+
+  <!-- Eligibility rules (Super Admin) -->
+  <div class="modal" id="rulesModal" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <h2 id="rulesTitle">Eligibility rules</h2>
+          <p>What a volunteer's record must show before they can apply. Changes apply to every check from now on.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field"><label for="rYears">Years as an approved volunteer</label><input type="number" id="rYears" min="0" max="20"></div>
+          <div class="field"><label for="rHours">Verified hours</label><input type="number" id="rHours" min="0" max="10000"></div>
+          <div class="field"><label for="rEvents">Events worked</label><input type="number" id="rEvents" min="0" max="1000"></div>
+          <div class="field"><label for="rAreas">Programme areas covered</label><input type="number" id="rAreas" min="0" max="10"></div>
+          <div class="field"><label for="rActive">Active months (of the last 12)</label><input type="number" id="rActive" min="0" max="12"></div>
+          <div class="field"><label for="rAttend">Attendance (%)</label><input type="number" id="rAttend" min="0" max="100"></div>
+          <div class="field full"><label for="rEndorse">Endorsements needed from other admins</label><input type="number" id="rEndorse" min="0" max="10"></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet spacer" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="button" id="saveRules">Save rules</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../frontend/js/store.js"></script>
+  <script src="../js/admin-shell.js"></script>
+  <script src="../js/admin-admin-requests.js"></script>
+</body>
+</html>

@@ -9,6 +9,11 @@
    are the same table with type "Award" and are shown on the
    impact dashboard instead.
 
+   reveal() is deliberately not called on these cards. It
+   fades things in on scroll, and anything inserted after it
+   runs can stay at zero opacity — present in the DOM but
+   invisible on screen.
+
    There are no photos. The table has no image column, and the
    old <img> tags pointed at files that don't exist, so each
    card shows the volunteer's initials instead.
@@ -74,13 +79,9 @@
                    rather than breaking the sort. */
                 rows.sort((a, b) => (b.year || 0) - (a.year || 0));
                 render(rows);
-
-                /* Reveal has to run after the cards exist. */
-                if (window.CareSphere) {
-                    window.CareSphere.reveal(".hof-card", { threshold: 0.12 });
-                }
             })
-            .catch(() => {
+            .catch(err => {
+                console.error("Hall of Fame failed to load:", err);
                 grid.innerHTML = "";
                 empty.hidden = false;
                 empty.textContent = "This list can't be loaded right now.";

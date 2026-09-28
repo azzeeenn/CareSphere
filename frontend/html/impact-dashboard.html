@@ -25,7 +25,11 @@
         <link rel="stylesheet" href="../css/auth.css">
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+    <!-- Chart.js served from the project rather than a CDN. The CDN copy
+         was blocked by the browser (CORB), which left Chart undefined and
+         every canvas empty. A local file also means the dashboard works
+         with no internet at all. -->
+    <script src="../js/chart.umd.min.js"></script>
 
 
 <style>
@@ -60,6 +64,44 @@
 
     .award-card h3 { margin: 0 0 6px; color: #26415E; font-size: 17px; }
     .award-card p  { margin: 0; color: #4B5563; font-size: 14px; }
+
+    /* ---- Chart layout ----------------------------------------------
+       The wide card was sharing a row with the other two, which pushed
+       Active Projects off the right edge. Funds Raised now takes a full
+       row of its own and the two smaller charts sit side by side under
+       it — the usual dashboard shape, and nothing overflows.
+       ---------------------------------------------------------------- */
+
+    .dashboard-charts .charts-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+
+    .dashboard-charts .chart-card.wide {
+        grid-column: 1 / -1;
+    }
+
+    .dashboard-charts .chart-card {
+        min-width: 0;          /* lets a grid item actually shrink */
+    }
+
+    .dashboard-charts .chart-canvas-wrap {
+        position: relative;
+        height: 300px;
+    }
+
+    .dashboard-charts .chart-card.wide .chart-canvas-wrap {
+        height: 320px;
+    }
+
+    @media (max-width: 900px) {
+        .dashboard-charts .charts-grid { grid-template-columns: 1fr; }
+        .dashboard-charts .chart-canvas-wrap,
+        .dashboard-charts .chart-card.wide .chart-canvas-wrap { height: 260px; }
+    }
 </style>
 </head>
 
@@ -73,7 +115,7 @@
 
         <a href="index.html" class="logo" aria-label="CareSphere home">
 
-                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+            <img src="../logo.png" alt="" class="logo-img">
             <span>CareSphere</span>
 
         </a>
@@ -356,58 +398,12 @@
 
     </div>
 
-    <div class="stats-grid">
+    <!-- Filled by impact-dashboard.js from the database:
+         the live counts from /api/stats, then the figures an admin
+         keeps on the Impact Numbers page. Nothing is typed in here. -->
+    <div class="stats-grid" id="statsGrid"></div>
 
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
-            <h3 class="counter" data-target="5482">0</h3>
-            <p class="stat-label">Volunteers Registered</p>
-            <span class="trend up"><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +8% this quarter</span>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i></div>
-            <h3 class="counter" data-target="342">0</h3>
-            <p class="stat-label">Events Conducted</p>
-            <span class="trend up"><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +15 this month</span>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-earth-asia" aria-hidden="true"></i></div>
-            <h3 class="counter" data-target="187">0</h3>
-            <p class="stat-label">Communities Reached</p>
-            <span class="trend up"><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +6 this quarter</span>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-tree" aria-hidden="true"></i></div>
-            <h3 class="counter" data-target="24680">0</h3>
-            <p class="stat-label">Trees Planted</p>
-            <span class="trend up"><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +1,200 this season</span>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-droplet" aria-hidden="true"></i></div>
-            <h3 class="counter" data-target="9150">0</h3>
-            <p class="stat-label">Blood Units Collected</p>
-            <span class="trend up"><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +340 this quarter</span>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i></div>
-            <h3 class="counter" data-prefix="&#8377;" data-suffix=" L" data-target="182">0</h3>
-            <p class="stat-label">Funds Raised</p>
-            <span class="trend up"><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +11% this quarter</span>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i></div>
-            <h3 class="counter" data-target="46">0</h3>
-            <p class="stat-label">Active Projects</p>
-            <span class="trend flat"><i class="fa-solid fa-minus" aria-hidden="true"></i> steady this month</span>
-        </div>
-
-    </div>
+    <p class="chart-note" id="statsNote" role="status" aria-live="polite"></p>
 
 </section>
 
@@ -430,10 +426,10 @@
 
             <div class="chart-card-head">
                 <h3><i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i> Funds Raised</h3>
-                <span class="chart-sub">Last 6 months, in &#8377; lakhs</span>
+                <span class="chart-sub">Verified donations per month, in &#8377;</span>
             </div>
             <div class="chart-canvas-wrap">
-                <canvas id="fundsChart" aria-label="Funds raised over the last six months" role="img"></canvas>
+                <canvas id="fundsChart" aria-label="Verified donations per month over the last six months" role="img"></canvas>
             </div>
 
         </div>
@@ -441,11 +437,11 @@
         <div class="chart-card">
 
             <div class="chart-card-head">
-                <h3><i class="fa-solid fa-users" aria-hidden="true"></i> Volunteers Registered</h3>
-                <span class="chart-sub">By quarter</span>
+                <h3><i class="fa-solid fa-users" aria-hidden="true"></i> Volunteers</h3>
+                <span class="chart-sub">Approved volunteers, running total</span>
             </div>
             <div class="chart-canvas-wrap">
-                <canvas id="volunteersChart" aria-label="Volunteers registered by quarter" role="img"></canvas>
+                <canvas id="volunteersChart" aria-label="Running total of approved volunteers by month" role="img"></canvas>
             </div>
 
         </div>
@@ -453,11 +449,11 @@
         <div class="chart-card">
 
             <div class="chart-card-head">
-                <h3><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Active Projects</h3>
-                <span class="chart-sub">By focus area</span>
+                <h3><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Events</h3>
+                <span class="chart-sub">By programme area</span>
             </div>
             <div class="chart-canvas-wrap">
-                <canvas id="projectsChart" aria-label="Active projects by focus area" role="img"></canvas>
+                <canvas id="projectsChart" aria-label="Events by programme area" role="img"></canvas>
             </div>
 
         </div>
@@ -467,7 +463,7 @@
     <button class="refresh-btn" id="refreshBtn">
 
         <i class="fa-solid fa-rotate" aria-hidden="true"></i>
-        Refresh Live Data
+        Refresh
 
     </button>
 

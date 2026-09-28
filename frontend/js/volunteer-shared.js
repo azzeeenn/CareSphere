@@ -21,6 +21,7 @@ var CSVol = (function () {
     { file: "volunteer-my-hours.html",        label: "My hours" },
     { file: "volunteer-my-certificates.html", label: "Certificates" },
     { file: "volunteer-share-story.html",     label: "My story" },
+    { file: "volunteer-become-admin.html",    label: "Become an admin" },
     { file: "volunteer-my-profile.html",      label: "My profile" }
   ];
 

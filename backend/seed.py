@@ -42,6 +42,7 @@ def dt(s):
 def wipe(db):
     """Empty every table, children first so foreign keys never complain."""
     order = [
+        m.AdminEndorsement, m.AdminRequest, m.PromotionRules,
         m.CertificateProof, m.Certificate, m.VolunteerHours, m.Registration,
         m.Application, m.Event, m.GalleryItem, m.Message, m.Partnership,
         m.Testimonial, m.News, m.Recognition, m.Faq, m.ImpactStat,
@@ -418,6 +419,13 @@ def run():
         ))
 
         db.commit()
+
+        # --- Veteran volunteer ---------------------------------------------
+        # Kavya Rao meets every rule for becoming an admin, so the full
+        # volunteer -> admin flow can be demonstrated. See add_veteran.py.
+        print("Veteran volunteer...")
+        from add_veteran import add_veteran
+        add_veteran(db)
 
         # --- Report ----------------------------------------------------------------
         print("\nDone. Row counts:")

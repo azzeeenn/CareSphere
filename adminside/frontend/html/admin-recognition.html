@@ -93,26 +93,45 @@
       <div class="modal-body">
         <div class="form-grid">
           <div class="field full">
-            <label for="rTitle">Volunteer's name, or the award title</label>
-            <input type="text" id="rTitle" data-autofocus placeholder="Rohan Verma">
-            <span class="error" id="rTitleError"></span>
-          </div>
-          <div class="field full">
-            <label for="rBody">What they did, or who gave the award</label>
-            <input type="text" id="rBody" placeholder="Led 12 tree plantation drives across Bengaluru.">
-            <span class="error" id="rBodyError"></span>
-          </div>
-          <div class="field">
-            <label for="rYear">Year</label>
-            <input type="number" id="rYear" min="1990" max="2100" placeholder="2025">
-            <span class="error" id="rYearError"></span>
-          </div>
-          <div class="field">
             <label for="rType">Type</label>
             <select id="rType">
               <option value="Recognition">Volunteer &mdash; Hall of Fame</option>
               <option value="Award">Award &mdash; impact dashboard</option>
             </select>
+          </div>
+
+          <!-- Volunteer entries: picked from real records, never typed -->
+          <div class="field full" id="volunteerField">
+            <label for="rVolunteer">Volunteer</label>
+            <select id="rVolunteer">
+              <option value="">Loading volunteers&hellip;</option>
+            </select>
+            <span class="error" id="rVolunteerError"></span>
+          </div>
+          <div class="field full" id="eventField">
+            <label for="rEvent">Recognised for</label>
+            <select id="rEvent" disabled>
+              <option value="">Pick a volunteer first</option>
+            </select>
+            <span class="error" id="rEventError"></span>
+          </div>
+
+          <!-- Awards: typed, since they come from outside CareSphere -->
+          <div class="field full" id="titleField">
+            <label for="rTitle">Award title</label>
+            <input type="text" id="rTitle" placeholder="Karnataka State NGO Award">
+            <span class="error" id="rTitleError"></span>
+          </div>
+
+          <div class="field full">
+            <label for="rBody" id="rBodyLabel">What they did</label>
+            <input type="text" id="rBody" placeholder="Fills in when you pick an event">
+            <span class="error" id="rBodyError"></span>
+          </div>
+          <div class="field">
+            <label for="rYear">Year</label>
+            <input type="number" id="rYear" min="1990" max="2100" placeholder="2026">
+            <span class="error" id="rYearError"></span>
           </div>
         </div>
       </div>

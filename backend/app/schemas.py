@@ -464,6 +464,8 @@ class RecognitionOut(BaseModel):
     body: Optional[str] = None
     year: Optional[int] = None
     type: str
+    userId: Optional[str] = None      # the volunteer, for Hall of Fame entries
+    eventId: Optional[str] = None     # the event they were recognised for
 
     @field_serializer("id")
     def id_as_string(self, v: int) -> str:
@@ -471,10 +473,17 @@ class RecognitionOut(BaseModel):
 
 
 class RecognitionCreate(BaseModel):
-    title: str = Field(min_length=2, max_length=200)
+    """
+    For a volunteer (type 'Recognition') send userId, and optionally
+    eventId. The title is filled in from the volunteer's account, so it
+    can be left out. For an award, send the title and no ids.
+    """
+    title: Optional[str] = Field(default=None, max_length=200)
     body: Optional[str] = Field(default=None, max_length=250)
     year: Optional[int] = Field(default=None, ge=1900, le=2100)
     type: str = Field(default="Award", pattern="^(Award|Partner|Recognition)$")
+    userId: Optional[str] = None
+    eventId: Optional[str] = None
 
 
 class RecognitionUpdate(BaseModel):
@@ -482,6 +491,8 @@ class RecognitionUpdate(BaseModel):
     body: Optional[str] = None
     year: Optional[int] = Field(default=None, ge=1900, le=2100)
     type: Optional[str] = Field(default=None, pattern="^(Award|Partner|Recognition)$")
+    userId: Optional[str] = None
+    eventId: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------

@@ -316,6 +316,8 @@ input,select,textarea,button{font-family:inherit;font-size:inherit;color:inherit
 
 <link rel="stylesheet" href="../css/base.css">
         <link rel="stylesheet" href="../css/auth.css">
+<link rel="stylesheet" href="../css/chatbot.css">
+<link rel="stylesheet" href="../css/theme.css">
 
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
@@ -328,12 +330,12 @@ input,select,textarea,button{font-family:inherit;font-size:inherit;color:inherit
 <!-- ================= NAVBAR ================= -->
 <header class="site-header">
 
-    <nav class="navbar" aria-label="Main navigation">
+    <nav class="navbar" id="nav" aria-label="Main navigation">
 
         <a href="index.html" class="logo" aria-label="CareSphere home">
 
-                  <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
-            <span>CareSphere</span>
+    <img src="../logo.png" alt="" class="logo-img">
+    <span>CareSphere</span>
 
         </a>
 
@@ -620,7 +622,7 @@ input,select,textarea,button{font-family:inherit;font-size:inherit;color:inherit
 </section>
 
 <!-- ================= FORM + SIDEBAR ================= -->
-<section class="section" id="message">
+<section class="section" id="message-form">
   <div class="container">
     <div class="contact-head reveal">
       <p class="eyebrow">Write To Us</p>
@@ -820,8 +822,8 @@ input,select,textarea,button{font-family:inherit;font-size:inherit;color:inherit
         <ul class="footer-links">
           <li><a href="volunteer.html">Volunteer</a></li>
           <li><a href="volunteer-application.html">Apply now</a></li>
-          <li><a href="#message">Donate</a></li>
-          <li><a href="#message">Partner with us</a></li>
+          <li><a href="#message-form">Donate</a></li>
+          <li><a href="#message-form">Partner with us</a></li>
         </ul>
       </div>
 
@@ -865,26 +867,14 @@ input,select,textarea,button{font-family:inherit;font-size:inherit;color:inherit
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="../js/store.js"></script>
+<script src="../js/site.js"></script>
 <script>
 (function () {
   "use strict";
 
-  /* ---------- Mobile navigation ---------- */
-  var navToggle = document.getElementById("navToggle");
-  var mobileMenu = document.getElementById("mobileMenu");
-
-  navToggle.addEventListener("click", function () {
-    var open = mobileMenu.classList.toggle("open");
-    navToggle.classList.toggle("open", open);
-    navToggle.setAttribute("aria-expanded", String(open));
-    navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  });
-
-  /* ---------- Navbar shadow on scroll ---------- */
-  var nav = document.getElementById("nav");
-  window.addEventListener("scroll", function () {
-    nav.classList.toggle("is-stuck", window.scrollY > 10);
-  }, { passive: true });
+  /* The header — mobile menu, dropdowns and the scroll shadow — is
+     handled by site.js, the same as every other public page. */
 
   /* ---------- Scroll reveal ---------- */
   var revealables = document.querySelectorAll(".reveal");
@@ -953,7 +943,8 @@ input,select,textarea,button{font-family:inherit;font-size:inherit;color:inherit
     var input = document.getElementById(id);
     input.addEventListener("blur", function () { validateField(input); });
     input.addEventListener("input", function () {
-      if (fieldOf(input).classList.contains("invalid")) validateField(input);
+      var wrap = fieldOf(input);
+      if (wrap && wrap.classList.contains("invalid")) validateField(input);
     });
     if (input.tagName === "SELECT") {
       input.addEventListener("change", function () { validateField(input); });
@@ -971,6 +962,7 @@ input,select,textarea,button{font-family:inherit;font-size:inherit;color:inherit
     var firstBad = null;
     Object.keys(rules).forEach(function (id) {
       var input = document.getElementById(id);
+      if (!input) return;
       if (!validateField(input) && !firstBad) firstBad = input;
     });
 
@@ -980,26 +972,49 @@ input,select,textarea,button{font-family:inherit;font-size:inherit;color:inherit
       return;
     }
 
-    /* Fake submit — swap this block for your fetch() to the backend */
+    /* Real submit. POST /api/messages is public — the server stamps the
+       date and sets status "new", so the message lands in the admin
+       inbox for someone to pick up. */
     var original = submitBtn.textContent;
-    submitBtn.textContent = "Sending…";
+    submitBtn.textContent = "Sending\u2026";
     submitBtn.disabled = true;
 
-    setTimeout(function () {
-      var name = document.getElementById("name").value.trim().split(" ")[0];
-      var topic = document.getElementById("topic").value;
+    var fullName = document.getElementById("name").value.trim();
+    var topic    = document.getElementById("topic").value;
+    var phone    = document.getElementById("phone").value.trim();
+    var updates  = document.getElementById("updates").checked;
+
+    /* The messages table has no phone or newsletter column, so both go
+       at the end of the body where an admin will still see them. */
+    var body = document.getElementById("message").value.trim();
+    if (phone)   body += "\n\nPhone: " + phone;
+    if (updates) body += "\nWould like to receive updates.";
+
+    CSStore.insert("messages", {
+      name:    fullName,
+      email:   document.getElementById("email").value.trim(),
+      subject: topic || "Message from the contact form",
+      body:    body
+    }).then(function () {
       successText.textContent =
-        "Thanks " + name + " — your note about \u201C" + topic.toLowerCase() +
-        "\u201D is with the right coordinator. Expect a reply at your email within one working day.";
+        "Thanks " + fullName.split(" ")[0] + " — your note about \u201C" +
+        topic.toLowerCase() +
+        "\u201D is with the right coordinator. Expect a reply at your email " +
+        "within one working day.";
 
       formWrap.style.display = "none";
       success.classList.add("show");
       success.scrollIntoView({ block: "center", behavior: "smooth" });
       showToast("Message sent. We'll be in touch soon.");
 
+    }).catch(function (err) {
+      console.error("Contact form failed:", err);
+      showToast("That didn't send. Please try again, or ring the office.");
+
+    }).then(function () {
       submitBtn.textContent = original;
       submitBtn.disabled = false;
-    }, 900);
+    });
   });
 
   document.getElementById("resetBtn").addEventListener("click", function () {

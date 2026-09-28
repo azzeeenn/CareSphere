@@ -54,7 +54,8 @@ var CSStore = (function () {
     recognition:   "/api/recognition",
     faq:           "/api/faq",
     impact:        "/api/impact",
-    settings:      "/api/settings"
+    settings:      "/api/settings",
+    adminRequests: "/api/admin-requests"
   };
 
   /* Filters the API understands. Anything else in a query object is
@@ -518,6 +519,48 @@ var CSStore = (function () {
     /** Admins available in an assignee dropdown. */
     staff: function () {
       return request("GET", "/api/users/staff");
+    },
+
+    /* --- Becoming an admin -------------------------------------------
+       Every rule is checked by the server; these just call it. */
+
+    promotion: {
+      /** The current eligibility bar. */
+      rules: function () {
+        return request("GET", "/api/admin-requests/rules");
+      },
+      /** Super admin: change the bar. */
+      updateRules: function (changes) {
+        return request("PATCH", "/api/admin-requests/rules", changes);
+      },
+      /** Volunteer: the 7-rule checklist with their real numbers. */
+      myEligibility: function () {
+        return request("GET", "/api/admin-requests/eligibility/me");
+      },
+      /** Volunteer: their own requests and outcomes. */
+      mine: function () {
+        return request("GET", "/api/admin-requests/me");
+      },
+      /** Volunteer: send a request. Refused by the server if not eligible. */
+      apply: function (form) {
+        return request("POST", "/api/admin-requests", form);
+      },
+      /** Admin: every request, each with the volunteer's live record. */
+      list: function () {
+        return request("GET", "/api/admin-requests");
+      },
+      /** Admin: vouch for a request. */
+      endorse: function (id, comment) {
+        return request("POST", "/api/admin-requests/" + id + "/endorse", { comment: comment });
+      },
+      /** Super admin: record the interview. */
+      interview: function (id, notes) {
+        return request("PATCH", "/api/admin-requests/" + id + "/interview", { notes: notes });
+      },
+      /** Super admin: approve or reject. */
+      review: function (id, status, note) {
+        return request("PATCH", "/api/admin-requests/" + id + "/review", { status: status, note: note || "" });
+      }
     },
 
     /* --- Reference lists ---------------------------------------------

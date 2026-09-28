@@ -1,0 +1,30 @@
+<!-- Scratch file. Put this in frontend/html/ and open it.
+     Delete before you submit. -->
+<link rel="stylesheet" href="../css/icons.css">
+<style>
+body{font-family:system-ui;background:#fff;color:#26415E;padding:24px}
+h2{font-size:15px;margin:22px 0 10px;color:#D97A6C;text-transform:uppercase;letter-spacing:.08em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px}
+.cell{text-align:center;padding:14px;border:1px solid #eee;border-radius:10px}
+.cell i{font-size:32px;color:#D97A6C}
+.cell span{display:block;margin-top:10px;font-size:11px;color:#666}
+</style>
+
+<h2>Newly added</h2>
+<div class="grid" id="new"></div>
+
+<h2>Already in the set</h2>
+<div class="grid" id="old"></div>
+
+<script>
+const added = "arrow-trend-up book-open-reader bowl-food building building-columns bullhorn calendar-check chalkboard-user chart-line children comment crown diagram-project droplet file-signature fire hand-holding-dollar hashtag heart-circle-plus hourglass-half house-circle-check house-user id-badge list people-group plane-departure rotate shirt shoe-prints ticket user-graduate".split(" ");
+
+const existing = "award book book-open bullseye calendar certificate check circle-check clock comments earth-asia envelope eye globe graduation-cap hand-holding-heart hands-holding-heart handshake heart heart-pulse leaf lightbulb location-dot medal paper-plane pen phone quote-left school seedling shield-halved star tree trophy user users".split(" ");
+
+const draw = (el, names) =>
+  document.getElementById(el).innerHTML =
+    names.map(n => `<div class="cell"><i class="fa-solid fa-${n}"></i><span>${n}</span></div>`).join("");
+
+draw("new", added);
+draw("old", existing);
+</script>

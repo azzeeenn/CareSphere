@@ -33,6 +33,7 @@ var CSAdmin = (function () {
     bars:      '<path d="M4 20V11M10 20V5M16 20v-6M22 20H2"/>',
     building:  '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7.5h2M13 7.5h2M9 11.5h2M13 11.5h2"/><path d="M10 21v-4h4v4"/>',
     certificate: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><circle cx="12" cy="13" r="2.4"/><path d="m10.4 15.2-.6 3.4 2.2-1.2 2.2 1.2-.6-3.4"/>',
+    shield:    '<path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><path d="m9 12 2 2 4-4"/>',
     lock:      '<rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2"/>',
     gear:      '<circle cx="12" cy="12" r="3"/><path d="M19.4 14.5a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1v.3a2 2 0 0 1-4 0v-.2a1.6 1.6 0 0 0-2.8-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7h-.3a2 2 0 0 1 0-4h.2a1.6 1.6 0 0 0 1.1-2.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 2.7-1.1V3a2 2 0 0 1 4 0v.2a1.6 1.6 0 0 0 2.8 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7h.3a2 2 0 0 1 0 4h-.2a1.6 1.6 0 0 0-1.5 1z"/>'
   };
@@ -56,13 +57,13 @@ var CSAdmin = (function () {
       { page: "applications", label: "Applications",      href: "admin-volunteer-applications.html", icon: "doc",    badge: ["applications", { status: "pending" }] },
       { page: "volunteers",   label: "Volunteers",        href: "admin-volunteers.html",             icon: "people" },
       { page: "hours",        label: "Hours Verification", href: "admin-hours-verification.html",    icon: "clock",  badge: ["hours",        { status: "pending" }] },
-      { page: "certificates", label: "Certificates",       href: "admin-certificates.html",          icon: "certificate", badge: ["certificates", { status: "pending" }] }
+      { page: "certificates", label: "Certificates",       href: "admin-certificates.html",          icon: "certificate", badge: ["certificates", { status: "pending" }] },
+      { page: "adminrequests", label: "Admin Requests",    href: "admin-admin-requests.html",        icon: "shield", badge: ["adminRequests", { status: "pending" }] }
     ]},
 
     { group: "Content", accent: "content", items: [
       { page: "events",       label: "Events",            href: "admin-events.html",        icon: "calendar" },
       { page: "news",         label: "News & Updates",    href: "admin-news.html",          icon: "news"     },
-      { page: "gallery",      label: "Gallery",           href: "admin-gallery.html",       icon: "image"    },
       { page: "testimonials", label: "Testimonials",      href: "admin-testimonials.html",  icon: "quote",   badge: ["testimonials", { status: "pending" }] },
       { page: "recognition",  label: "Recognition",       href: "admin-recognition.html",   icon: "trophy"   },
       { page: "faq",          label: "FAQ",               href: "admin-faq.html",           icon: "help"     }
@@ -195,7 +196,9 @@ var CSAdmin = (function () {
         '<span class="brand-mark"><img src="../../../frontend/logo-badge.png" alt=""></span>' +
         '<span class="brand-text">' +
           '<span class="brand-name">CareSphere</span>' +
-          '<span class="brand-sub">Admin</span>' +
+          /* Shows the signed-in person's real role, so the top of the
+             panel and the name at the bottom always agree. */
+          '<span class="brand-sub">' + (user.role === "super_admin" ? "Super Admin" : "Admin") + '</span>' +
         '</span>' +
       '</div>' +
       '<nav class="sidebar-nav">';
@@ -297,6 +300,40 @@ var CSAdmin = (function () {
   }
 
   /* ------------------------------------------------------------------
+     Role re-check
+
+     The sidebar is drawn from the role saved in the browser at sign-in,
+     which goes stale if a Super Admin promotes or demotes this person
+     while they are signed in. So every page also asks the server who
+     this really is. If the role has changed, the saved session is
+     updated and the page reloads once, so the label, the menu and the
+     Super-Admin-only buttons all match the database.
+     ------------------------------------------------------------------ */
+
+  function recheckRole(user) {
+    CSStore.auth.me().then(function (fresh) {
+      if (fresh.role === user.role) return;
+
+      if (fresh.role !== "admin" && fresh.role !== "super_admin") {
+        /* No longer staff at all. */
+        CSStore.session.clear();
+        window.location.replace(LOGIN);
+        return;
+      }
+
+      /* auth.me() has already written the new role into the session. */
+      window.location.reload();
+    }).catch(function (err) {
+      /* 401 = token expired or account deactivated. A network hiccup
+         (no status) is ignored rather than signing anyone out. */
+      if (err && err.status === 401) {
+        CSStore.session.clear();
+        window.location.replace(LOGIN);
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------
      Boot
      ------------------------------------------------------------------ */
 
@@ -312,6 +349,7 @@ var CSAdmin = (function () {
 
     refreshBadges();
     wireDrawer();
+    recheckRole(user);
 
     var out = document.getElementById("signOut");
     if (out) out.addEventListener("click", function () {

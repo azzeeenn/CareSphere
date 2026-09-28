@@ -205,6 +205,14 @@ var CSAuth = (function () {
         return { ok: false, tone: "stop", title: "Not a Super Admin account",
                  body: "This account has Admin access. Choose Admin instead." };
       }
+      /* The reverse was missing: a Super Admin could pick "Admin" and get
+         in anyway. The dropdown must match the account exactly, so the
+         role someone signs in with is always the role they really have. */
+      if (wantRole === "admin" && user.role === "super_admin") {
+        CSStore.auth.logout();
+        return { ok: false, tone: "stop", title: "That's a Super Admin account",
+                 body: "Switch the dropdown to Super Admin to sign in with it." };
+      }
 
       /* Admins go straight through. The session was already stored by
          CSStore.auth.login(). */

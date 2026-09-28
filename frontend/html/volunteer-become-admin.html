@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Become an admin · CareSphere</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+  <link rel="stylesheet" href="../css/volunteer-area.css">
+  <link rel="stylesheet" href="../css/volunteer-become-admin.css">
+</head>
+<body class="volunteer">
+
+  <header class="vol-bar">
+    <a class="vol-brand" href="index.html">
+      <span class="auth-mark"><img src="../logo.png" alt="CareSphere logo"></span>
+      <b>CareSphere</b>
+    </a>
+
+    <!-- Filled by volunteer-shared.js -->
+    <nav class="vol-nav"></nav>
+
+    <button class="vol-out" type="button" id="signOut">Sign out</button>
+  </header>
+
+  <main class="vol-main">
+    <div class="vol-container">
+
+      <header class="vol-head">
+        <span class="vol-eyebrow">Become an admin</span>
+        <h1>Help run CareSphere</h1>
+        <p>Admins review applications, verify hours and run events. It's a position of trust, so the bar is high, and it's checked against your real record, not ticked by hand.</p>
+      </header>
+
+      <!-- 1. The seven rules, counted from the database -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Your record</h2>
+          <span class="rule"></span>
+          <span class="ba-score" id="score"></span>
+        </div>
+        <div class="ba-checks" id="checks">
+          <div class="vol-empty"><h3>Checking your record&hellip;</h3></div>
+        </div>
+      </section>
+
+      <!-- 2. The form, or why it's locked -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Apply</h2>
+          <span class="rule"></span>
+        </div>
+
+        <div id="locked" class="ba-locked" hidden></div>
+
+        <div id="applyPanel" class="vol-panel" hidden>
+          <h3>Your application</h3>
+          <p>Two admins will need to endorse you, and a Super Admin will interview you before a decision. Be specific: they'll read this closely.</p>
+
+          <div class="vol-form">
+            <div class="field full">
+              <label for="motivation">Why would you make a good admin?</label>
+              <textarea id="motivation" rows="5" maxlength="3000"
+                placeholder="What you'd bring, what you'd take responsibility for, and why now."></textarea>
+              <span class="hint"><span id="motivationCount">0</span> / at least 80 characters</span>
+              <span class="error"></span>
+            </div>
+
+            <div class="field full">
+              <label for="achievements">Your achievements with CareSphere</label>
+              <textarea id="achievements" rows="4" maxlength="3000"
+                placeholder="Things you made happen: a camp you helped run, people you trained, a problem you solved."></textarea>
+              <span class="hint"><span id="achievementsCount">0</span> / at least 40 characters</span>
+              <span class="error"></span>
+            </div>
+
+            <div class="field full">
+              <label for="rolesHeld">Roles and responsibilities you've held</label>
+              <textarea id="rolesHeld" rows="3" maxlength="2000"
+                placeholder="E.g. led the registration desk at 4 eye camps; trained 6 new tutors."></textarea>
+              <span class="hint"><span id="rolesHeldCount">0</span> / at least 20 characters</span>
+              <span class="error"></span>
+            </div>
+
+            <div class="field">
+              <label for="hoursPerWeek">Hours a week you can give as an admin</label>
+              <input type="number" id="hoursPerWeek" min="2" max="60" placeholder="8">
+              <span class="error"></span>
+            </div>
+
+            <div class="field">
+              <label for="preferredArea">Programme you'd most like to help run</label>
+              <select id="preferredArea">
+                <option value="">No preference</option>
+              </select>
+              <span class="error"></span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" type="button" id="submitRequest">Send my application</button>
+        </div>
+      </section>
+
+      <!-- 3. Past and current requests -->
+      <section class="vol-section">
+        <div class="vol-section-head">
+          <h2>Your requests</h2>
+          <span class="rule"></span>
+        </div>
+        <div class="vol-list" id="requests"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/volunteer-shared.js"></script>
+  <script src="../js/volunteer-become-admin.js"></script>
+</body>
+</html>

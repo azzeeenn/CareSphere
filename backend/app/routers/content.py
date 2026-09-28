@@ -17,13 +17,16 @@ import re
 from datetime import date
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, Query, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.orm import Session
 
 from ..auth import require_admin, require_super_admin
 from ..database import get_db
-from ..models import District, Faq, GalleryItem, News, Recognition, Testimonial, User
+from ..models import (
+    Application, District, Faq, GalleryItem, News, Recognition, Testimonial, User,
+    VolunteerHours,
+)
 from ..schemas import (
     FaqCreate,
     FaqOut,
@@ -380,12 +383,79 @@ def delete_testimonial(
 # ===========================================================================
 
 
+def _shape_recognition(r: Recognition) -> RecognitionOut:
+    return RecognitionOut(
+        id=r.id, title=r.title, body=r.body, year=r.year, type=r.type,
+        userId=str(r.user_id) if r.user_id else None,
+        eventId=str(r.event_id) if r.event_id else None,
+    )
+
+
+def _fill_recognition(db: Session, row: Recognition, *, title, body, year,
+                      type_, user_ref, event_ref) -> None:
+    """
+    The rule that stops a made-up name reaching the Hall of Fame.
+
+    A volunteer entry must point at a real, approved volunteer. If an
+    event is given, that volunteer must have VERIFIED hours at it —
+    registering is not enough, since it does not prove they turned up.
+    The name shown is taken from their account, never typed in.
+
+    Awards come from outside organisations, so they stay typed text.
+    """
+    if type_ == "Recognition":
+        if not user_ref:
+            raise HTTPException(status_code=422, detail="Pick a volunteer from the list")
+
+        uid = parse_id(user_ref, "volunteer")
+        volunteer = db.query(User).filter(
+            User.id == uid, User.role == "volunteer"
+        ).first()
+        if volunteer is None:
+            raise not_found("volunteer")
+
+        app = db.query(Application).filter(Application.user_id == uid).first()
+        if app is None or app.status != "approved":
+            raise HTTPException(
+                status_code=422,
+                detail=f"{volunteer.name} is not an approved volunteer",
+            )
+
+        eid = None
+        if event_ref:
+            eid = parse_id(event_ref, "event")
+            worked = db.query(VolunteerHours).filter(
+                VolunteerHours.user_id == uid,
+                VolunteerHours.event_id == eid,
+                VolunteerHours.status == "verified",
+            ).first()
+            if worked is None:
+                raise HTTPException(
+                    status_code=422,
+                    detail=f"{volunteer.name} has no verified hours at that event",
+                )
+
+        row.user_id = uid
+        row.event_id = eid
+        row.title = volunteer.name
+    else:
+        if not title or len(title.strip()) < 3:
+            raise HTTPException(status_code=422, detail="Add the award title")
+        row.user_id = None
+        row.event_id = None
+        row.title = title.strip()
+
+    row.body = body
+    row.year = year
+    row.type = type_
+
+
 @recognition_router.get("", response_model=List[RecognitionOut])
 def list_recognition(db: Session = Depends(get_db), type: Optional[str] = None):
     q = db.query(Recognition)
     if type:
         q = q.filter(Recognition.type == type)
-    return q.order_by(Recognition.year.desc()).all()
+    return [_shape_recognition(r) for r in q.order_by(Recognition.year.desc()).all()]
 
 
 @recognition_router.post("", response_model=RecognitionOut, status_code=201)
@@ -394,11 +464,15 @@ def create_recognition(
     db: Session = Depends(get_db),
     _: User = Depends(require_admin),
 ):
-    row = Recognition(**body.model_dump())
+    row = Recognition()
+    _fill_recognition(
+        db, row, title=body.title, body=body.body, year=body.year,
+        type_=body.type, user_ref=body.userId, event_ref=body.eventId,
+    )
     db.add(row)
     db.commit()
     db.refresh(row)
-    return row
+    return _shape_recognition(row)
 
 
 @recognition_router.patch("/{item_id}", response_model=RecognitionOut)
@@ -413,11 +487,22 @@ def update_recognition(
     ).first()
     if row is None:
         raise not_found("entry")
-    for field, value in body.model_dump(exclude_unset=True).items():
-        setattr(row, field, value)
+
+    # Start from what is saved, lay the changes on top, then run the same
+    # checks as a new entry — so an edit cannot sneak a fake name in.
+    changes = body.model_dump(exclude_unset=True)
+    _fill_recognition(
+        db, row,
+        title=changes.get("title", row.title),
+        body=changes.get("body", row.body),
+        year=changes.get("year", row.year),
+        type_=changes.get("type", row.type),
+        user_ref=changes.get("userId", str(row.user_id) if row.user_id else None),
+        event_ref=changes.get("eventId", str(row.event_id) if row.event_id else None),
+    )
     db.commit()
     db.refresh(row)
-    return row
+    return _shape_recognition(row)
 
 
 @recognition_router.delete("/{item_id}", status_code=204)

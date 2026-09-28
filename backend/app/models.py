@@ -469,8 +469,16 @@ class Testimonial(Base):
     __tablename__ = "testimonials"
 
     id = Column(Integer, primary_key=True)
+
+    # The volunteer who wrote it. Nullable only so older rows (added
+    # before volunteers could submit) are not broken. New stories always
+    # have one. If the account is deleted, their stories go with it.
+    user_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True
+    )
+
     name = Column(String(120), nullable=False)
-    role = Column(String(150))            # "Parent, Mandya"
+    role = Column(String(150))            # "Volunteer, Mandya"
     body = Column(Text, nullable=False)
     submitted_at = Column(Date, nullable=False, default=datetime.utcnow)
     status = Column(String(20), nullable=False, default="pending")
@@ -482,6 +490,8 @@ class Testimonial(Base):
             name="ck_testimonials_status",
         ),
     )
+
+    user = relationship("User")
 
 
 # ===========================================================================
@@ -548,9 +558,23 @@ class GalleryItem(Base):
 
 
 class Recognition(Base):
+    """
+    Hall of Fame entries (type 'Recognition') are tied to a real volunteer
+    through user_id, and optionally to an event they have verified hours
+    at. Awards have neither — they come from outside organisations.
+
+    Both links are nullable only so older rows and awards still fit.
+    """
+
     __tablename__ = "recognition"
 
     id = Column(Integer, primary_key=True)
+
+    # Removing the volunteer removes their Hall of Fame entry too.
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    # Removing the event keeps the entry, just without the event link.
+    event_id = Column(Integer, ForeignKey("events.id", ondelete="SET NULL"))
+
     title = Column(String(200), nullable=False)
     body = Column(String(250))
     year = Column(Integer)
@@ -562,6 +586,9 @@ class Recognition(Base):
             name="ck_recognition_type",
         ),
     )
+
+    user = relationship("User")
+    event = relationship("Event")
 
 
 # ===========================================================================
@@ -625,3 +652,107 @@ class Settings(Base):
     __table_args__ = (
         CheckConstraint("id = 1", name="ck_settings_single_row"),
     )
+
+# ===========================================================================
+#  BECOMING AN ADMIN
+#  A volunteer asks to be promoted. Their record is checked against the
+#  rules below, two admins must endorse them, a Super Admin interviews
+#  them, and only then can a Super Admin approve.
+# ===========================================================================
+
+
+class PromotionRules(Base):
+    """
+    The eligibility bar for becoming an admin. One row only, like
+    Settings, so a Super Admin can raise or lower the bar from the admin
+    panel without anyone editing code.
+    """
+
+    __tablename__ = "promotion_rules"
+
+    id = Column(Integer, primary_key=True, default=1)
+    min_years = Column(Integer, nullable=False, default=2)
+    min_hours = Column(Integer, nullable=False, default=100)
+    min_events = Column(Integer, nullable=False, default=12)
+    min_areas = Column(Integer, nullable=False, default=3)
+    min_active_months = Column(Integer, nullable=False, default=9)   # of the last 12
+    min_attendance_pct = Column(Integer, nullable=False, default=90)
+    min_endorsements = Column(Integer, nullable=False, default=2)
+
+    __table_args__ = (
+        CheckConstraint("id = 1", name="ck_promotion_rules_single_row"),
+        CheckConstraint("min_active_months BETWEEN 0 AND 12", name="ck_rules_active_months"),
+        CheckConstraint("min_attendance_pct BETWEEN 0 AND 100", name="ck_rules_attendance"),
+    )
+
+
+class AdminRequest(Base):
+    """One volunteer asking to become an admin."""
+
+    __tablename__ = "admin_requests"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+
+    # What the volunteer wrote
+    motivation = Column(Text, nullable=False)
+    achievements = Column(Text, nullable=False)
+    roles_held = Column(Text, nullable=False)
+    hours_per_week = Column(Integer, nullable=False)
+    preferred_area = Column(String(60))
+
+    status = Column(String(20), nullable=False, default="pending")
+    submitted_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+
+    # Super Admin's interview, required before a decision
+    interview_notes = Column(Text)
+    interviewed_at = Column(DateTime)
+    interviewed_by_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"))
+
+    # The decision
+    reviewed_at = Column(DateTime)
+    reviewed_by_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"))
+    decision_note = Column(Text, default="")
+
+    __table_args__ = (
+        CheckConstraint(
+            "status IN ('pending', 'approved', 'rejected')",
+            name="ck_admin_requests_status",
+        ),
+        CheckConstraint("hours_per_week > 0", name="ck_admin_requests_hours"),
+    )
+
+    user = relationship("User", foreign_keys=[user_id])
+    interviewed_by = relationship("User", foreign_keys=[interviewed_by_id])
+    reviewed_by = relationship("User", foreign_keys=[reviewed_by_id])
+    endorsements = relationship(
+        "AdminEndorsement",
+        back_populates="request",
+        cascade="all, delete-orphan",
+    )
+
+
+class AdminEndorsement(Base):
+    """A current admin vouching for a volunteer's request."""
+
+    __tablename__ = "admin_endorsements"
+
+    id = Column(Integer, primary_key=True)
+    request_id = Column(
+        Integer, ForeignKey("admin_requests.id", ondelete="CASCADE"), nullable=False
+    )
+    admin_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    comment = Column(Text, default="")
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+
+    __table_args__ = (
+        # The database itself refuses the same admin endorsing twice.
+        UniqueConstraint("request_id", "admin_id", name="uq_endorse_once"),
+    )
+
+    request = relationship("AdminRequest", back_populates="endorsements")
+    admin = relationship("User")

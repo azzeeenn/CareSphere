@@ -1,16 +1,25 @@
 /* ==========================================================================
    CareSphere — Recognition
 
-   Straight CRUD over one table with two kinds of entry:
+   Two kinds of entry in one table:
 
      Recognition — a volunteer, shown in the Hall of Fame on
                    recognition.html
      Award       — something CareSphere won, shown on the
                    impact dashboard
 
-   Partner used to be a third kind. It was dropped, so old
-   Partner rows are simply never listed here. The database
-   still allows the value, so nothing had to be migrated.
+   Volunteer entries are PICKED, not typed:
+     1. the volunteer comes from the approved applications
+     2. the event comes from that volunteer's VERIFIED hours only
+   so a made-up name or an event they never worked cannot get in.
+   The server checks the same thing again, so the rule holds even if
+   someone skips this page and calls the API directly.
+
+   Awards stay as typed text — they come from outside organisations,
+   so there is nothing in our database to pick them from.
+
+   Partner used to be a third kind. It was dropped, so old Partner rows
+   are simply never listed here.
    ========================================================================== */
 
 (function () {
@@ -24,18 +33,31 @@
   var editId   = null;
   var deleteId = null;
 
+  /* Picker data, built once on load */
+  var volunteers = [];   /* [{ id, name, district }]                        */
+  var workByUser = {};   /* userId -> [{ eventId, title, hours, year }]     */
+  var lastAuto   = "";   /* last text we filled in, so we never overwrite
+                            something the admin typed themselves           */
+
   var rowsEl    = document.getElementById("rows");
   var emptyEl   = document.getElementById("emptyState");
   var summaryEl = document.getElementById("summaryRow");
 
   var F = {
-    title: document.getElementById("rTitle"),
-    body:  document.getElementById("rBody"),
-    year:  document.getElementById("rYear"),
-    type:  document.getElementById("rType")
+    type:      document.getElementById("rType"),
+    volunteer: document.getElementById("rVolunteer"),
+    event:     document.getElementById("rEvent"),
+    title:     document.getElementById("rTitle"),
+    body:      document.getElementById("rBody"),
+    bodyLabel: document.getElementById("rBodyLabel"),
+    year:      document.getElementById("rYear")
   };
 
-  /* ------------------------------------------------------------------ */
+  var esc = CSAdmin.esc;
+
+  /* ------------------------------------------------------------------
+     Loading
+     ------------------------------------------------------------------ */
 
   function load() {
     return CSStore.find("recognition").then(function (docs) {
@@ -43,6 +65,160 @@
       render();
     });
   }
+
+  /* Approved volunteers + their verified hours, grouped by event. */
+  function loadPickers() {
+    return Promise.all([
+      CSStore.find("applications", { status: "approved" }),
+      CSStore.find("hours", { status: "verified" }),
+      CSStore.find("events")
+    ]).then(function (r) {
+      var apps = r[0], hours = r[1], events = r[2];
+
+      var eventYear = {};
+      events.forEach(function (e) {
+        var d = new Date(e.startsAt);
+        if (!isNaN(d)) eventYear[e._id] = d.getFullYear();
+      });
+
+      workByUser = {};
+      hours.forEach(function (h) {
+        if (!h.eventId) return;                  /* hours not tied to an event */
+        var list = workByUser[h.userId] || (workByUser[h.userId] = []);
+        var item = list.filter(function (x) { return x.eventId === h.eventId; })[0];
+        if (!item) {
+          var logged = new Date(h.loggedAt);
+          item = {
+            eventId: h.eventId,
+            title:   h.eventTitle || "Event",
+            hours:   0,
+            year:    eventYear[h.eventId] || (isNaN(logged) ? null : logged.getFullYear())
+          };
+          list.push(item);
+        }
+        item.hours += Number(h.hours) || 0;
+      });
+
+      volunteers = apps.map(function (a) {
+        return { id: a.userId, name: a.name || "Volunteer", district: a.district || "" };
+      }).sort(function (a, b) { return a.name.localeCompare(b.name); });
+
+      fillVolunteerSelect();
+    }).catch(function () {
+      F.volunteer.innerHTML = '<option value="">Could not load volunteers</option>';
+    });
+  }
+
+  function totalHours(uid) {
+    return (workByUser[uid] || []).reduce(function (s, w) { return s + w.hours; }, 0);
+  }
+
+  function fmtHours(n) {
+    return (Math.round(n * 10) / 10) + (n === 1 ? " hour" : " hours");
+  }
+
+  /* ------------------------------------------------------------------
+     Pickers
+     ------------------------------------------------------------------ */
+
+  function fillVolunteerSelect() {
+    if (!volunteers.length) {
+      F.volunteer.innerHTML = '<option value="">No approved volunteers yet</option>';
+      return;
+    }
+    F.volunteer.innerHTML =
+      '<option value="">Choose a volunteer</option>' +
+      volunteers.map(function (v) {
+        return '<option value="' + esc(v.id) + '">' +
+          esc(v.name) + (v.district ? " · " + esc(v.district) : "") +
+          " · " + fmtHours(totalHours(v.id)) + " verified" +
+          '</option>';
+      }).join("");
+  }
+
+  function fillEventSelect(uid, selected) {
+    var work = uid ? (workByUser[uid] || []) : [];
+
+    if (!uid) {
+      F.event.innerHTML = '<option value="">Pick a volunteer first</option>';
+      F.event.disabled = true;
+      return;
+    }
+
+    F.event.disabled = false;
+    F.event.innerHTML =
+      '<option value="">All their work (' + fmtHours(totalHours(uid)) + ')</option>' +
+      work.map(function (w) {
+        return '<option value="' + esc(w.eventId) + '">' +
+          esc(w.title) + " · " + fmtHours(w.hours) +
+          '</option>';
+      }).join("");
+
+    F.event.value = selected || "";
+    /* An old link to an event with no verified hours falls back to "all". */
+    if (F.event.value !== (selected || "")) F.event.value = "";
+  }
+
+  /* Suggest a line for "What they did" and the year. Only replaces the
+     text if the admin hasn't typed their own. */
+  function autoFill() {
+    var uid = F.volunteer.value;
+    if (!uid) return;
+
+    var text, year;
+    var work = workByUser[uid] || [];
+
+    if (F.event.value) {
+      var w = work.filter(function (x) { return x.eventId === F.event.value; })[0];
+      text = w.title + " · " + fmtHours(w.hours) + " verified";
+      year = w.year;
+    } else if (work.length) {
+      text = fmtHours(totalHours(uid)) + " verified across " +
+             work.length + (work.length === 1 ? " event" : " events");
+    } else {
+      text = "";
+    }
+
+    if (!F.body.value.trim() || F.body.value === lastAuto) {
+      F.body.value = text;
+      lastAuto = text;
+    }
+    if (year) F.year.value = year;
+  }
+
+  F.volunteer.addEventListener("change", function () {
+    fillEventSelect(this.value, "");
+    autoFill();
+  });
+
+  F.event.addEventListener("change", autoFill);
+
+  /* ------------------------------------------------------------------
+     Show the right fields for the chosen type
+     ------------------------------------------------------------------ */
+
+  function show(id, on) {
+    document.getElementById(id).style.display = on ? "" : "none";
+  }
+
+  function applyType() {
+    var isVolunteer = F.type.value === "Recognition";
+    show("volunteerField", isVolunteer);
+    show("eventField", isVolunteer);
+    show("titleField", !isVolunteer);
+
+    F.bodyLabel.textContent = isVolunteer ? "What they did" : "Who gave the award";
+    F.body.placeholder = isVolunteer
+      ? "Fills in when you pick an event"
+      : "Dept. of Social Welfare";
+    clearErrors();
+  }
+
+  F.type.addEventListener("change", applyType);
+
+  /* ------------------------------------------------------------------
+     Table
+     ------------------------------------------------------------------ */
 
   function visible() {
     return all.filter(function (r) {
@@ -53,13 +229,11 @@
     });
   }
 
-  /* ------------------------------------------------------------------ */
-
   function render() {
     var people = all.filter(function (r) { return r.type === "Recognition"; }).length;
     var awards = all.filter(function (r) { return r.type === "Award"; }).length;
     var years  = all.map(function (r) { return r.year; }).filter(Boolean);
-    var latest = years.length ? Math.max.apply(null, years) : "\u2014";
+    var latest = years.length ? Math.max.apply(null, years) : "—";
 
     summaryEl.innerHTML =
       '<div class="summary-chip"><b>' + people + '</b><span>on the Hall of Fame</span></div>' +
@@ -67,7 +241,6 @@
       '<div class="summary-chip"><b>' + latest + '</b><span>most recent</span></div>';
 
     var list = visible();
-    var esc  = CSAdmin.esc;
 
     if (!list.length) {
       rowsEl.innerHTML = "";
@@ -84,11 +257,17 @@
     emptyEl.hidden = true;
 
     rowsEl.innerHTML = list.map(function (r) {
+      /* Older volunteer entries made before the pickers have no link.
+         Flag them so they can be fixed by editing. */
+      var unlinked = r.type === "Recognition" && !r.userId
+        ? ' <span class="tag" title="Typed in by hand. Edit it and pick the volunteer.">Not linked</span>'
+        : "";
+
       return '' +
         '<tr>' +
-          '<td><span class="cell-primary">' + esc(r.title) + '</span></td>' +
+          '<td><span class="cell-primary">' + esc(r.title) + '</span>' + unlinked + '</td>' +
           '<td>' + esc(r.body) + '</td>' +
-          '<td>' + r.year + '</td>' +
+          '<td>' + (r.year || "—") + '</td>' +
           '<td><span class="tag ' + (r.type === "Award" ? "is-green" : "is-education") + '">' +
               (r.type === "Award" ? "Award" : "Volunteer") + '</span></td>' +
           '<td class="cell-actions">' +
@@ -101,10 +280,14 @@
     }).join("");
   }
 
-  /* ------------------------------------------------------------------ */
+  /* ------------------------------------------------------------------
+     Form
+     ------------------------------------------------------------------ */
+
+  var FIELD_IDS = ["rVolunteer", "rEvent", "rTitle", "rBody", "rYear"];
 
   function clearErrors() {
-    ["rTitle", "rBody", "rYear"].forEach(function (id) {
+    FIELD_IDS.forEach(function (id) {
       document.getElementById(id).closest(".field").classList.remove("has-error");
       document.getElementById(id + "Error").textContent = "";
     });
@@ -122,8 +305,17 @@
       ok = false;
     }
 
-    if (F.title.value.trim().length < 3) bad("rTitle", "Who is this? Add a name or a title.");
-    if (!F.body.value.trim())            bad("rBody", "One line on what they did, or who gave the award.");
+    if (F.type.value === "Recognition") {
+      if (!F.volunteer.value) bad("rVolunteer", "Pick the volunteer from the list.");
+    } else {
+      if (F.title.value.trim().length < 3) bad("rTitle", "Add the award title.");
+    }
+
+    if (!F.body.value.trim()) {
+      bad("rBody", F.type.value === "Recognition"
+        ? "One line on what they did."
+        : "Who gave the award?");
+    }
 
     var year = parseInt(F.year.value, 10);
     var now  = new Date().getFullYear();
@@ -137,34 +329,44 @@
 
   function openForm(id) {
     editId = id || null;
-    clearErrors();
+    lastAuto = "";
 
     document.getElementById("formTitle").textContent = editId ? "Edit entry" : "New entry";
     document.getElementById("saveEntry").textContent = editId ? "Save changes" : "Add entry";
 
     if (editId) {
       var r = all.filter(function (x) { return x._id === editId; })[0];
-      F.title.value = r.title;
-      F.body.value  = r.body;
-      F.year.value  = r.year;
-      F.type.value  = r.type;
+      F.type.value      = r.type;
+      F.volunteer.value = r.userId || "";
+      fillEventSelect(r.userId || "", r.eventId || "");
+      F.title.value     = r.type === "Award" ? r.title : "";
+      F.body.value      = r.body || "";
+      F.year.value      = r.year || new Date().getFullYear();
     } else {
+      F.type.value      = type === "Award" ? "Award" : "Recognition";
+      F.volunteer.value = "";
+      fillEventSelect("", "");
       F.title.value = F.body.value = "";
       F.year.value  = new Date().getFullYear();
-      F.type.value  = "Recognition";
     }
 
+    applyType();
     CSAdmin.openModal("formModal");
   }
 
   document.getElementById("saveEntry").addEventListener("click", function () {
     if (!validate()) return;
 
+    var isVolunteer = F.type.value === "Recognition";
+
     var payload = {
-      title: F.title.value.trim(),
-      body:  F.body.value.trim(),
-      year:  parseInt(F.year.value, 10),
-      type:  F.type.value
+      type:    F.type.value,
+      body:    F.body.value.trim(),
+      year:    parseInt(F.year.value, 10),
+      /* The server fills in the volunteer's name itself. */
+      title:   isVolunteer ? null : F.title.value.trim(),
+      userId:  isVolunteer ? F.volunteer.value : null,
+      eventId: isVolunteer ? (F.event.value || null) : null
     };
 
     var work = editId
@@ -206,7 +408,9 @@
     });
   });
 
-  /* ------------------------------------------------------------------ */
+  /* ------------------------------------------------------------------
+     Wiring
+     ------------------------------------------------------------------ */
 
   document.getElementById("newEntry").addEventListener("click", function () { openForm(null); });
 
@@ -219,7 +423,7 @@
     if (del) {
       deleteId = del.getAttribute("data-del");
       var r = all.filter(function (x) { return x._id === deleteId; })[0];
-      document.getElementById("deleteTitle").textContent = "Delete \u201C" + r.title + "\u201D?";
+      document.getElementById("deleteTitle").textContent = "Delete “" + r.title + "”?";
       CSAdmin.openModal("deleteModal");
     }
   });
@@ -241,5 +445,6 @@
   });
 
   load();
+  loadPickers();
 
 })();
