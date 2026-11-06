@@ -45,6 +45,40 @@ var CSAuth = (function () {
 
   function isPhone(v) { return /^[0-9+\-\s]{8,15}$/.test(v.trim()); }
 
+  /* Password rules.
+
+     One list, used by the sign-up page for both the live checklist and
+     the check on submit. The backend (schemas.py, RegisterRequest)
+     enforces the same five rules, so skipping this file in devtools
+     still gets a weak password refused by the server. If a rule changes
+     here, change it there too. */
+
+  var PASSWORD_RULES = [
+    { id: "length",  label: "At least 8 characters",
+      test: function (v) { return v.length >= 8; } },
+    { id: "upper",   label: "One capital letter (A-Z)",
+      test: function (v) { return /[A-Z]/.test(v); } },
+    { id: "lower",   label: "One small letter (a-z)",
+      test: function (v) { return /[a-z]/.test(v); } },
+    { id: "number",  label: "One number (0-9)",
+      test: function (v) { return /[0-9]/.test(v); } },
+    { id: "special", label: "One special character (like @ # $ !)",
+      test: function (v) { return /[^A-Za-z0-9]/.test(v); } }
+  ];
+
+  /* Returns every rule with whether the given password meets it:
+     [{ id, label, ok }, ...] */
+  function checkPassword(value) {
+    var v = String(value == null ? "" : value);
+    return PASSWORD_RULES.map(function (rule) {
+      return { id: rule.id, label: rule.label, ok: rule.test(v) };
+    });
+  }
+
+  function isStrongPassword(value) {
+    return checkPassword(value).every(function (r) { return r.ok; });
+  }
+
   /* Field-level error handling, matching the public site's approach */
 
   function fail(input, message) {
@@ -289,6 +323,10 @@ var CSAuth = (function () {
      Register
      ------------------------------------------------------------------ */
 
+  /* The result carries `code` (the HTTP status) so the sign-up page can
+     tell "email already taken" (409) apart from "the server refused the
+     details" (422) and show the right message for each. */
+
   function register(name, email, password) {
     return CSStore.auth.register(name, email, password)
       .then(function (user) {
@@ -298,15 +336,25 @@ var CSAuth = (function () {
       })
       .catch(function (err) {
         if (err.status === 409) {
-          return { ok: false, message: "There's already an account with this email address." };
+          return { ok: false, code: 409,
+                   message: "There's already an account with this email address." };
         }
         if (err.status === 422) {
-          return { ok: false, message: err.detail || "Check the details and try again." };
+          /* FastAPI sends validation errors as a list, not a sentence,
+             so only use the detail when it is plain text. */
+          return { ok: false, code: 422,
+                   message: typeof err.detail === "string"
+                     ? err.detail
+                     : "Check the details and try again. The password must meet every rule listed." };
         }
         if (!err.status) {
-          return { ok: false, message: "Can't reach the server. Check the backend is running." };
+          return { ok: false, code: 0,
+                   message: "Can't reach the server. Check the backend is running." };
         }
-        return { ok: false, message: err.detail || "Something went wrong. Please try again." };
+        return { ok: false, code: err.status,
+                 message: typeof err.detail === "string"
+                   ? err.detail
+                   : "Something went wrong. Please try again." };
       });
   }
 
@@ -347,6 +395,8 @@ var CSAuth = (function () {
     clearErrors: clearErrors,
     isEmail: isEmail,
     isPhone: isPhone,
+    checkPassword: checkPassword,
+    isStrongPassword: isStrongPassword,
     esc: esc,
     today: today
   };

@@ -8,6 +8,53 @@
   <link rel="stylesheet" href="../css/auth.css">
   <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=2">
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png?v=2">
+
+  <!-- Password checklist. Kept on this page because only sign-up uses it. -->
+  <style>
+    .pw-rules {
+      list-style: none;
+      margin: -4px 0 20px;
+      padding: 12px 14px;
+      background: #F8FBFF;
+      border: 1px solid #DCE6F2;
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 16px;
+      font-size: 13px;
+      color: #5B6B7F;
+    }
+    .pw-rules li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pw-rules li::before {
+      content: "";
+      flex: 0 0 16px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid #B8C4D3;
+      box-sizing: border-box;
+      font-size: 11px;
+      line-height: 13px;
+      text-align: center;
+      color: #fff;
+    }
+    .pw-rules li.is-met { color: #26415E; }
+    .pw-rules li.is-met::before {
+      content: "\2713";
+      background: #2E9E6B;
+      border-color: #2E9E6B;
+    }
+    .pw-rules li.is-missing { color: #C0392B; }
+    .pw-rules li.is-missing::before { border-color: #C0392B; }
+
+    @media (max-width: 560px) {
+      .pw-rules { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body class="auth">
 
@@ -52,7 +99,8 @@
       <div class="form-grid">
         <div class="field">
           <label for="password">Password</label>
-          <input type="password" id="password" autocomplete="new-password" placeholder="At least 8 characters">
+          <input type="password" id="password" autocomplete="new-password"
+                 placeholder="Create a strong password" aria-describedby="pw-rules">
           <span class="error"></span>
         </div>
 
@@ -62,6 +110,10 @@
           <span class="error"></span>
         </div>
       </div>
+
+      <!-- Filled in by the script below from CSAuth.checkPassword(),
+           so the rules live in one place (auth.js). -->
+      <ul class="pw-rules" id="pw-rules" aria-live="polite"></ul>
 
       <button class="btn btn-primary btn-block" type="button" id="submit">Create account and continue</button>
 
@@ -83,6 +135,23 @@
     var password = document.getElementById("password");
     var confirm  = document.getElementById("confirm");
     var submit   = document.getElementById("submit");
+    var rulesBox = document.getElementById("pw-rules");
+
+    /* Draws the checklist. `showMissing` turns unmet rules red — only
+       after the user has tried to submit, so the list is not red before
+       they have typed anything. */
+    var triedSubmit = false;
+
+    function drawRules() {
+      var rules = CSAuth.checkPassword(password.value);
+      rulesBox.innerHTML = rules.map(function (r) {
+        var cls = r.ok ? "is-met" : (triedSubmit ? "is-missing" : "");
+        return '<li class="' + cls + '">' + CSAuth.esc(r.label) + '</li>';
+      }).join("");
+    }
+
+    drawRules();
+    password.addEventListener("input", drawRules);
 
     function validate() {
       CSAuth.clearErrors();
@@ -99,11 +168,14 @@
       if (!email.value.trim())                     bad(email, "Enter your email address.");
       else if (!CSAuth.isEmail(email.value.trim())) bad(email, "That doesn't look like an email address.");
 
-      if (password.value.length < 8) bad(password, "Use at least 8 characters.");
-      else if (!/[0-9]/.test(password.value)) bad(password, "Include at least one number.");
+      if (!password.value)                               bad(password, "Create a password.");
+      else if (!CSAuth.isStrongPassword(password.value)) bad(password, "Your password must meet every rule below.");
 
       if (!confirm.value) bad(confirm, "Type your password again.");
       else if (confirm.value !== password.value) bad(confirm, "These two don't match.");
+
+      triedSubmit = true;
+      drawRules();
 
       if (first) first.focus();
       return ok;
@@ -114,7 +186,7 @@
       if (!validate()) return;
 
       submit.disabled = true;
-      submit.textContent = "Creating your account\u2026";
+      submit.textContent = "Creating your account…";
 
       CSAuth.register(name.value.trim(), email.value.trim(), password.value)
         .then(function (result) {
@@ -125,8 +197,18 @@
 
           submit.disabled = false;
           submit.textContent = "Create account and continue";
-          CSAuth.notice("stop", "That email is already registered", result.message);
-          CSAuth.fail(email, "Try signing in instead.");
+
+          /* Show the message that matches what actually went wrong. */
+          if (result.code === 409) {
+            CSAuth.notice("stop", "That email is already registered", result.message);
+            CSAuth.fail(email, "Try signing in instead.");
+          } else if (result.code === 422) {
+            CSAuth.notice("stop", "Check your details", result.message);
+          } else if (result.code === 0) {
+            CSAuth.notice("stop", "Can't reach the server", result.message);
+          } else {
+            CSAuth.notice("stop", "Something went wrong", result.message);
+          }
         });
     });
 

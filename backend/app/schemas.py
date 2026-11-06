@@ -23,7 +23,33 @@ from datetime import date, datetime
 DateValue = date
 from typing import List, Optional
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_serializer
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_serializer, field_validator
+
+
+# ---------------------------------------------------------------------------
+# Password rules
+# ---------------------------------------------------------------------------
+# The same five rules the sign-up page shows (frontend/js/auth.js,
+# PASSWORD_RULES). They are repeated here on purpose: the page check is
+# only a convenience, and anyone can skip it by calling the API directly.
+# This is the check that actually counts. If a rule changes here, change
+# it there too.
+
+def check_password_strength(value: str) -> str:
+    missing = []
+    if len(value) < 8:
+        missing.append("at least 8 characters")
+    if not any(c.isascii() and c.isupper() for c in value):
+        missing.append("one capital letter")
+    if not any(c.isascii() and c.islower() for c in value):
+        missing.append("one small letter")
+    if not any(c.isascii() and c.isdigit() for c in value):
+        missing.append("one number")
+    if not any(not (c.isascii() and c.isalnum()) for c in value):
+        missing.append("one special character")
+    if missing:
+        raise ValueError("Password needs " + ", ".join(missing) + ".")
+    return value
 
 
 # ---------------------------------------------------------------------------
@@ -74,7 +100,12 @@ class RegisterRequest(BaseModel):
     from the client, or anyone could create themselves an admin account."""
     name: str = Field(min_length=2, max_length=120)
     email: EmailStr
-    password: str = Field(min_length=6, max_length=128)
+    password: str = Field(min_length=8, max_length=128)
+
+    @field_validator("password")
+    @classmethod
+    def password_is_strong(cls, v: str) -> str:
+        return check_password_strength(v)
 
 
 class PasswordChangeRequest(BaseModel):

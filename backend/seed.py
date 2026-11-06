@@ -409,6 +409,14 @@ def run():
         from add_veteran import add_veteran
         add_veteran(db)
 
+        # --- Bulk sample data ----------------------------------------------
+        # ~200 volunteers and a realistic history of events, hours,
+        # donations and so on, so the live figures aren't near-empty.
+        # See add_demo_data.py.
+        print("Sample data...")
+        from add_demo_data import add_demo_data
+        add_demo_data(db)
+
         # --- Report ----------------------------------------------------------------
         print("\nDone. Row counts:")
         for table in [m.District, m.Category, m.User, m.Application, m.Event,

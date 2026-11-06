@@ -1,23 +1,3 @@
-/* ==========================================================
-   CareSphere Chatbot Widget
-   ----------------------------------------------------------
-   Two modes, controlled by CS_CHAT_CONFIG.mode below:
-
-   "builtin" (default) -> answers come from the CS_FAQ knowledge
-        base in this file. No server, no API key, works offline.
-
-   "ai" -> every message is sent to your own backend endpoint
-        (CS_CHAT_CONFIG.apiUrl), which should call an LLM and
-        return { reply: "..." }. NEVER put an OpenAI/Anthropic
-        API key directly in this file - it would be visible to
-        anyone who views page source. Keep the real API key on
-        your server (see chatbot_backend.py for a ready example).
-
-   If "ai" mode is selected but the request fails (e.g. you
-   haven't set up the backend yet), the widget automatically
-   falls back to the built-in answers, so the chatbot never
-   just breaks for a visitor.
-========================================================== */
 
 const CS_CHAT_CONFIG = {
     mode: "builtin",              // "builtin" or "ai"
